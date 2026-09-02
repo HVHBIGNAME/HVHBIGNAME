@@ -24,14 +24,15 @@
 
 ## Мои проекты
 
-### [PhantomDBG](https://github.com/HVHBIGNAME/PhantomDBG)
-Инструмент для разработки и отладки. Исходный код и описание находятся в репозитории.
+<!-- PROJECTS:START -->
+- **[BCore](https://github.com/HVHBIGNAME/BCore)** — Native Rust Minecraft server (26.2 / protocol 776) — vanilla parity, native plugin system, Bukkit/Spigot/Paper bridge
+- **[anti-monitoring](https://github.com/HVHBIGNAME/anti-monitoring)** — Remove hosting provider monitoring agents (QEMU GA, Cloud-Init, VMware Tools, AWS/GCP/Azure agents) to disable remote access and surveillance from virtualization platforms and cloud providers.
+- **[server-cleaner](https://github.com/HVHBIGNAME/server-cleaner)** — Linux server logs and history cleaner script
+<!-- PROJECTS:END -->
 
 ## Активность GitHub
 
-![График активности](https://github-readme-activity-graph.vercel.app/graph?username=HVHBIGNAME&theme=tokyo-night&hide_border=true)
-
-> Статистика языков появится после публикации репозиториев с исходным кодом. Сейчас основной проект приватный, поэтому публичные сервисы статистики не могут определить используемые языки.
+![График активности](./assets/activity-graph.svg)
 
 ---
 
