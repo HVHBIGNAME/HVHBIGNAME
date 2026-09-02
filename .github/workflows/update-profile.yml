@@ -1,0 +1,42 @@
+name: Обновление профиля
+
+on:
+  schedule:
+    - cron: '0 3 * * *'      # ежедневно в 03:00 UTC
+  workflow_dispatch: {}
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: write
+
+jobs:
+  update-profile:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Генерация секций README
+        env:
+          GH_USERNAME: HVHBIGNAME
+          GH_PAT: ${{ secrets.GH_PAT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python scripts/generate_profile.py
+
+      - name: Коммит изменений
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md assets/activity-graph.svg
+          if git diff --cached --quiet; then
+            echo "Изменений нет — пропускаю коммит."
+          else
+            git commit -m "Автообновление проектов и графика активности"
+            git push
+          fi
