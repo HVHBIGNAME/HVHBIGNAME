@@ -383,6 +383,7 @@
 <rect x="762" y="20" width="11" height="11" rx="2" fill="#161b22"/>
 <rect x="762" y="34" width="11" height="11" rx="2" fill="#161b22"/>
 <rect x="762" y="48" width="11" height="11" rx="2" fill="#161b22"/>
-<rect x="762" y="62" width="11" height="11" rx="2" fill="#006d32"/>
-<text x="34" y="144" fill="#7d8590" font-size="12">32 коммитов за последний год</text>
+<rect x="762" y="62" width="11" height="11" rx="2" fill="#26a641"/>
+<rect x="762" y="76" width="11" height="11" rx="2" fill="#39d353"/>
+<text x="34" y="144" fill="#7d8590" font-size="12">48 коммитов за последний год</text>
 </svg>
