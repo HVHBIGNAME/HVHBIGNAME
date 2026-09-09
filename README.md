@@ -26,13 +26,13 @@
 
 <!-- PROJECTS:START -->
 - **[spred](https://github.com/HVHBIGNAME/spred)** — СПРЕД — сайт-визитка с видео-шоу (Caramelldansen FX)
-  `JavaScript` · ⭐ 0 · обновлён 3 дн. назад
+  `JavaScript` · ⭐ 0 · обновлён 4 дн. назад
 - **[BCore](https://github.com/HVHBIGNAME/BCore)** — Native Rust Minecraft server (26.2 / protocol 776) — vanilla parity, native plugin system, Bukkit/Spigot/Paper bridge
-  `Rust` · ⭐ 0 · обновлён 3 дн. назад
+  `Rust` · ⭐ 0 · обновлён 4 дн. назад
 - **[server-cleaner](https://github.com/HVHBIGNAME/server-cleaner)** — Linux server logs and history cleaner script
-  `Shell` · ⭐ 0 · обновлён 15 дн. назад
+  `Shell` · ⭐ 0 · обновлён 16 дн. назад
 - **[anti-monitoring](https://github.com/HVHBIGNAME/anti-monitoring)** — Remove hosting provider monitoring agents (QEMU GA, Cloud-Init, VMware Tools, AWS/GCP/Azure agents) to disable remote...
-  `Shell` · ⭐ 0 · обновлён 15 дн. назад
+  `Shell` · ⭐ 0 · обновлён 16 дн. назад
 <!-- PROJECTS:END -->
 
 ## Активность GitHub
