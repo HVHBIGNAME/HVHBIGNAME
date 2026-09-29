@@ -69,7 +69,6 @@
 | :-- | :-- | :-- |
 | [ios-build-ci](https://github.com/HVHBIGNAME/ios-build-ci) | — | 2026-09-29 |
 | [BCore](https://github.com/HVHBIGNAME/BCore) | Rust | 2026-09-28 |
-| [spred](https://github.com/HVHBIGNAME/spred) | JavaScript | 2026-09-04 |
 | [server-cleaner](https://github.com/HVHBIGNAME/server-cleaner) | Shell | 2026-08-23 |
 | [anti-monitoring](https://github.com/HVHBIGNAME/anti-monitoring) | Shell | 2026-08-23 |
 <!-- PROJECTS:END -->
