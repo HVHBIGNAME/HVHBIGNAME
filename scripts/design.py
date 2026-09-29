@@ -159,41 +159,48 @@ def terrain(p):
     return "".join(parts)
 
 
-def waveform(p):
-    parts = []
-    for layer in range(23):
-        points = []
-        for i in range(161):
-            angle = i / 160 * math.tau
-            radius = 63 + 10 * math.sin(angle * 5 + layer * .12)
-            x = (radius + layer * 2.6) * math.cos(angle)
-            y = (radius * .40 + layer * .35) * math.sin(angle) + layer * 2.3 - 23
-            points.append(f"{x:.2f},{y:.2f}")
-        opacity = .30 + .65 * layer / 22
-        parts.append(f'<polyline points="{" ".join(points)}" fill="none" stroke="{p["secondary"]}" stroke-width="1.2" opacity="{opacity:.2f}"/>')
-    parts.append(f'<circle cx="0" cy="-10" r="8" fill="{p["accent"]}" class="pulse"/>')
-    return "".join(parts)
+def panel_blueprint(p):
+    return f'''
+    <rect x="-131" y="-73" width="262" height="147" rx="10" fill="{p['panel']}" stroke="{p['secondary']}" stroke-width="1.2"/>
+    <path d="M-131-47H131" stroke="{p['line']}"/>
+    <circle cx="-114" cy="-60" r="3" fill="{p['accent']}" class="pulse"/>
+    <circle cx="-101" cy="-60" r="3" fill="{p['line']}"/>
+    <circle cx="-88" cy="-60" r="3" fill="{p['line']}"/>
+    <path d="M71-60h43" stroke="{p['muted']}" stroke-width="2"/>
+    <rect x="-116" y="-31" width="51" height="90" rx="5" fill="{p['bg']}" stroke="{p['line']}"/>
+    {cube(-90, -3, 18, p, solid=True)}
+    <path d="M-105 31h30m-30 12h20" stroke="{p['muted']}" stroke-width="2"/>
+    <rect x="-50" y="-31" width="74" height="35" rx="5" fill="{p['bg']}" stroke="{p['line']}"/>
+    <rect x="36" y="-31" width="79" height="35" rx="5" fill="{p['bg']}" stroke="{p['line']}"/>
+    <path d="M-38-18h24m-24 11h46M48-18h24M48-7h55" stroke="{p['secondary']}" stroke-width="2"/>
+    <rect x="-50" y="17" width="165" height="42" rx="5" fill="{p['bg']}" stroke="{p['line']}"/>
+    <path d="M-38 46h15l13-16 19 10 17-6 16 9 20-17 16 6h25" fill="none" stroke="{p['accent']}" stroke-width="1.8"/>
+    '''
 
 
 def project(theme, name):
     p = PALETTES[theme]
     is_core = name == "bcore"
-    title = "BCore" if is_core else "СПРЕД"
-    label = "01 / NATIVE SYSTEMS" if is_core else "02 / AUDIOVISUAL WEB"
-    tagline = "A world, rebuilt in Rust." if is_core else "A website you can feel."
-    tech = "RUST / MINECRAFT / PLUGIN RUNTIME" if is_core else "JAVASCRIPT / WEBAUDIO / CANVAS"
-    status = "ALPHA / IN DEVELOPMENT" if is_core else "VISUAL EXPERIMENT"
-    art = terrain(p) if is_core else waveform(p)
-    art_transform = "translate(962 65) scale(.84)" if is_core else "translate(962 98) rotate(-12)"
+    title = "BCore" if is_core else "Minecraft Panel"
+    label = "01 / NATIVE SYSTEMS" if is_core else "02 / NEXT BUILD"
+    tagline = "A world, rebuilt in Rust." if is_core else "Currently in development."
+    tech = "RUST / MINECRAFT / PLUGIN RUNTIME" if is_core else "MINECRAFT / WEB PANEL"
+    status = "ALPHA / IN DEVELOPMENT" if is_core else "SOON ON GITHUB"
+    art = terrain(p) if is_core else panel_blueprint(p)
+    art_transform = "translate(962 65) scale(.84)" if is_core else "translate(962 98)"
+    badge = (
+        f'<path d="M1133 51 1145 39m-10 0h10v10" fill="none" stroke="{p["accent"]}" stroke-width="1.5"/>'
+        if is_core else text(1139, 49, "WIP", 10, "accent", p, class_="mono", text_anchor="middle")
+    )
     body = f'''
     <path d="M32 190H1168M748 24V171" stroke="{p['line']}"/>
     <rect x="778" y="22" width="342" height="156" fill="url(#grid)" opacity=".5"/>
     {text(39, 39, label, 12, 'muted', p, class_='mono', letter_spacing=2)}
-    {text(35, 118, title, 77, 'fg', p, font_weight=900, letter_spacing=-3)}
+    {text(35, 118, title, 77 if is_core else 68, 'fg', p, font_weight=900, letter_spacing=-3)}
     {text(40, 157, tagline, 19, 'muted', p)}
     <g transform="{art_transform}">{art}</g>
     <circle cx="1139" cy="45" r="17" fill="{p['panel']}" stroke="{p['line']}"/>
-    <path d="M1133 51 1145 39m-10 0h10v10" fill="none" stroke="{p['accent']}" stroke-width="1.5"/>
+    {badge}
     {text(40, 221, tech, 12, 'fg', p, class_='mono', letter_spacing=1)}
     {text(1156, 221, status, 11, 'muted', p, class_='mono', text_anchor='end')}
     '''
@@ -219,7 +226,7 @@ def main():
         for name, content in (
             ("hero", hero(theme)),
             ("bcore", project(theme, "bcore")),
-            ("spred", project(theme, "spred")),
+            ("minecraft-panel", project(theme, "minecraft-panel")),
             ("footer", footer(theme)),
         ):
             path = assets / f"{name}-{theme}.svg"

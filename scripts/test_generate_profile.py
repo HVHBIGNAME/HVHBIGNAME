@@ -127,7 +127,7 @@ class ProfileTests(unittest.TestCase):
 
     def test_artwork_is_self_contained_and_supports_reduced_motion(self):
         for theme in ("dark", "light"):
-            for svg in (hero(theme), project(theme, "bcore"), project(theme, "spred"), footer(theme)):
+            for svg in (hero(theme), project(theme, "bcore"), project(theme, "minecraft-panel"), footer(theme)):
                 root = ET.fromstring(svg)
                 self.assertEqual(root.attrib["viewBox"].split()[2], "1200")
                 self.assertIn("prefers-reduced-motion: reduce", svg)

@@ -12,9 +12,8 @@
 
 ### Вайбкодер1337 / HVHBIGNAME
 
-Собираю игровые серверы, инструменты и веб-эксперименты.
-Мне интересно, что происходит **под капотом**, и что можно сделать **на экране** —
-от Minecraft-сервера на Rust до сайта, который двигается в ритм музыки.
+Собираю игровые серверы, инструменты и веб-интерфейсы.
+Сейчас в фокусе — **BCore** на Rust и новая **Minecraft-панель**, которую скоро опубликую на GitHub.
 
 ## Selected builds
 
@@ -33,33 +32,29 @@
 
 <br>
 
-<a href="https://github.com/HVHBIGNAME/spred">
-  <picture>
-    <source media="(prefers-color-scheme: light)" srcset="./assets/spred-light.svg">
-    <img src="./assets/spred-dark.svg" width="100%" alt="СПРЕД — A website you can feel. Аудиовизуальный веб-эксперимент на JavaScript, WebAudio и Canvas.">
-  </picture>
-</a>
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="./assets/minecraft-panel-light.svg">
+  <img src="./assets/minecraft-panel-dark.svg" width="100%" alt="Minecraft-панель — новый проект в разработке. Скоро на GitHub.">
+</picture>
 
-**[СПРЕД](https://github.com/HVHBIGNAME/spred)** — сайт-визитка как маленькое аудиовизуальное шоу:
-видео, beat-движок на WebAudio, частицы, глитч и кинетическая типографика.
-Чистые HTML / CSS / JavaScript.
-
-[Исходники ↗](https://github.com/HVHBIGNAME/spred)
+**Minecraft-панель** — новый проект в разработке. Скоро опубликую на GitHub.
 
 ## Working set
 
 - **Ближе к системе** &nbsp; `Rust` `Java` `Python` `Shell`
-- **Ближе к экрану** &nbsp; `JavaScript` `HTML / CSS` `WebAudio` `Canvas`
+- **Ближе к экрану** &nbsp; `JavaScript` `HTML / CSS`
 - **Ещё в арсенале** &nbsp; `Go` `Android` `Git` `GitHub Actions`
 
 ## Build signal
 
 <picture>
   <source media="(prefers-color-scheme: light)" srcset="./assets/activity-graph-light.svg">
-  <img src="./assets/activity-graph.svg" width="100%" alt="Build signal — реальные GitHub contributions за последние 90 дней. График обновляется ежедневно.">
+  <img src="./assets/activity-graph.svg" width="100%" alt="Build signal — публичные GitHub contributions за последние 90 дней. Автообновление каждый час.">
 </picture>
 
-<sub>Каждая колонка — один день. Коммиты, issues, pull requests и reviews, которые GitHub учитывает как contributions. Обновляется через GitHub Actions.</sub>
+<sub>Каждая колонка — один день. GitHub contributions включают коммиты, issues, pull requests и reviews.</sub>
+
+<sub>Автообновление: <b>каждый час</b> через <a href="https://github.com/HVHBIGNAME/HVHBIGNAME/actions/workflows/update-profile.yml">GitHub Actions</a>. Возможны задержки планировщика GitHub.</sub>
 
 <details>
 <summary><b>Открыть журнал публичных проектов</b></summary>
