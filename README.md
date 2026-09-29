@@ -1,46 +1,88 @@
-# Привет! Я HVHBIGNAME 👋
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="./assets/hero-light.svg">
+  <img src="./assets/hero-dark.svg" width="100%" alt="HVHBIGNAME — Vibe in. Systems out. Персональная инженерная лаборатория.">
+</picture>
 
-**Разработчик, создающий полезные инструменты и изучающий новые технологии.**
+<p align="center">
+  <a href="#selected-builds">Проекты</a> &nbsp; / &nbsp;
+  <a href="#working-set">Стек</a> &nbsp; / &nbsp;
+  <a href="#build-signal">Активность</a> &nbsp; / &nbsp;
+  <a href="https://github.com/HVHBIGNAME?tab=repositories">Все репозитории ↗</a>
+</p>
 
----
+### Вайбкодер1337 / HVHBIGNAME
 
-## Обо мне
+Собираю игровые серверы, инструменты и веб-эксперименты.
+Мне интересно, что происходит **под капотом**, и что можно сделать **на экране** —
+от Minecraft-сервера на Rust до сайта, который двигается в ритм музыки.
 
-- 🚀 Превращаю идеи в работающие проекты
-- 🧠 Постоянно изучаю новые технологии
-- 🛠️ Люблю сложные задачи, отладку и автоматизацию
-- 🤝 Открыт к интересным проектам и сотрудничеству
+## Selected builds
 
-## Технологии
+<a href="https://github.com/HVHBIGNAME/BCore">
+  <picture>
+    <source media="(prefers-color-scheme: light)" srcset="./assets/bcore-light.svg">
+    <img src="./assets/bcore-dark.svg" width="100%" alt="BCore — A world, rebuilt in Rust. Minecraft-сервер. Alpha, в разработке.">
+  </picture>
+</a>
 
-![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
-![Go](https://img.shields.io/badge/Go-00ADD8?style=flat-square&logo=go&logoColor=white)
-![Java](https://img.shields.io/badge/Java-ED8B00?style=flat-square&logo=openjdk&logoColor=white)
-![Android](https://img.shields.io/badge/Android-3DDC84?style=flat-square&logo=android&logoColor=white)
-![Git](https://img.shields.io/badge/Git-F05032?style=flat-square&logo=git&logoColor=white)
-![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=github&logoColor=white)
-![Windows](https://img.shields.io/badge/Windows-0078D4?style=flat-square&logo=windows&logoColor=white)
+**[BCore](https://github.com/HVHBIGNAME/BCore)** — собственная реализация Minecraft Java-сервера на Rust:
+сетевой протокол, генерация мира, нативные плагины и JVM-мост для Bukkit / Spigot / Paper.
+Сейчас в **alpha**; совместимость с vanilla постепенно расширяется.
 
-## Мои проекты
+[Исходники ↗](https://github.com/HVHBIGNAME/BCore) · [Трекер реализации ↗](https://hvhbigname.github.io/BCore/)
+
+<br>
+
+<a href="https://github.com/HVHBIGNAME/spred">
+  <picture>
+    <source media="(prefers-color-scheme: light)" srcset="./assets/spred-light.svg">
+    <img src="./assets/spred-dark.svg" width="100%" alt="СПРЕД — A website you can feel. Аудиовизуальный веб-эксперимент на JavaScript, WebAudio и Canvas.">
+  </picture>
+</a>
+
+**[СПРЕД](https://github.com/HVHBIGNAME/spred)** — сайт-визитка как маленькое аудиовизуальное шоу:
+видео, beat-движок на WebAudio, частицы, глитч и кинетическая типографика.
+Чистые HTML / CSS / JavaScript.
+
+[Исходники ↗](https://github.com/HVHBIGNAME/spred)
+
+## Working set
+
+- **Ближе к системе** &nbsp; `Rust` `Java` `Python` `Shell`
+- **Ближе к экрану** &nbsp; `JavaScript` `HTML / CSS` `WebAudio` `Canvas`
+- **Ещё в арсенале** &nbsp; `Go` `Android` `Git` `GitHub Actions`
+
+## Build signal
+
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="./assets/activity-graph-light.svg">
+  <img src="./assets/activity-graph.svg" width="100%" alt="Build signal — реальные GitHub contributions за последние 90 дней. График обновляется ежедневно.">
+</picture>
+
+<sub>Каждая колонка — один день. Коммиты, issues, pull requests и reviews, которые GitHub учитывает как contributions. Обновляется через GitHub Actions.</sub>
+
+<details>
+<summary><b>Открыть журнал публичных проектов</b></summary>
 
 <!-- PROJECTS:START -->
-- **[ios-build-ci](https://github.com/HVHBIGNAME/ios-build-ci)**
-  `—` · ⭐ 0 · обновлён сегодня
-- **[BCore](https://github.com/HVHBIGNAME/BCore)** — Native Rust Minecraft server (26.2 / protocol 776) — vanilla parity, native plugin system, Bukkit/Spigot/Paper bridge
-  `Rust` · ⭐ 0 · обновлён сегодня
-- **[spred](https://github.com/HVHBIGNAME/spred)** — СПРЕД — сайт-визитка с видео-шоу (Caramelldansen FX)
-  `JavaScript` · ⭐ 0 · обновлён 24 дн. назад
-- **[server-cleaner](https://github.com/HVHBIGNAME/server-cleaner)** — Linux server logs and history cleaner script
-  `Shell` · ⭐ 0 · обновлён 36 дн. назад
-- **[anti-monitoring](https://github.com/HVHBIGNAME/anti-monitoring)** — Remove hosting provider monitoring agents (QEMU GA, Cloud-Init, VMware Tools, AWS/GCP/Azure agents) to disable remote...
-  `Shell` · ⭐ 0 · обновлён 36 дн. назад
+| Репозиторий | Язык | Последний push |
+| :-- | :-- | :-- |
+| [ios-build-ci](https://github.com/HVHBIGNAME/ios-build-ci) | — | 2026-09-29 |
+| [BCore](https://github.com/HVHBIGNAME/BCore) | Rust | 2026-09-28 |
+| [spred](https://github.com/HVHBIGNAME/spred) | JavaScript | 2026-09-04 |
+| [server-cleaner](https://github.com/HVHBIGNAME/server-cleaner) | Shell | 2026-08-23 |
+| [anti-monitoring](https://github.com/HVHBIGNAME/anti-monitoring) | Shell | 2026-08-23 |
 <!-- PROJECTS:END -->
 
-## Активность GitHub
+<sub>Последние push в публичные авторские репозитории. Даты — UTC.</sub>
 
-![График активности](./assets/activity-graph.svg)
+</details>
 
----
+<br>
 
-⭐ **Спасибо, что заглянули в мой профиль!**
+<a href="https://github.com/HVHBIGNAME?tab=repositories">
+  <picture>
+    <source media="(prefers-color-scheme: light)" srcset="./assets/footer-light.svg">
+    <img src="./assets/footer-dark.svg" width="100%" alt="Always under construction. Посмотреть все репозитории HVHBIGNAME.">
+  </picture>
+</a>
