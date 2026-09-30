@@ -62,7 +62,7 @@
 <!-- PROJECTS:START -->
 | Репозиторий | Язык | Последний push |
 | :-- | :-- | :-- |
-| [ios-build-ci](https://github.com/HVHBIGNAME/ios-build-ci) | — | 2026-09-29 |
+| [ios-build-ci](https://github.com/HVHBIGNAME/ios-build-ci) | — | 2026-09-30 |
 | [BCore](https://github.com/HVHBIGNAME/BCore) | Rust | 2026-09-28 |
 | [server-cleaner](https://github.com/HVHBIGNAME/server-cleaner) | Shell | 2026-08-23 |
 | [anti-monitoring](https://github.com/HVHBIGNAME/anti-monitoring) | Shell | 2026-08-23 |
