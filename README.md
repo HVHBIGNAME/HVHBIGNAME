@@ -62,11 +62,11 @@
 <!-- PROJECTS:START -->
 | Репозиторий | Язык | Последний push |
 | :-- | :-- | :-- |
-| [ios-build-ci](https://github.com/HVHBIGNAME/ios-build-ci) | — | 2026-10-01 |
-| [SoftDownloader](https://github.com/HVHBIGNAME/SoftDownloader) | — | 2026-10-01 |
+| [emberdeck](https://github.com/HVHBIGNAME/emberdeck) | Rust | 2026-10-02 |
+| [SoftDownloader](https://github.com/HVHBIGNAME/SoftDownloader) | Rust | 2026-10-02 |
+| [ios-build-ci](https://github.com/HVHBIGNAME/ios-build-ci) | — | 2026-10-02 |
 | [BCore](https://github.com/HVHBIGNAME/BCore) | Rust | 2026-09-28 |
 | [server-cleaner](https://github.com/HVHBIGNAME/server-cleaner) | Shell | 2026-08-23 |
-| [anti-monitoring](https://github.com/HVHBIGNAME/anti-monitoring) | Shell | 2026-08-23 |
 <!-- PROJECTS:END -->
 
 <sub>Последние push в публичные авторские репозитории. Даты — UTC.</sub>
