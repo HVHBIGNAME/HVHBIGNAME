@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="244" viewBox="0 0 1200 244" role="img" aria-labelledby="title desc">
-  <title id="title">Minecraft Panel</title>
-  <desc id="desc">Currently in development. MINECRAFT / WEB PANEL. SOON ON GITHUB.</desc>
+  <title id="title">emberdeck.</title>
+  <desc id="desc">Your worlds, in good hands. RUST / SELF-HOSTED / MINECRAFT. EARLY RELEASE / AVAILABLE.</desc>
   <defs>
     <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
       <path d="M 32 0 L 0 0 0 32" fill="none" stroke="#30392c" stroke-width="0.6"/>
@@ -27,9 +27,9 @@
 
     <path d="M32 190H1168M748 24V171" stroke="#30392c"/>
     <rect x="778" y="22" width="342" height="156" fill="url(#grid)" opacity=".5"/>
-    <text x="39" y="39" font-size="12" fill="#a1ad9b" class="mono" letter-spacing="2">02 / NEXT BUILD</text>
-    <text x="35" y="118" font-size="68" fill="#f0f2e8" font-weight="900" letter-spacing="-3">Minecraft Panel</text>
-    <text x="40" y="157" font-size="19" fill="#a1ad9b" >Currently in development.</text>
+    <text x="39" y="39" font-size="12" fill="#a1ad9b" class="mono" letter-spacing="2">02 / MINECRAFT CONTROL</text>
+    <text x="35" y="118" font-size="77" fill="#f0f2e8" font-weight="900" letter-spacing="-3">emberdeck.</text>
+    <text x="40" y="157" font-size="19" fill="#a1ad9b" >Your worlds, in good hands.</text>
     <g transform="translate(962 98)">
     <rect x="-131" y="-73" width="262" height="147" rx="10" fill="#171c16" stroke="#c0a6ff" stroke-width="1.2"/>
     <path d="M-131-47H131" stroke="#30392c"/>
@@ -47,8 +47,8 @@
     <path d="M-38 46h15l13-16 19 10 17-6 16 9 20-17 16 6h25" fill="none" stroke="#d2ff5a" stroke-width="1.8"/>
     </g>
     <circle cx="1139" cy="45" r="17" fill="#171c16" stroke="#30392c"/>
-    <text x="1139" y="49" font-size="10" fill="#d2ff5a" class="mono" text-anchor="middle">WIP</text>
-    <text x="40" y="221" font-size="12" fill="#f0f2e8" class="mono" letter-spacing="1">MINECRAFT / WEB PANEL</text>
-    <text x="1156" y="221" font-size="11" fill="#a1ad9b" class="mono" text-anchor="end">SOON ON GITHUB</text>
+    <path d="M1133 51 1145 39m-10 0h10v10" fill="none" stroke="#d2ff5a" stroke-width="1.5"/>
+    <text x="40" y="221" font-size="12" fill="#f0f2e8" class="mono" letter-spacing="1">RUST / SELF-HOSTED / MINECRAFT</text>
+    <text x="1156" y="221" font-size="11" fill="#a1ad9b" class="mono" text-anchor="end">EARLY RELEASE / AVAILABLE</text>
 
 </svg>

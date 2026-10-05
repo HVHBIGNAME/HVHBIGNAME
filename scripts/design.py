@@ -181,26 +181,22 @@ def panel_blueprint(p):
 def project(theme, name):
     p = PALETTES[theme]
     is_core = name == "bcore"
-    title = "BCore" if is_core else "Minecraft Panel"
-    label = "01 / NATIVE SYSTEMS" if is_core else "02 / NEXT BUILD"
-    tagline = "A world, rebuilt in Rust." if is_core else "Currently in development."
-    tech = "RUST / MINECRAFT / PLUGIN RUNTIME" if is_core else "MINECRAFT / WEB PANEL"
-    status = "ALPHA / IN DEVELOPMENT" if is_core else "SOON ON GITHUB"
+    title = "BCore" if is_core else "emberdeck."
+    label = "01 / NATIVE SYSTEMS" if is_core else "02 / MINECRAFT CONTROL"
+    tagline = "A world, rebuilt in Rust." if is_core else "Your worlds, in good hands."
+    tech = "RUST / MINECRAFT / PLUGIN RUNTIME" if is_core else "RUST / SELF-HOSTED / MINECRAFT"
+    status = "ALPHA / IN DEVELOPMENT" if is_core else "EARLY RELEASE / AVAILABLE"
     art = terrain(p) if is_core else panel_blueprint(p)
     art_transform = "translate(962 65) scale(.84)" if is_core else "translate(962 98)"
-    badge = (
-        f'<path d="M1133 51 1145 39m-10 0h10v10" fill="none" stroke="{p["accent"]}" stroke-width="1.5"/>'
-        if is_core else text(1139, 49, "WIP", 10, "accent", p, class_="mono", text_anchor="middle")
-    )
     body = f'''
     <path d="M32 190H1168M748 24V171" stroke="{p['line']}"/>
     <rect x="778" y="22" width="342" height="156" fill="url(#grid)" opacity=".5"/>
     {text(39, 39, label, 12, 'muted', p, class_='mono', letter_spacing=2)}
-    {text(35, 118, title, 77 if is_core else 68, 'fg', p, font_weight=900, letter_spacing=-3)}
+    {text(35, 118, title, 77, 'fg', p, font_weight=900, letter_spacing=-3)}
     {text(40, 157, tagline, 19, 'muted', p)}
     <g transform="{art_transform}">{art}</g>
     <circle cx="1139" cy="45" r="17" fill="{p['panel']}" stroke="{p['line']}"/>
-    {badge}
+    <path d="M1133 51 1145 39m-10 0h10v10" fill="none" stroke="{p['accent']}" stroke-width="1.5"/>
     {text(40, 221, tech, 12, 'fg', p, class_='mono', letter_spacing=1)}
     {text(1156, 221, status, 11, 'muted', p, class_='mono', text_anchor='end')}
     '''

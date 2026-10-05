@@ -12,8 +12,8 @@
 
 ### Вайбкодер1337 / HVHBIGNAME
 
-Собираю игровые серверы, инструменты и веб-интерфейсы.
-Сейчас в фокусе — **BCore** на Rust и новая **Minecraft-панель**, которую скоро опубликую на GitHub.
+Собираю игровые серверы, нативные приложения и веб-интерфейсы.
+В фокусе — **Rust**, экосистема **Minecraft** и инструменты для **desktop / mobile**.
 
 ## Selected builds
 
@@ -32,17 +32,34 @@
 
 <br>
 
-<picture>
-  <source media="(prefers-color-scheme: light)" srcset="./assets/minecraft-panel-light.svg">
-  <img src="./assets/minecraft-panel-dark.svg" width="100%" alt="Minecraft-панель — новый проект в разработке. Скоро на GitHub.">
-</picture>
+<a href="https://github.com/HVHBIGNAME/emberdeck">
+  <picture>
+    <source media="(prefers-color-scheme: light)" srcset="./assets/minecraft-panel-light.svg">
+    <img src="./assets/minecraft-panel-dark.svg" width="100%" alt="emberdeck — self-hosted панель управления Minecraft на Rust. Открыть репозиторий.">
+  </picture>
+</a>
 
-**Minecraft-панель** — новый проект в разработке. Скоро опубликую на GitHub.
+**[emberdeck](https://github.com/HVHBIGNAME/emberdeck)** — self-hosted панель управления Minecraft:
+один Rust-бинарник со встроенным веб-интерфейсом, Linux-агент, SFTP и CLI.
+**Ранний релиз**, уже можно попробовать.
+
+[Код ↗](https://github.com/HVHBIGNAME/emberdeck) · [Демо ↗](https://hvhbigname.github.io/emberdeck/) · [Релизы ↗](https://github.com/HVHBIGNAME/emberdeck/releases/latest)
+
+### Desktop & mobile
+
+**[SoftDownloader](https://github.com/HVHBIGNAME/SoftDownloader)** · `Rust` `egui` `Windows`
+
+Нативный менеджер программ в одном EXE: каталог, очередь установки и перенос списка
+программ на другой ПК. [Скачать последнюю версию ↗](https://github.com/HVHBIGNAME/SoftDownloader/releases/latest)
+
+**[OpenCode Pocket](https://github.com/HVHBIGNAME/OpenCodePocket)** · `Android` `iOS` · **Новый проект**
+
+Мобильный клиент OpenCode с QR-подключением к companion bridge. Публичный репозиторий только появился.
 
 ## Working set
 
 - **Ближе к системе** &nbsp; `Rust` `Java` `Python` `Shell`
-- **Ближе к экрану** &nbsp; `JavaScript` `HTML / CSS`
+- **Ближе к экрану** &nbsp; `JavaScript` `HTML / CSS` `egui`
 - **Ещё в арсенале** &nbsp; `Go` `Android` `Git` `GitHub Actions`
 
 ## Build signal
