@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
-"""Build the profile's original, self-contained SVG artwork (no dependencies)."""
+"""Render one animated SVG atlas per theme, with independently linkable views."""
 
-import math
+import json
+from datetime import date
 from html import escape
 from pathlib import Path
+
+from illustrations import ART, core
 
 ROOT = Path(__file__).resolve().parents[1]
 PALETTES = {
@@ -21,6 +24,40 @@ PALETTES = {
     },
 }
 
+VIEW_HEIGHT = 420
+CYCLE_SECONDS = 16
+PROJECTS = {
+    "bcore": {
+        "name": "BCore", "eyebrow": "01 / WORLD ENGINE", "status": "ALPHA",
+        "description": ("Свой Minecraft-сервер на Rust.", "Миры, свет, нативные плагины и JVM-мост."),
+        "mobile": ("Minecraft-сервер на Rust.", "Миры, свет, плагины и JVM-мост."),
+        "tech": "RUST / WORLDGEN / NATIVE PLUGINS / JVM", "mobile_meta": "Rust · alpha",
+        "dark": ("#d2ff5a", "#344620"), "light": ("#496817", "#dce8bd"),
+    },
+    "minecraft-panel": {
+        "name": "emberdeck.", "eyebrow": "02 / CONTROL ROOM", "status": "EARLY RELEASE",
+        "description": ("Minecraft-панель в одном Rust-бинарнике.", "Серверы, консоль, SFTP и резервные копии."),
+        "mobile": ("Панель для Minecraft на Rust.", "Серверы, SFTP и резервные копии."),
+        "tech": "SELF-HOSTED / LINUX / SFTP / CLI", "mobile_meta": "Rust · ранний релиз",
+        "dark": ("#efac79", "#463327"), "light": ("#9b4d24", "#f0dccb"),
+    },
+    "softdownloader": {
+        "name": "SoftDownloader", "eyebrow": "03 / DESKTOP KIT", "status": "WINDOWS APP",
+        "description": ("Каталог программ в одном EXE.", "Установка очередью и перенос списка ПО."),
+        "mobile": ("Менеджер программ для Windows.", "Установка и перенос списка ПО."),
+        "tech": "RUST + EGUI / WINDOWS / ONE EXE", "mobile_meta": "Rust · egui · Windows",
+        "dark": ("#91d8ff", "#233d4b"), "light": ("#21678b", "#d5e8ef"),
+    },
+    "opencode-pocket": {
+        "name": "OpenCode Pocket", "eyebrow": "04 / CODE WITH YOU", "status": "MOBILE CLIENT",
+        "description": ("OpenCode на Android и iOS.", "Сессии, промпты и подключение по QR."),
+        "mobile": ("OpenCode на Android и iOS.", "Твои сессии с компьютера — по QR."),
+        "tech": "REACT / TYPESCRIPT / COMPANION BRIDGE", "mobile_meta": "Android · iOS · QR",
+        "dark": ("#c6adff", "#372b4e"), "light": ("#7550a7", "#e7def1"),
+    },
+}
+VIEWS = ("hero", *PROJECTS, "signal")
+
 
 def text(x, y, value, size=14, fill="fg", palette=None, **attrs):
     palette = palette or PALETTES["dark"]
@@ -34,200 +71,210 @@ def text(x, y, value, size=14, fill="fg", palette=None, **attrs):
     )
 
 
-def document(title, description, height, body, theme):
-    p = PALETTES[theme]
-    svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="{height}" viewBox="0 0 1200 {height}" role="img" aria-labelledby="title desc">
-  <title id="title">{escape(title)}</title>
-  <desc id="desc">{escape(description)}</desc>
-  <defs>
-    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
-      <path d="M 32 0 L 0 0 0 32" fill="none" stroke="{p['line']}" stroke-width="0.6"/>
-    </pattern>
-    <radialGradient id="aura">
-      <stop offset="0" stop-color="{p['accent']}" stop-opacity="0.13"/>
-      <stop offset="1" stop-color="{p['accent']}" stop-opacity="0"/>
-    </radialGradient>
-  </defs>
-  <style>
+def stylesheet(height):
+    return f'''
     text {{ font-family: Arial, Helvetica, sans-serif; }}
     .mono {{ font-family: 'Courier New', Courier, monospace; }}
-    .float {{ animation: float 8s ease-in-out infinite; }}
-    .flow {{ stroke-dasharray: 5 18; animation: flow 24s linear infinite; }}
-    .pulse {{ animation: pulse 5s ease-in-out infinite; }}
-    .hero-mobile {{ display: none; }}
-    @media (max-width: 600px) {{ .hero-desktop {{ display: none; }} .hero-mobile {{ display: inline; }} }}
-    @keyframes float {{ 0%, 100% {{ transform: translateY(0); }} 50% {{ transform: translateY(-8px); }} }}
-    @keyframes flow {{ to {{ stroke-dashoffset: -276; }} }}
-    @keyframes pulse {{ 0%, 100% {{ opacity: .45; }} 50% {{ opacity: 1; }} }}
-    @media (prefers-reduced-motion: reduce) {{ .float, .flow, .pulse {{ animation: none; }} }}
-  </style>
-  <rect x="0.5" y="0.5" width="1199" height="{height - 1}" rx="18" fill="{p['bg']}" stroke="{p['line']}"/>
-  {body}
-</svg>
-'''
+    .mobile {{ display: none; }}
+    .levitate {{ animation: levitate {CYCLE_SECONDS}s ease-in-out infinite; animation-delay: var(--phase, 0s); }}
+    .orbit {{ stroke-dasharray: 7 24; animation: orbit {CYCLE_SECONDS}s linear infinite; }}
+    .heartbeat {{ animation: heartbeat 4s ease-in-out infinite; }}
+    .world-column {{ animation: world {CYCLE_SECONDS}s ease-in-out infinite; animation-delay: calc(var(--phase, 0s) + var(--lag, 0s)); }}
+    .world-beam {{ animation: beam {CYCLE_SECONDS}s ease-in-out infinite; animation-delay: var(--phase, 0s); }}
+    .trace {{ stroke-dasharray: 100; animation: trace {CYCLE_SECONDS}s ease-in-out infinite; animation-delay: var(--phase, 0s); }}
+    .package-tile {{ animation: tile {CYCLE_SECONDS}s ease-in-out infinite; animation-delay: calc(var(--phase, 0s) + var(--lag, 0s)); }}
+    .download {{ animation: download {CYCLE_SECONDS}s ease-in-out infinite; animation-delay: var(--phase, 0s); }}
+    .qr-scan {{ animation: qr {CYCLE_SECONDS}s ease-in-out infinite; animation-delay: var(--phase, 0s); }}
+    .chat-line {{ animation: chat {CYCLE_SECONDS}s ease-in-out infinite; animation-delay: calc(var(--phase, 0s) + var(--lag, 0s)); }}
+    .relay {{ animation: relay {CYCLE_SECONDS}s linear infinite; }}
+    .scan {{ animation: scan {CYCLE_SECONDS}s linear infinite; }}
+    @keyframes levitate {{ 0%,100% {{ transform: translateY(0); }} 50% {{ transform: translateY(-9px); }} }}
+    @keyframes orbit {{ to {{ stroke-dashoffset: -248; }} }}
+    @keyframes heartbeat {{ 0%,100% {{ opacity:.4; }} 50% {{ opacity:1; }} }}
+    @keyframes world {{ 0%,65%,100% {{ transform:translateY(0); }} 24% {{ transform:translateY(-9px); }} }}
+    @keyframes beam {{ 0%,100% {{ transform:translateY(-20px); opacity:0; }} 18%,65% {{ opacity:.3; }} 80% {{ transform:translateY(40px); opacity:0; }} }}
+    @keyframes trace {{ 0%,8% {{ stroke-dashoffset:100; opacity:.25; }} 50%,88% {{ stroke-dashoffset:0; opacity:1; }} 100% {{ stroke-dashoffset:0; opacity:.25; }} }}
+    @keyframes tile {{ 0%,70%,100% {{ opacity:.38; }} 22%,45% {{ opacity:1; }} }}
+    @keyframes download {{ 0%,100% {{ transform:translateY(-5px); opacity:.3; }} 35%,65% {{ transform:translateY(7px); opacity:1; }} }}
+    @keyframes qr {{ 0%,100% {{ transform:translateY(0); opacity:.3; }} 50% {{ transform:translateY(65px); opacity:1; }} }}
+    @keyframes chat {{ 0%,100% {{ opacity:.35; transform:translateY(4px); }} 25%,75% {{ opacity:1; transform:translateY(0); }} }}
+    @keyframes relay {{ from {{ transform:translateY(-200px); }} to {{ transform:translateY({height}px); }} }}
+    @keyframes scan {{ 0% {{ transform:translateX(0); opacity:0; }} 10%,85% {{ opacity:.32; }} 100% {{ transform:translateX(1090px); opacity:0; }} }}
+    @media (max-width: 600px) {{
+      .desktop {{ display:none; }} .mobile {{ display:inline; }}
+      .signal-title {{ font-size:44px; }} .signal-auto {{ font-size:29px; }}
+      .signal-value {{ font-size:102px; }} .signal-label {{ font-size:34px; letter-spacing:0; }}
+      .signal-date {{ font-size:27px; }} .month-label {{ display:none; }}
+    }}
+    @media (prefers-reduced-motion: reduce) {{ * {{ animation:none !important; }} .relay, .scan {{ display:none; }} }}
+    '''
+
+
+def document(title, description, height, body, theme, views=()):
+    p = PALETTES[theme]
+    height_attr = "" if views else f' height="{height}"'
+    view_tags = "".join(f'<view id="{name}" viewBox="0 {i*VIEW_HEIGHT} 1200 {VIEW_HEIGHT}"/>' for i, name in enumerate(views))
+    clips = "".join(f'<rect x="1" y="{i*VIEW_HEIGHT+1}" width="1198" height="{VIEW_HEIGHT-2}" rx="20"/>' for i in range(len(views)))
+    svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="1200"{height_attr} viewBox="0 0 1200 {height}" role="img" aria-labelledby="title desc">
+    <title id="title">{escape(title)}</title>
+    <desc id="desc">{escape(description)}</desc>
+    {view_tags}
+    <defs>
+      <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse"><path d="M30 0H0V30" fill="none" stroke="{p['line']}" stroke-width=".7"/></pattern>
+      <radialGradient id="aura"><stop offset="0" stop-color="{p['accent']}" stop-opacity=".16"/><stop offset="1" stop-color="{p['accent']}" stop-opacity="0"/></radialGradient>
+      <linearGradient id="carrier" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{p['accent']}" stop-opacity="0"/><stop offset=".75" stop-color="{p['accent']}"/><stop offset="1" stop-color="{p['accent']}" stop-opacity="0"/></linearGradient>
+      <clipPath id="atlas-clips">{clips}</clipPath>
+    </defs>
+    <style>{stylesheet(height)}</style>
+    {body}
+    </svg>'''
     return "\n".join(line.rstrip() for line in svg.splitlines()) + "\n"
 
 
-def cross(x, y, color, size=5):
-    return f'<path d="M{x-size} {y}h{size*2}M{x} {y-size}v{size*2}" stroke="{color}" stroke-width="1"/>'
-
-
-def cube(x, y, size, p, solid=False):
-    half_width = size * math.sqrt(3) / 2
-    top = [(x, y-size), (x+half_width, y-size/2), (x, y), (x-half_width, y-size/2)]
-    left = [(x-half_width, y-size/2), (x, y), (x, y+size), (x-half_width, y+size/2)]
-    right = [(x, y), (x+half_width, y-size/2), (x+half_width, y+size/2), (x, y+size)]
-    colors = (p["accent"], p["soft"], p["accent"]) if solid else (p["panel"], p["bg"], p["soft"])
-    parts = []
-    for points, color in zip((left, right, top), (colors[1], colors[2], colors[0])):
-        coords = " ".join(f"{px:.2f},{py:.2f}" for px, py in points)
-        parts.append(f'<polygon points="{coords}" fill="{color}" stroke="{p["accent"]}" stroke-width="1.15"/>')
-    return "".join(parts)
-
-
-def core(p):
-    parts = [
-        f'<circle r="175" fill="url(#aura)"/>',
-        f'<circle r="149" fill="none" stroke="{p["line"]}"/>',
-        f'<circle r="166" fill="none" stroke="{p["line"]}" stroke-dasharray="1 9"/>',
-        f'<path d="M-191 0h382M0-181v362" stroke="{p["line"]}" stroke-width="0.8"/>',
-        f'<ellipse rx="185" ry="58" transform="rotate(-27)" fill="none" stroke="{p["line"]}"/>',
-        f'<ellipse rx="185" ry="58" transform="rotate(-27)" fill="none" stroke="{p["accent"]}" class="flow" opacity=".7"/>',
-        '<g class="float">',
-        cube(0, -2, 102, p),
-    ]
-    for offset in (-48, -24, 0, 24, 48):
-        parts.append(f'<path d="M-88 {offset-1} 0 {offset+50} 88 {offset-1}" fill="none" stroke="{p["accent"]}" opacity=".18"/>')
-    parts.extend([
-        f'<path d="M-44-79V75M44-79V75M0-104V100" fill="none" stroke="{p["accent"]}" opacity=".25"/>',
-        cube(0, -15, 38, p, solid=True),
-        '</g>',
-        f'<circle cx="-165" cy="70" r="5" fill="{p["accent"]}" class="pulse"/>',
-        f'<path d="M72-98 118-131h54M-75 108-117 137h-49" fill="none" stroke="{p["muted"]}" stroke-width=".8"/>',
-        text(120, -139, "CORE / 01", 10, "muted", p, class_="mono"),
-        text(-177, 153, "1337", 11, "muted", p, class_="mono"),
-        cross(0, -166, p["accent"]),
-        cross(149, 0, p["accent"]),
-    ])
-    return "".join(parts)
-
-
-def hero(theme):
-    p = PALETTES[theme]
-    mobile_body = f'''
-    <path d="M44 111H1156" stroke="{p['line']}"/>
-    <path d="M53 36v43m18-43v43M53 58h18m23-22 14 43 14-43" fill="none" stroke="{p['accent']}" stroke-width="5"/>
-    {text(155, 75, 'HVHBIGNAME', 46, 'fg', p, font_weight=700, letter_spacing=3)}
-    {text(1150, 72, '1337', 25, 'muted', p, class_='mono', text_anchor='end')}
-    {text(39, 257, 'VIBE IN.', 165, 'fg', p, font_weight=900, letter_spacing=-8, textLength=815, lengthAdjust='spacingAndGlyphs')}
-    {text(41, 400, 'SYSTEMS OUT.', 128, 'accent', p, font_weight=900, letter_spacing=-5, textLength=1105, lengthAdjust='spacingAndGlyphs')}
-    <g transform="translate(1016 211) scale(.40)">{core(p)}</g>
+def frame(p):
+    return f'''
+    <rect x=".5" y=".5" width="1199" height="419" rx="20" fill="{p['bg']}" stroke="{p['line']}"/>
+    <path d="M26 22V398" stroke="{p['line']}" stroke-width="2"/>
+    <circle class="heartbeat" cx="26" cy="42" r="5" fill="{p['accent']}" opacity=".55"/>
     '''
-    desktop_body = f'''
-    <path d="M32 76H1168M32 392H1168" stroke="{p['line']}"/>
-    <rect x="739" y="95" width="421" height="278" fill="url(#grid)" opacity=".5"/>
-    <path d="M44 29v24m10-24v24m-10-12h10m14-12 9 24 9-24" fill="none" stroke="{p['accent']}" stroke-width="3"/>
-    {text(104, 49, 'HVHBIGNAME', 21, 'fg', p, font_weight=700, letter_spacing=2)}
-    {text(1155, 46, 'INDEPENDENT DEVELOPER / EST. 2026', 12, 'muted', p, class_='mono', text_anchor='end')}
-    {text(43, 123, 'CODE / CURIOSITY / CONTROL', 13, 'muted', p, class_='mono', letter_spacing=2)}
-    {text(37, 234, 'VIBE IN.', 112, 'fg', p, font_weight=900, letter_spacing=-6, textLength=458, lengthAdjust='spacingAndGlyphs')}
-    {text(38, 337, 'SYSTEMS OUT.', 89, 'accent', p, font_weight=900, letter_spacing=-4, textLength=652, lengthAdjust='spacingAndGlyphs')}
-    <g transform="translate(948 230)">{core(p)}</g>
-    <circle cx="49" cy="427" r="4" fill="{p['accent']}" class="pulse"/>
-    {text(64, 432, 'RUST SYSTEMS + CREATIVE WEB', 13, 'fg', p, class_='mono', letter_spacing=1)}
-    {text(1155, 432, 'IDEA → EXPERIMENT → COMMIT', 12, 'muted', p, class_='mono', text_anchor='end')}
-    '''
-    return document(
-        "HVHBIGNAME — Vibe in. Systems out.",
-        "Персональная инженерная лаборатория: игровые серверы, инструменты и веб-эксперименты. Геометрическое ядро плавно парит внутри орбит.",
-        462, f'<g class="hero-desktop">{desktop_body}</g><g class="hero-mobile">{mobile_body}</g>', theme,
+
+
+def button(p, mobile=False):
+    x, y, width, height, font = (778, 318, 378, 66, 39) if mobile else (930, 331, 226, 52, 19)
+    return (
+        f'<rect x="{x}" y="{y}" width="{width}" height="{height}" rx="{height/2}" fill="{p["accent"]}"/>'
+        + text(x+width/2, y+height*.65, "ОТКРЫТЬ ↗", font, "bg", p, font_weight=700, text_anchor="middle")
     )
 
 
-def terrain(p):
-    parts = []
-    for depth in range(9):
-        for a in range(5):
-            b = depth - a
-            if not 0 <= b < 5:
-                continue
-            height = max(1, 4 - abs(a-2) - abs(b-2))
-            for z in range(height):
-                x = (a-b) * 22
-                y = (a+b) * 12.7 - z * 25.4
-                parts.append(cube(x, y, 25.4, p, solid=(height >= 3 and z == height-1)))
-    return "".join(parts)
+def hero_body(theme):
+    p = PALETTES[theme]
+    return frame(p) + f'''
+    <g class="desktop">
+      <path d="M52 74H1156M52 352H1156" stroke="{p['line']}"/>
+      <path d="M53 28v25m11-25v25M53 41h11m16-13 9 25 9-25" fill="none" stroke="{p['accent']}" stroke-width="3"/>
+      {text(117, 50, 'HVHBIGNAME', 24, 'fg', p, font_weight=700, letter_spacing=2)}
+      {text(1156, 48, 'ВАЙБКОДЕР1337 / INDEPENDENT SOFTWARE', 14, 'muted', p, class_='mono', text_anchor='end')}
+      {text(53, 119, 'CODE / CURIOSITY / CONTROL', 14, 'muted', p, class_='mono', letter_spacing=2)}
+      {text(47, 222, 'VIBE IN.', 110, 'fg', p, font_weight=900, letter_spacing=-6)}
+      {text(48, 316, 'SYSTEMS OUT.', 86, 'accent', p, font_weight=900, letter_spacing=-4, textLength=655, lengthAdjust='spacingAndGlyphs')}
+      <g transform="translate(951 216) scale(.86)">{core(p)}</g>
+      {text(53, 391, 'RUST / TYPESCRIPT / MINECRAFT / DESKTOP / MOBILE', 15, 'fg', p, class_='mono')}
+      {text(1156, 391, f'{len(PROJECTS):02d} SELECTED BUILDS ↓', 14, 'muted', p, class_='mono', text_anchor='end')}
+    </g>
+    <g class="mobile">
+      {text(51, 66, 'HVHBIGNAME', 49, 'fg', p, font_weight=700, letter_spacing=2)}
+      {text(1155, 64, '1337', 30, 'muted', p, class_='mono', text_anchor='end')}
+      <path d="M52 96H1156" stroke="{p['line']}"/>
+      {text(44, 242, 'VIBE IN.', 158, 'fg', p, font_weight=900, letter_spacing=-7, textLength=810, lengthAdjust='spacingAndGlyphs')}
+      {text(47, 375, 'SYSTEMS OUT.', 126, 'accent', p, font_weight=900, letter_spacing=-5, textLength=1100, lengthAdjust='spacingAndGlyphs')}
+      <g transform="translate(1035 198) scale(.4)">{core(p)}</g>
+    </g>'''
 
 
-def panel_blueprint(p):
-    return f'''
-    <rect x="-131" y="-73" width="262" height="147" rx="10" fill="{p['panel']}" stroke="{p['secondary']}" stroke-width="1.2"/>
-    <path d="M-131-47H131" stroke="{p['line']}"/>
-    <circle cx="-114" cy="-60" r="3" fill="{p['accent']}" class="pulse"/>
-    <circle cx="-101" cy="-60" r="3" fill="{p['line']}"/>
-    <circle cx="-88" cy="-60" r="3" fill="{p['line']}"/>
-    <path d="M71-60h43" stroke="{p['muted']}" stroke-width="2"/>
-    <rect x="-116" y="-31" width="51" height="90" rx="5" fill="{p['bg']}" stroke="{p['line']}"/>
-    {cube(-90, -3, 18, p, solid=True)}
-    <path d="M-105 31h30m-30 12h20" stroke="{p['muted']}" stroke-width="2"/>
-    <rect x="-50" y="-31" width="74" height="35" rx="5" fill="{p['bg']}" stroke="{p['line']}"/>
-    <rect x="36" y="-31" width="79" height="35" rx="5" fill="{p['bg']}" stroke="{p['line']}"/>
-    <path d="M-38-18h24m-24 11h46M48-18h24M48-7h55" stroke="{p['secondary']}" stroke-width="2"/>
-    <rect x="-50" y="17" width="165" height="42" rx="5" fill="{p['bg']}" stroke="{p['line']}"/>
-    <path d="M-38 46h15l13-16 19 10 17-6 16 9 20-17 16 6h25" fill="none" stroke="{p['accent']}" stroke-width="1.8"/>
-    '''
+def project_body(theme, name):
+    item = PROJECTS[name]
+    p = {**PALETTES[theme], **dict(zip(("accent", "soft"), item[theme]))}
+    art = ART[name](p)
+    title_size = 80 if name in ("bcore", "minecraft-panel") else 66
+    return frame(p) + f'''
+    <g class="desktop">
+      <ellipse cx="960" cy="199" rx="192" ry="143" fill="{p['soft']}" opacity=".18"/>
+      <rect x="779" y="88" width="353" height="220" fill="url(#grid)" opacity=".55"/>
+      {text(53, 49, item['eyebrow'], 15, 'muted', p, class_='mono', letter_spacing=2)}
+      {text(1156, 49, item['status'], 14, 'accent', p, class_='mono', text_anchor='end')}
+      {text(49, 139, item['name'], title_size, 'fg', p, font_weight=900, letter_spacing=-3)}
+      {text(53, 204, item['description'][0], 28, 'fg', p)}
+      {text(53, 244, item['description'][1], 27, 'muted', p)}
+      <g transform="translate(965 201)">{art}</g>
+      <path d="M53 313H1156" stroke="{p['line']}"/>
+      {text(53, 365, item['tech'], 17, 'muted', p, class_='mono')}
+      {button(p)}
+    </g>
+    <g class="mobile">
+      <g opacity=".18" transform="translate(990 193) scale(1.05)">{art}</g>
+      {text(53, 45, item['eyebrow'], 26, 'muted', p, class_='mono', letter_spacing=1)}
+      {text(47, 125, item['name'], 96 if name in ('bcore', 'minecraft-panel') else 85, 'fg', p, font_weight=900, letter_spacing=-3)}
+      {text(53, 212, item['mobile'][0], 50, 'fg', p)}
+      {text(53, 273, item['mobile'][1], 49, 'fg', p)}
+      {text(53, 361, item['mobile_meta'], 38, 'muted', p)}
+      {button(p, mobile=True)}
+    </g>'''
+
+
+def signal_body(days, theme):
+    p = PALETTES[theme]
+    total = sum(count for _, count in days)
+    active = sum(count > 0 for _, count in days)
+    peak = max(count for _, count in days)
+    parts = [frame(p),
+        text(53, 59, "BUILD SIGNAL / 90D", 30, "fg", p, class_="signal-title", font_weight=700),
+        text(1156, 56, "↻ КАЖДЫЙ ЧАС", 18, "muted", p, class_="signal-auto", text_anchor="end"),
+        f'<path d="M53 83H1156M53 227H1156" stroke="{p["line"]}"/>',
+    ]
+    for x, number, label in ((53, total, "CONTRIB."), (449, active, "АКТИВНЫХ ДНЕЙ"), (843, peak, "ПИК / ДЕНЬ")):
+        parts.append(text(x, 174, number, 84, "fg", p, class_="signal-value", font_weight=700, letter_spacing=-3))
+        parts.append(text(x+2, 210, label, 17, "muted", p, class_="mono signal-label", letter_spacing=1))
+    step = 1097 / len(days)
+    for y in (239, 290, 345):
+        parts.append(f'<path d="M53 {y}H1150" stroke="{p["line"]}" stroke-dasharray="2 6"/>')
+    for index, (day, count) in enumerate(days):
+        x = 53 + index*step
+        height = 2 if count == 0 else 103*count/peak
+        y = 347 if count == 0 else 343-height
+        level = min(4, (4*count+peak-1)//peak) if peak else 0
+        parts.append(f'<rect x="{x:.2f}" y="{y:.2f}" width="{step-3:.2f}" height="{height:.2f}" rx="2" fill="{p["levels"][level]}"><title>{day.isoformat()}: {count} contributions</title></rect>')
+    parts.extend([
+        f'<path class="scan" d="M53 238V343" stroke="{p["accent"]}" opacity=".3"/>',
+        text(53, 385, days[0][0].isoformat(), 15, "muted", p, class_="mono signal-date"),
+        text(1156, 385, days[-1][0].isoformat() + " / UTC", 15, "muted", p, class_="mono signal-date", text_anchor="end"),
+    ])
+    return "\n".join(parts)
+
+
+def hero(theme):
+    return document("HVHBIGNAME — Vibe in. Systems out.", "Вайбкодер1337. Rust, TypeScript, Minecraft, desktop и mobile.", VIEW_HEIGHT, hero_body(theme), theme)
 
 
 def project(theme, name):
-    p = PALETTES[theme]
-    is_core = name == "bcore"
-    title = "BCore" if is_core else "emberdeck."
-    label = "01 / NATIVE SYSTEMS" if is_core else "02 / MINECRAFT CONTROL"
-    tagline = "A world, rebuilt in Rust." if is_core else "Your worlds, in good hands."
-    tech = "RUST / MINECRAFT / PLUGIN RUNTIME" if is_core else "RUST / SELF-HOSTED / MINECRAFT"
-    status = "ALPHA / IN DEVELOPMENT" if is_core else "EARLY RELEASE / AVAILABLE"
-    art = terrain(p) if is_core else panel_blueprint(p)
-    art_transform = "translate(962 65) scale(.84)" if is_core else "translate(962 98)"
-    body = f'''
-    <path d="M32 190H1168M748 24V171" stroke="{p['line']}"/>
-    <rect x="778" y="22" width="342" height="156" fill="url(#grid)" opacity=".5"/>
-    {text(39, 39, label, 12, 'muted', p, class_='mono', letter_spacing=2)}
-    {text(35, 118, title, 77, 'fg', p, font_weight=900, letter_spacing=-3)}
-    {text(40, 157, tagline, 19, 'muted', p)}
-    <g transform="{art_transform}">{art}</g>
-    <circle cx="1139" cy="45" r="17" fill="{p['panel']}" stroke="{p['line']}"/>
-    <path d="M1133 51 1145 39m-10 0h10v10" fill="none" stroke="{p['accent']}" stroke-width="1.5"/>
-    {text(40, 221, tech, 12, 'fg', p, class_='mono', letter_spacing=1)}
-    {text(1156, 221, status, 11, 'muted', p, class_='mono', text_anchor='end')}
-    '''
-    return document(title, f"{tagline} {tech}. {status}.", 244, body, theme)
+    item = PROJECTS[name]
+    return document(item["name"], " ".join(item["description"]) + " " + item["status"], VIEW_HEIGHT, project_body(theme, name), theme)
 
 
-def footer(theme):
-    p = PALETTES[theme]
-    body = f'''
-    {cross(45, 50, p['accent'], 9)}
-    {text(75, 46, 'ALWAYS UNDER CONSTRUCTION.', 25, 'fg', p, font_weight=700, letter_spacing=-.6)}
-    {text(76, 71, 'HVHBIGNAME / SEE YOU IN THE COMMIT LOG.', 11, 'muted', p, class_='mono', letter_spacing=1)}
-    {text(1110, 55, 'EXPLORE THE SOURCE', 12, 'muted', p, class_='mono', text_anchor='end')}
-    <path d="M1133 60 1149 44m-14 0h14v14" fill="none" stroke="{p['accent']}" stroke-width="2"/>
-    '''
-    return document("Always under construction.", "Посмотреть все публичные репозитории HVHBIGNAME.", 102, body, theme)
+def build_atlas(days, theme):
+    sections = [hero_body(theme), *(project_body(theme, name) for name in PROJECTS), signal_body(days, theme)]
+    groups = []
+    for index, (name, body) in enumerate(zip(VIEWS, sections)):
+        phase = -(CYCLE_SECONDS-index*CYCLE_SECONDS/len(VIEWS))
+        groups.append(f'<g id="scene-{name}" transform="translate(0 {index*VIEW_HEIGHT})" style="--phase:{phase:.4f}s">{body}</g>')
+    groups.append('<g clip-path="url(#atlas-clips)"><g class="relay"><rect x="24" y="0" width="4" height="190" rx="2" fill="url(#carrier)"/></g></g>')
+    return document(
+        "HVHBIGNAME / connected builds",
+        "Анимированное портфолио: BCore, emberdeck, SoftDownloader и OpenCode Pocket. Общий 16-секундный цикл; публичная активность GitHub обновляется каждый час.",
+        len(VIEWS)*VIEW_HEIGHT, "\n".join(groups), theme, views=VIEWS,
+    )
+
+
+def activity_json(days):
+    return json.dumps({"source": "GitHub public contributions", "days": [{"date": day.isoformat(), "count": count} for day, count in days]}, indent=2) + "\n"
+
+
+def load_activity(path):
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    days = [(date.fromisoformat(day["date"]), day["count"]) for day in payload["days"]]
+    if len(days) != 90 or any(not isinstance(count, int) or count < 0 for _, count in days):
+        raise ValueError("Activity cache must contain 90 non-negative daily counts")
+    if any((right[0]-left[0]).days != 1 for left, right in zip(days, days[1:])):
+        raise ValueError("Activity cache must be chronological and contiguous")
+    return days
 
 
 def main():
-    assets = ROOT / "assets"
-    assets.mkdir(exist_ok=True)
+    days = load_activity(ROOT / "assets/activity.json")
     for theme in PALETTES:
-        for name, content in (
-            ("hero", hero(theme)),
-            ("bcore", project(theme, "bcore")),
-            ("minecraft-panel", project(theme, "minecraft-panel")),
-            ("footer", footer(theme)),
-        ):
-            path = assets / f"{name}-{theme}.svg"
-            path.write_text(content, encoding="utf-8", newline="\n")
-            print(path.relative_to(ROOT))
+        path = ROOT / "assets" / f"profile-{theme}.svg"
+        path.write_text(build_atlas(days, theme), encoding="utf-8", newline="\n")
+        print(path.relative_to(ROOT))
 
 
 if __name__ == "__main__":

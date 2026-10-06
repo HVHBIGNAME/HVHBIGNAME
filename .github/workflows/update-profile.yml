@@ -42,7 +42,7 @@ jobs:
 
       - name: Коммит изменений
         run: |
-          git add README.md assets/activity-graph.svg assets/activity-graph-light.svg
+          git add README.md assets/profile-dark.svg assets/profile-light.svg assets/activity.json
           if git diff --cached --quiet; then
             echo "Изменений нет — пропускаю коммит."
           else

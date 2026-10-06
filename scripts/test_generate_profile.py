@@ -9,7 +9,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 import generate_profile as profile
-from design import footer, hero, project
+from design import PROJECTS, VIEWS, VIEW_HEIGHT, activity_json, build_atlas, hero, load_activity, project
 
 
 def calendar_fixture():
@@ -114,7 +114,7 @@ class ProfileTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             (root / "assets").mkdir()
-            paths = [root / "README.md", root / "assets/activity-graph.svg", root / "assets/activity-graph-light.svg"]
+            paths = [root / "README.md", root / "assets/profile-dark.svg", root / "assets/profile-light.svg", root / "assets/activity.json"]
             for path in paths:
                 path.write_text("last successful content", encoding="utf-8")
             with patch.object(profile, "ROOT", root), patch.dict(os.environ, {"GITHUB_TOKEN": "test-token"}), \
@@ -127,13 +127,57 @@ class ProfileTests(unittest.TestCase):
 
     def test_artwork_is_self_contained_and_supports_reduced_motion(self):
         for theme in ("dark", "light"):
-            for svg in (hero(theme), project(theme, "bcore"), project(theme, "minecraft-panel"), footer(theme)):
+            for svg in (hero(theme), *(project(theme, name) for name in PROJECTS)):
                 root = ET.fromstring(svg)
                 self.assertEqual(root.attrib["viewBox"].split()[2], "1200")
                 self.assertIn("prefers-reduced-motion: reduce", svg)
                 self.assertNotIn("<script", svg)
                 self.assertNotIn("foreignObject", svg)
                 self.assertNotIn("<image", svg)
+
+    def test_atlas_views_have_equal_aspect_ratio_and_no_duplicate_ids(self):
+        days = profile.contribution_window(calendar_fixture())
+        ns = {"svg": "http://www.w3.org/2000/svg"}
+        for theme in ("dark", "light"):
+            root = ET.fromstring(build_atlas(days, theme))
+            views = root.findall("svg:view", ns)
+            self.assertEqual([view.attrib["id"] for view in views], list(VIEWS))
+            self.assertTrue(all(view.attrib["viewBox"].split()[2:] == ["1200", str(VIEW_HEIGHT)] for view in views))
+            self.assertNotIn("height", root.attrib)
+            ids = [node.attrib["id"] for node in root.iter() if "id" in node.attrib]
+            self.assertEqual(len(ids), len(set(ids)))
+            self.assertEqual(len(root.findall(".//svg:rect[svg:title]", ns)), 90)
+
+    def test_refresh_publishes_atlases_and_cache_and_is_idempotent(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "assets").mkdir()
+            readme = root / "README.md"
+            readme.write_text("curated cards\n" + profile.START_MARKER + "old log" + profile.END_MARKER + "\nfooter", encoding="utf-8")
+            with patch.object(profile, "ROOT", root), patch.dict(os.environ, {"GITHUB_TOKEN": "test-token"}), \
+                    patch.object(profile, "fetch_repos", return_value=[repo_fixture("public-build")]), \
+                    patch.object(profile, "fetch_contribution_calendar", return_value=calendar_fixture()), \
+                    patch("builtins.print"):
+                profile.main()
+                self.assertTrue(readme.read_text(encoding="utf-8").startswith("curated cards\n"))
+                self.assertTrue(readme.read_text(encoding="utf-8").endswith("\nfooter"))
+                self.assertEqual(len(load_activity(root / "assets/activity.json")), 90)
+                for theme in ("dark", "light"):
+                    atlas = ET.parse(root / f"assets/profile-{theme}.svg").getroot()
+                    self.assertEqual(len(atlas.findall("{http://www.w3.org/2000/svg}view")), 6)
+                before = {path: path.read_bytes() for path in root.rglob("*") if path.is_file()}
+                profile.main()
+                self.assertEqual(before, {path: path.read_bytes() for path in before})
+
+    def test_activity_cache_round_trip_and_missing_day_rejection(self):
+        days = profile.contribution_window(calendar_fixture())
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "activity.json"
+            path.write_text(activity_json(days), encoding="utf-8")
+            self.assertEqual(load_activity(path), days)
+            path.write_text(activity_json(days[:-1]), encoding="utf-8")
+            with self.assertRaises(ValueError):
+                load_activity(path)
 
 
 if __name__ == "__main__":
