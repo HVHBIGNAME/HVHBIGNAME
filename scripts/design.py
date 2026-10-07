@@ -6,7 +6,7 @@ from datetime import date
 from html import escape
 from pathlib import Path
 
-from illustrations import ART, core
+from illustrations import ART, core, scene_styles
 
 ROOT = Path(__file__).resolve().parents[1]
 PALETTES = {
@@ -79,27 +79,16 @@ def stylesheet(height):
     .levitate {{ animation: levitate {CYCLE_SECONDS}s ease-in-out infinite; animation-delay: var(--phase, 0s); }}
     .orbit {{ stroke-dasharray: 7 24; animation: orbit {CYCLE_SECONDS}s linear infinite; }}
     .heartbeat {{ animation: heartbeat 4s ease-in-out infinite; }}
-    .world-column {{ animation: world {CYCLE_SECONDS}s ease-in-out infinite; animation-delay: calc(var(--phase, 0s) + var(--lag, 0s)); }}
     .world-beam {{ animation: beam {CYCLE_SECONDS}s ease-in-out infinite; animation-delay: var(--phase, 0s); }}
-    .trace {{ stroke-dasharray: 100; animation: trace {CYCLE_SECONDS}s ease-in-out infinite; animation-delay: var(--phase, 0s); }}
-    .package-tile {{ animation: tile {CYCLE_SECONDS}s ease-in-out infinite; animation-delay: calc(var(--phase, 0s) + var(--lag, 0s)); }}
-    .download {{ animation: download {CYCLE_SECONDS}s ease-in-out infinite; animation-delay: var(--phase, 0s); }}
-    .qr-scan {{ animation: qr {CYCLE_SECONDS}s ease-in-out infinite; animation-delay: var(--phase, 0s); }}
-    .chat-line {{ animation: chat {CYCLE_SECONDS}s ease-in-out infinite; animation-delay: calc(var(--phase, 0s) + var(--lag, 0s)); }}
     .relay {{ animation: relay {CYCLE_SECONDS}s linear infinite; }}
     .scan {{ animation: scan {CYCLE_SECONDS}s linear infinite; }}
     @keyframes levitate {{ 0%,100% {{ transform: translateY(0); }} 50% {{ transform: translateY(-9px); }} }}
     @keyframes orbit {{ to {{ stroke-dashoffset: -248; }} }}
     @keyframes heartbeat {{ 0%,100% {{ opacity:.4; }} 50% {{ opacity:1; }} }}
-    @keyframes world {{ 0%,65%,100% {{ transform:translateY(0); }} 24% {{ transform:translateY(-9px); }} }}
-    @keyframes beam {{ 0%,100% {{ transform:translateY(-20px); opacity:0; }} 18%,65% {{ opacity:.3; }} 80% {{ transform:translateY(40px); opacity:0; }} }}
-    @keyframes trace {{ 0%,8% {{ stroke-dashoffset:100; opacity:.25; }} 50%,88% {{ stroke-dashoffset:0; opacity:1; }} 100% {{ stroke-dashoffset:0; opacity:.25; }} }}
-    @keyframes tile {{ 0%,70%,100% {{ opacity:.38; }} 22%,45% {{ opacity:1; }} }}
-    @keyframes download {{ 0%,100% {{ transform:translateY(-5px); opacity:.3; }} 35%,65% {{ transform:translateY(7px); opacity:1; }} }}
-    @keyframes qr {{ 0%,100% {{ transform:translateY(0); opacity:.3; }} 50% {{ transform:translateY(65px); opacity:1; }} }}
-    @keyframes chat {{ 0%,100% {{ opacity:.35; transform:translateY(4px); }} 25%,75% {{ opacity:1; transform:translateY(0); }} }}
+    @keyframes beam {{ 0%,48%,100% {{ transform:translateY(-30px); opacity:0; }} 53% {{ opacity:.3; }} 77% {{ transform:translateY(40px); opacity:.3; }} 82% {{ transform:translateY(40px); opacity:0; }} }}
     @keyframes relay {{ from {{ transform:translateY(-200px); }} to {{ transform:translateY({height}px); }} }}
     @keyframes scan {{ 0% {{ transform:translateX(0); opacity:0; }} 10%,85% {{ opacity:.32; }} 100% {{ transform:translateX(1090px); opacity:0; }} }}
+    {scene_styles(CYCLE_SECONDS)}
     @media (max-width: 600px) {{
       .desktop {{ display:none; }} .mobile {{ display:inline; }}
       .signal-title {{ font-size:44px; }} .signal-auto {{ font-size:29px; }}
