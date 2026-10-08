@@ -44,11 +44,11 @@
 <!-- PROJECTS:START -->
 | Репозиторий | Язык | Последний push |
 | :-- | :-- | :-- |
-| [anti-monitoring](https://github.com/HVHBIGNAME/anti-monitoring) | Shell | 2026-10-07 |
-| [ios-build-ci](https://github.com/HVHBIGNAME/ios-build-ci) | — | 2026-10-07 |
-| [server-cleaner](https://github.com/HVHBIGNAME/server-cleaner) | Shell | 2026-10-06 |
-| [emberdeck](https://github.com/HVHBIGNAME/emberdeck) | TypeScript | 2026-10-05 |
-| [tmcp](https://github.com/HVHBIGNAME/tmcp) | TypeScript | 2026-10-05 |
+| [OpenCodePocket](https://github.com/HVHBIGNAME/OpenCodePocket) | TypeScript | 2026-10-08 |
+| [ios-build-ci](https://github.com/HVHBIGNAME/ios-build-ci) | — | 2026-10-08 |
+| [emberdeck](https://github.com/HVHBIGNAME/emberdeck) | TypeScript | 2026-10-08 |
+| [SoftDownloader](https://github.com/HVHBIGNAME/SoftDownloader) | Rust | 2026-10-08 |
+| [BCore](https://github.com/HVHBIGNAME/BCore) | Rust | 2026-10-08 |
 <!-- PROJECTS:END -->
 
 <sub>Даты — UTC. График учитывает публичные GitHub contributions: коммиты, issues, pull requests и reviews. Обновляется каждый час; возможны задержки GitHub.</sub>

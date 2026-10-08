@@ -1038,9 +1038,9 @@
 <text x="53" y="59" font-size="30" fill="#f0f2e8" class="signal-title" font-weight="700">BUILD SIGNAL / 90D</text>
 <text x="1156" y="56" font-size="18" fill="#a1ad9b" class="signal-auto" text-anchor="end">↻ КАЖДЫЙ ЧАС</text>
 <path d="M53 83H1156M53 227H1156" stroke="#30392c"/>
-<text x="53" y="174" font-size="84" fill="#f0f2e8" class="signal-value" font-weight="700" letter-spacing="-3">171</text>
+<text x="53" y="174" font-size="84" fill="#f0f2e8" class="signal-value" font-weight="700" letter-spacing="-3">187</text>
 <text x="55" y="210" font-size="17" fill="#a1ad9b" class="mono signal-label" letter-spacing="1">CONTRIB.</text>
-<text x="449" y="174" font-size="84" fill="#f0f2e8" class="signal-value" font-weight="700" letter-spacing="-3">20</text>
+<text x="449" y="174" font-size="84" fill="#f0f2e8" class="signal-value" font-weight="700" letter-spacing="-3">21</text>
 <text x="451" y="210" font-size="17" fill="#a1ad9b" class="mono signal-label" letter-spacing="1">АКТИВНЫХ ДНЕЙ</text>
 <text x="843" y="174" font-size="84" fill="#f0f2e8" class="signal-value" font-weight="700" letter-spacing="-3">38</text>
 <text x="845" y="210" font-size="17" fill="#a1ad9b" class="mono signal-label" letter-spacing="1">ПИК / ДЕНЬ</text>
@@ -1136,7 +1136,7 @@
 <rect x="1101.24" y="324.03" width="9.19" height="18.97" rx="2" fill="#486029"><title>2026-10-05: 7 contributions</title></rect>
 <rect x="1113.43" y="332.16" width="9.19" height="10.84" rx="2" fill="#486029"><title>2026-10-06: 4 contributions</title></rect>
 <rect x="1125.62" y="340.29" width="9.19" height="2.71" rx="2" fill="#486029"><title>2026-10-07: 1 contributions</title></rect>
-<rect x="1137.81" y="347.00" width="9.19" height="2.00" rx="2" fill="#252e20"><title>2026-10-08: 0 contributions</title></rect>
+<rect x="1137.81" y="299.63" width="9.19" height="43.37" rx="2" fill="#789c34"><title>2026-10-08: 16 contributions</title></rect>
 <path class="scan" d="M53 238V343" stroke="#d2ff5a" opacity=".3"/>
 <text x="53" y="385" font-size="15" fill="#a1ad9b" class="mono signal-date">2026-07-11</text>
 <text x="1156" y="385" font-size="15" fill="#a1ad9b" class="mono signal-date" text-anchor="end">2026-10-08 / UTC</text></g>
