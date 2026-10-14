@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+    <title id="title">HVH</title>
+    <desc id="desc">Две зеркальные H и центральная V. Знак HVHBIGNAME.</desc>
+    <defs>
+    <symbol id="hvh-symbol" viewBox="0 0 252 128">
+      <path data-letter="H" d="M18 31 29 20h6v32h29V20h17v88H64V70H35v38H18Z" fill="#242b2d"/>
+      <path data-letter="V" d="M88 20h20l18 57 18-57h20l-30 88h-16Z" fill="#a44c28"/>
+      <path data-letter="H" d="M171 20h17v32h29V20h6l11 11v77h-17V70h-29v38h-17Z" fill="#242b2d"/>
+    </symbol></defs>
+    <rect width="512" height="512" fill="#f0eee7"/>
+    <path d="M40 96V40h56m320 0h56v56M40 416v56h56m320 0h56v-56" fill="none" stroke="#c8cdc6" stroke-width="2"/>
+    <use href="#hvh-symbol" x="22" y="137" width="468" height="238"/>
+    </svg>

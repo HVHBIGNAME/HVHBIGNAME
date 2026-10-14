@@ -6,21 +6,22 @@ from datetime import date
 from html import escape
 from pathlib import Path
 
-from illustrations import ART, core, scene_styles
+from brand import duel, logo, styles as brand_styles, symbol
+from illustrations import ART, scene_styles
 
 ROOT = Path(__file__).resolve().parents[1]
 PALETTES = {
     "dark": {
-        "bg": "#101310", "panel": "#171c16", "fg": "#f0f2e8",
-        "muted": "#a1ad9b", "line": "#30392c", "accent": "#d2ff5a",
-        "soft": "#344620", "secondary": "#c0a6ff", "empty": "#252e20",
-        "levels": ["#252e20", "#486029", "#789c34", "#a6d546", "#d2ff5a"],
+        "bg": "#151719", "panel": "#1e2225", "fg": "#eeeae2",
+        "muted": "#a5a7a4", "line": "#343a3d", "accent": "#df8f61",
+        "soft": "#43352e", "empty": "#282d2e",
+        "levels": ["#282d2e", "#4b4d3e", "#877452", "#b5865b", "#df8f61"],
     },
     "light": {
-        "bg": "#f3f2e9", "panel": "#e9ebdf", "fg": "#20271b",
-        "muted": "#616d55", "line": "#cdd3c0", "accent": "#496817",
-        "soft": "#dce8bd", "secondary": "#7050b4", "empty": "#dce1d0",
-        "levels": ["#dce1d0", "#b7ca86", "#8aab4c", "#638726", "#496817"],
+        "bg": "#f0eee7", "panel": "#e5e3db", "fg": "#242b2d",
+        "muted": "#656d6b", "line": "#c8cdc6", "accent": "#a44c28",
+        "soft": "#e6d4c6", "empty": "#daddd5",
+        "levels": ["#daddd5", "#d2bc9d", "#bf9770", "#b3754b", "#a44c28"],
     },
 }
 
@@ -32,28 +33,28 @@ PROJECTS = {
         "description": ("Свой Minecraft-сервер на Rust.", "Миры, свет, нативные плагины и JVM-мост."),
         "mobile": ("Minecraft-сервер на Rust.", "Миры, свет, плагины и JVM-мост."),
         "tech": "RUST / WORLDGEN / NATIVE PLUGINS / JVM", "mobile_meta": "Rust · alpha",
-        "dark": ("#d2ff5a", "#344620"), "light": ("#496817", "#dce8bd"),
+        "dark": ("#a9bc80", "#343e30"), "light": ("#506934", "#dae2cb"),
     },
     "minecraft-panel": {
         "name": "emberdeck.", "eyebrow": "02 / CONTROL ROOM", "status": "EARLY RELEASE",
         "description": ("Minecraft-панель в одном Rust-бинарнике.", "Серверы, консоль, SFTP и резервные копии."),
         "mobile": ("Панель для Minecraft на Rust.", "Серверы, SFTP и резервные копии."),
         "tech": "SELF-HOSTED / LINUX / SFTP / CLI", "mobile_meta": "Rust · ранний релиз",
-        "dark": ("#efac79", "#463327"), "light": ("#9b4d24", "#f0dccb"),
+        "dark": ("#dc9870", "#43372e"), "light": ("#9b4d24", "#e9d7c7"),
     },
     "softdownloader": {
         "name": "SoftDownloader", "eyebrow": "03 / DESKTOP KIT", "status": "WINDOWS APP",
         "description": ("Каталог программ в одном EXE.", "Установка очередью и перенос списка ПО."),
         "mobile": ("Менеджер программ для Windows.", "Установка и перенос списка ПО."),
         "tech": "RUST + EGUI / WINDOWS / ONE EXE", "mobile_meta": "Rust · egui · Windows",
-        "dark": ("#91d8ff", "#233d4b"), "light": ("#21678b", "#d5e8ef"),
+        "dark": ("#91b7c5", "#2d3b40"), "light": ("#376574", "#d4e1e3"),
     },
     "opencode-pocket": {
         "name": "OpenCode Pocket", "eyebrow": "04 / CODE WITH YOU", "status": "MOBILE CLIENT",
         "description": ("OpenCode на Android и iOS.", "Сессии, промпты и подключение по QR."),
         "mobile": ("OpenCode на Android и iOS.", "Твои сессии с компьютера — по QR."),
         "tech": "REACT / TYPESCRIPT / COMPANION BRIDGE", "mobile_meta": "Android · iOS · QR",
-        "dark": ("#c6adff", "#372b4e"), "light": ("#7550a7", "#e7def1"),
+        "dark": ("#b4a7c6", "#39343f"), "light": ("#745983", "#e1d9e5"),
     },
 }
 VIEWS = ("hero", *PROJECTS, "signal")
@@ -73,6 +74,7 @@ def text(x, y, value, size=14, fill="fg", palette=None, **attrs):
 
 def stylesheet(height):
     return f'''
+    svg {{ --cycle:{CYCLE_SECONDS}s; }}
     text {{ font-family: Arial, Helvetica, sans-serif; }}
     .mono {{ font-family: 'Courier New', Courier, monospace; }}
     .mobile {{ display: none; }}
@@ -82,13 +84,14 @@ def stylesheet(height):
     .world-beam {{ animation: beam {CYCLE_SECONDS}s ease-in-out infinite; animation-delay: var(--phase, 0s); }}
     .relay {{ animation: relay {CYCLE_SECONDS}s linear infinite; }}
     .scan {{ animation: scan {CYCLE_SECONDS}s linear infinite; }}
-    @keyframes levitate {{ 0%,100% {{ transform: translateY(0); }} 50% {{ transform: translateY(-9px); }} }}
+    @keyframes levitate {{ 0%,100% {{ transform: translateY(0); }} 50% {{ transform: translateY(-3px); }} }}
     @keyframes orbit {{ to {{ stroke-dashoffset: -248; }} }}
     @keyframes heartbeat {{ 0%,100% {{ opacity:.4; }} 50% {{ opacity:1; }} }}
     @keyframes beam {{ 0%,48%,100% {{ transform:translateY(-30px); opacity:0; }} 53% {{ opacity:.3; }} 77% {{ transform:translateY(40px); opacity:.3; }} 82% {{ transform:translateY(40px); opacity:0; }} }}
     @keyframes relay {{ from {{ transform:translateY(-200px); }} to {{ transform:translateY({height}px); }} }}
     @keyframes scan {{ 0% {{ transform:translateX(0); opacity:0; }} 10%,85% {{ opacity:.32; }} 100% {{ transform:translateX(1090px); opacity:0; }} }}
     {scene_styles(CYCLE_SECONDS)}
+    {brand_styles(CYCLE_SECONDS)}
     @media (max-width: 600px) {{
       .desktop {{ display:none; }} .mobile {{ display:inline; }}
       .signal-title {{ font-size:44px; }} .signal-auto {{ font-size:29px; }}
@@ -103,14 +106,13 @@ def document(title, description, height, body, theme, views=()):
     p = PALETTES[theme]
     height_attr = "" if views else f' height="{height}"'
     view_tags = "".join(f'<view id="{name}" viewBox="0 {i*VIEW_HEIGHT} 1200 {VIEW_HEIGHT}"/>' for i, name in enumerate(views))
-    clips = "".join(f'<rect x="1" y="{i*VIEW_HEIGHT+1}" width="1198" height="{VIEW_HEIGHT-2}" rx="20"/>' for i in range(len(views)))
+    clips = "".join(f'<rect x="1" y="{i*VIEW_HEIGHT+1}" width="1198" height="{VIEW_HEIGHT-2}" rx="6"/>' for i in range(len(views)))
     svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="1200"{height_attr} viewBox="0 0 1200 {height}" role="img" aria-labelledby="title desc">
     <title id="title">{escape(title)}</title>
     <desc id="desc">{escape(description)}</desc>
     {view_tags}
     <defs>
-      <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse"><path d="M30 0H0V30" fill="none" stroke="{p['line']}" stroke-width=".7"/></pattern>
-      <radialGradient id="aura"><stop offset="0" stop-color="{p['accent']}" stop-opacity=".16"/><stop offset="1" stop-color="{p['accent']}" stop-opacity="0"/></radialGradient>
+      {symbol(p)}
       <linearGradient id="carrier" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{p['accent']}" stop-opacity="0"/><stop offset=".75" stop-color="{p['accent']}"/><stop offset="1" stop-color="{p['accent']}" stop-opacity="0"/></linearGradient>
       <clipPath id="atlas-clips">{clips}</clipPath>
     </defs>
@@ -122,7 +124,7 @@ def document(title, description, height, body, theme, views=()):
 
 def frame(p):
     return f'''
-    <rect x=".5" y=".5" width="1199" height="419" rx="20" fill="{p['bg']}" stroke="{p['line']}"/>
+    <rect x=".5" y=".5" width="1199" height="419" rx="6" fill="{p['bg']}" stroke="{p['line']}"/>
     <path d="M26 22V398" stroke="{p['line']}" stroke-width="2"/>
     <circle class="heartbeat" cx="26" cy="42" r="5" fill="{p['accent']}" opacity=".55"/>
     '''
@@ -131,8 +133,8 @@ def frame(p):
 def button(p, mobile=False):
     x, y, width, height, font = (778, 318, 378, 66, 39) if mobile else (930, 331, 226, 52, 19)
     return (
-        f'<rect x="{x}" y="{y}" width="{width}" height="{height}" rx="{height/2}" fill="{p["accent"]}"/>'
-        + text(x+width/2, y+height*.65, "ОТКРЫТЬ ↗", font, "bg", p, font_weight=700, text_anchor="middle")
+        f'<rect x="{x}" y="{y}" width="{width}" height="{height}" rx="3" fill="{p["panel"]}" stroke="{p["line"]}"/>'
+        + text(x+width/2, y+height*.65, "ОТКРЫТЬ ↗", font, "fg", p, font_weight=700, text_anchor="middle")
     )
 
 
@@ -140,24 +142,23 @@ def hero_body(theme):
     p = PALETTES[theme]
     return frame(p) + f'''
     <g class="desktop">
-      <path d="M52 74H1156M52 352H1156" stroke="{p['line']}"/>
-      <path d="M53 28v25m11-25v25M53 41h11m16-13 9 25 9-25" fill="none" stroke="{p['accent']}" stroke-width="3"/>
-      {text(117, 50, 'HVHBIGNAME', 24, 'fg', p, font_weight=700, letter_spacing=2)}
-      {text(1156, 48, 'ВАЙБКОДЕР1337 / INDEPENDENT SOFTWARE', 14, 'muted', p, class_='mono', text_anchor='end')}
-      {text(53, 119, 'CODE / CURIOSITY / CONTROL', 14, 'muted', p, class_='mono', letter_spacing=2)}
-      {text(47, 222, 'VIBE IN.', 110, 'fg', p, font_weight=900, letter_spacing=-6)}
-      {text(48, 316, 'SYSTEMS OUT.', 86, 'accent', p, font_weight=900, letter_spacing=-4, textLength=655, lengthAdjust='spacingAndGlyphs')}
-      <g transform="translate(951 216) scale(.86)">{core(p)}</g>
-      {text(53, 391, 'RUST / TYPESCRIPT / MINECRAFT / DESKTOP / MOBILE', 15, 'fg', p, class_='mono')}
-      {text(1156, 391, f'{len(PROJECTS):02d} SELECTED BUILDS ↓', 14, 'muted', p, class_='mono', text_anchor='end')}
+      {text(53, 48, 'HVHBIGNAME', 17, 'fg', p, class_='mono', letter_spacing=2)}
+      {text(1156, 48, 'ЛИЧНАЯ МАСТЕРСКАЯ / 1337', 14, 'muted', p, class_='mono', text_anchor='end')}
+      <path d="M53 72H1156M413 104V305M53 349H1156" stroke="{p['line']}"/>
+      <g transform="translate(67 127) scale(1.17)">{duel(p)}</g>
+      {text(446, 196, 'BIGNAME', 96, 'fg', p, font_weight=900, letter_spacing=-5)}
+      {text(451, 249, 'Игровые серверы. Утилиты. Свои проекты.', 27, 'muted', p)}
+      {text(451, 293, 'RUST + TYPESCRIPT', 17, 'accent', p, class_='mono', letter_spacing=2)}
+      {text(53, 390, 'MINECRAFT / DESKTOP / MOBILE', 15, 'muted', p, class_='mono')}
+      {text(1156, 390, f'{len(PROJECTS):02d} ПРОЕКТА НИЖЕ ↓', 14, 'muted', p, class_='mono', text_anchor='end')}
     </g>
     <g class="mobile">
-      {text(51, 66, 'HVHBIGNAME', 49, 'fg', p, font_weight=700, letter_spacing=2)}
-      {text(1155, 64, '1337', 30, 'muted', p, class_='mono', text_anchor='end')}
-      <path d="M52 96H1156" stroke="{p['line']}"/>
-      {text(44, 242, 'VIBE IN.', 158, 'fg', p, font_weight=900, letter_spacing=-7, textLength=810, lengthAdjust='spacingAndGlyphs')}
-      {text(47, 375, 'SYSTEMS OUT.', 126, 'accent', p, font_weight=900, letter_spacing=-5, textLength=1100, lengthAdjust='spacingAndGlyphs')}
-      <g transform="translate(1035 198) scale(.4)">{core(p)}</g>
+      {text(53, 64, 'HVHBIGNAME', 40, 'fg', p, class_='mono', letter_spacing=2)}
+      {text(1156, 62, '1337', 32, 'muted', p, class_='mono', text_anchor='end')}
+      <path d="M53 90H1156M53 322H1156" stroke="{p['line']}"/>
+      <g transform="translate(63 137) scale(1.18)">{duel(p)}</g>
+      {text(420, 246, 'BIGNAME', 132, 'fg', p, font_weight=900, letter_spacing=-6)}
+      {text(53, 382, 'RUST / TYPESCRIPT / СВОИ ПРОЕКТЫ', 40, 'muted', p, class_='mono')}
     </g>'''
 
 
@@ -166,22 +167,26 @@ def project_body(theme, name):
     p = {**PALETTES[theme], **dict(zip(("accent", "soft"), item[theme]))}
     art = ART[name](p)
     title_size = 80 if name in ("bcore", "minecraft-panel") else 66
+    reverse = name in ("minecraft-panel", "opencode-pocket")
+    art_x, divider_x, text_shift = (238, 418, 396) if reverse else (965, 748, 0)
+    art_y, art_scale = {"minecraft-panel": (191, .9), "softdownloader": (190, .92), "opencode-pocket": (188, .85)}.get(name, (201, 1))
     return frame(p) + f'''
     <g class="desktop">
-      <ellipse cx="960" cy="199" rx="192" ry="143" fill="{p['soft']}" opacity=".18"/>
-      <rect x="779" y="88" width="353" height="220" fill="url(#grid)" opacity=".55"/>
+      <path d="M{divider_x} 88V278m-6-190h12m-12 190h12" stroke="{p['line']}"/>
       {text(53, 49, item['eyebrow'], 15, 'muted', p, class_='mono', letter_spacing=2)}
       {text(1156, 49, item['status'], 14, 'accent', p, class_='mono', text_anchor='end')}
+      <g transform="translate({text_shift} 0)">
       {text(49, 139, item['name'], title_size, 'fg', p, font_weight=900, letter_spacing=-3)}
       {text(53, 204, item['description'][0], 28, 'fg', p)}
       {text(53, 244, item['description'][1], 27, 'muted', p)}
-      <g transform="translate(965 201)">{art}</g>
+      </g>
+      <g transform="translate({art_x} {art_y}) scale({art_scale})">{art}</g>
       <path d="M53 313H1156" stroke="{p['line']}"/>
       {text(53, 365, item['tech'], 17, 'muted', p, class_='mono')}
       {button(p)}
     </g>
     <g class="mobile">
-      <g opacity=".18" transform="translate(990 193) scale(1.05)">{art}</g>
+      <g opacity=".24" transform="translate(995 193) scale(1.05)">{art}</g>
       {text(53, 45, item['eyebrow'], 26, 'muted', p, class_='mono', letter_spacing=1)}
       {text(47, 125, item['name'], 96 if name in ('bcore', 'minecraft-panel') else 85, 'fg', p, font_weight=900, letter_spacing=-3)}
       {text(53, 212, item['mobile'][0], 50, 'fg', p)}
@@ -222,7 +227,7 @@ def signal_body(days, theme):
 
 
 def hero(theme):
-    return document("HVHBIGNAME — Vibe in. Systems out.", "Вайбкодер1337. Rust, TypeScript, Minecraft, desktop и mobile.", VIEW_HEIGHT, hero_body(theme), theme)
+    return document("HVH / BIGNAME", "Личная мастерская HVHBIGNAME. Игровые серверы, утилиты и свои проекты. Rust и TypeScript.", VIEW_HEIGHT, hero_body(theme), theme)
 
 
 def project(theme, name):
@@ -264,6 +269,7 @@ def main():
         path = ROOT / "assets" / f"profile-{theme}.svg"
         path.write_text(build_atlas(days, theme), encoding="utf-8", newline="\n")
         print(path.relative_to(ROOT))
+        (ROOT / "assets" / f"hvh-mark-{theme}.svg").write_text(logo(PALETTES[theme]), encoding="utf-8", newline="\n")
 
 
 if __name__ == "__main__":

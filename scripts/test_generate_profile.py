@@ -9,7 +9,8 @@ from pathlib import Path
 from unittest.mock import patch
 
 import generate_profile as profile
-from design import PROJECTS, VIEWS, VIEW_HEIGHT, activity_json, build_atlas, hero, load_activity, project
+from brand import logo
+from design import PALETTES, PROJECTS, VIEWS, VIEW_HEIGHT, activity_json, build_atlas, hero, load_activity, project
 
 
 def calendar_fixture():
@@ -147,6 +148,22 @@ class ProfileTests(unittest.TestCase):
             ids = [node.attrib["id"] for node in root.iter() if "id" in node.attrib]
             self.assertEqual(len(ids), len(set(ids)))
             self.assertEqual(len(root.findall(".//svg:rect[svg:title]", ns)), 90)
+
+    def test_logo_exports_match_the_atlas_and_local_svg_references_resolve(self):
+        days = profile.contribution_window(calendar_fixture())
+        for theme, palette in PALETTES.items():
+            atlas = ET.fromstring(build_atlas(days, theme))
+            mark = ET.fromstring(logo(palette))
+            exported = [node.attrib for node in mark.iter() if 'data-letter' in node.attrib]
+            embedded = [node.attrib for node in atlas.iter() if 'data-letter' in node.attrib]
+            self.assertEqual([node['data-letter'] for node in exported], ['H', 'V', 'H'])
+            self.assertEqual(exported, embedded)
+            for root in (atlas, mark):
+                ids = {node.attrib['id'] for node in root.iter() if 'id' in node.attrib}
+                for node in root.iter():
+                    if 'href' in node.attrib:
+                        self.assertTrue(node.attrib['href'].startswith('#'))
+                        self.assertIn(node.attrib['href'][1:], ids)
 
     def test_refresh_publishes_atlases_and_cache_and_is_idempotent(self):
         with tempfile.TemporaryDirectory() as directory:
