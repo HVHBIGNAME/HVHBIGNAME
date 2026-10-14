@@ -44,11 +44,11 @@
 <!-- PROJECTS:START -->
 | Репозиторий | Язык | Последний push |
 | :-- | :-- | :-- |
+| [OpenCodePocket](https://github.com/HVHBIGNAME/OpenCodePocket) | TypeScript | 2026-10-14 |
 | [proxypulse](https://github.com/HVHBIGNAME/proxypulse) | Go | 2026-10-13 |
 | [tmcp](https://github.com/HVHBIGNAME/tmcp) | TypeScript | 2026-10-13 |
 | [ios-build-ci](https://github.com/HVHBIGNAME/ios-build-ci) | — | 2026-10-13 |
 | [SoftDownloader](https://github.com/HVHBIGNAME/SoftDownloader) | Rust | 2026-10-13 |
-| [vrmanager](https://github.com/HVHBIGNAME/vrmanager) | Rust | 2026-10-12 |
 <!-- PROJECTS:END -->
 
 <sub>Даты — UTC. График учитывает публичные GitHub contributions: коммиты, issues, pull requests и reviews. Обновляется каждый час; возможны задержки GitHub.</sub>
