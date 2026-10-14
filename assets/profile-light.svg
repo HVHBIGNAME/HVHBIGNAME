@@ -1925,7 +1925,7 @@
 <text x="53" y="59" font-size="30" fill="#242b2d" class="signal-title" font-weight="700">BUILD SIGNAL / 90D</text>
 <text x="1156" y="56" font-size="18" fill="#656d6b" class="signal-auto" text-anchor="end">↻ КАЖДЫЙ ЧАС</text>
 <path d="M53 83H1156M53 227H1156" stroke="#c8cdc6"/>
-<text x="53" y="174" font-size="84" fill="#242b2d" class="signal-value" font-weight="700" letter-spacing="-3">217</text>
+<text x="53" y="174" font-size="84" fill="#242b2d" class="signal-value" font-weight="700" letter-spacing="-3">224</text>
 <text x="55" y="210" font-size="17" fill="#656d6b" class="mono signal-label" letter-spacing="1">CONTRIB.</text>
 <text x="449" y="174" font-size="84" fill="#242b2d" class="signal-value" font-weight="700" letter-spacing="-3">27</text>
 <text x="451" y="210" font-size="17" fill="#656d6b" class="mono signal-label" letter-spacing="1">АКТИВНЫХ ДНЕЙ</text>
@@ -2023,7 +2023,7 @@
 <rect x="1101.24" y="315.89" width="9.19" height="27.11" rx="2" fill="#bf9770"><title>2026-10-11: 10 contributions</title></rect>
 <rect x="1113.43" y="334.87" width="9.19" height="8.13" rx="2" fill="#d2bc9d"><title>2026-10-12: 3 contributions</title></rect>
 <rect x="1125.62" y="326.74" width="9.19" height="16.26" rx="2" fill="#d2bc9d"><title>2026-10-13: 6 contributions</title></rect>
-<rect x="1137.81" y="337.58" width="9.19" height="5.42" rx="2" fill="#d2bc9d"><title>2026-10-14: 2 contributions</title></rect>
+<rect x="1137.81" y="318.61" width="9.19" height="24.39" rx="2" fill="#d2bc9d"><title>2026-10-14: 9 contributions</title></rect>
 <path class="scan" d="M53 238V343" stroke="#a44c28" opacity=".3"/>
 <text x="53" y="385" font-size="15" fill="#656d6b" class="mono signal-date">2026-07-17</text>
 <text x="1156" y="385" font-size="15" fill="#656d6b" class="mono signal-date" text-anchor="end">2026-10-14 / UTC</text></g>
