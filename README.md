@@ -44,9 +44,9 @@
 <!-- PROJECTS:START -->
 | Репозиторий | Язык | Последний push |
 | :-- | :-- | :-- |
-| [tmcp](https://github.com/HVHBIGNAME/tmcp) | TypeScript | 2026-10-14 |
-| [ios-build-ci](https://github.com/HVHBIGNAME/ios-build-ci) | — | 2026-10-14 |
-| [proxypulse](https://github.com/HVHBIGNAME/proxypulse) | Go | 2026-10-14 |
+| [ios-build-ci](https://github.com/HVHBIGNAME/ios-build-ci) | — | 2026-10-15 |
+| [tmcp](https://github.com/HVHBIGNAME/tmcp) | TypeScript | 2026-10-15 |
+| [proxypulse](https://github.com/HVHBIGNAME/proxypulse) | Go | 2026-10-15 |
 | [OpenCodePocket](https://github.com/HVHBIGNAME/OpenCodePocket) | TypeScript | 2026-10-14 |
 | [SoftDownloader](https://github.com/HVHBIGNAME/SoftDownloader) | Rust | 2026-10-13 |
 <!-- PROJECTS:END -->
