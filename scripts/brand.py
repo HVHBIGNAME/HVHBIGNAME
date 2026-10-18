@@ -2,61 +2,82 @@
 
 import math
 
+LETTERS = (
+    ("H", "M18 31 29 20h6v32h29V20h17v88H64V70H35v38H18Z"),
+    ("V", "M88 20h20l18 57 18-57h20l-30 88h-16Z"),
+    ("H", "M171 20h17v32h29V20h6l11 11v77h-17V70h-29v38h-17Z"),
+)
+CENTER = (126, 64)
+
 
 def symbol(p):
+    fills = (p["fg"], p["accent"], p["fg"])
+    paths = "".join(
+        f'<path data-letter="{letter}" d="{d}" fill="{fill}"/>'
+        for (letter, d), fill in zip(LETTERS, fills)
+    )
+    return f'<symbol id="hvh-symbol" viewBox="0 0 252 128">{paths}</symbol>'
+
+
+def defs(p):
+    light, mid, dark = p["metal"]
+    outlines = "".join(f'<path d="{d}"/>' for _, d in LETTERS)
     return f'''
-    <symbol id="hvh-symbol" viewBox="0 0 252 128">
-      <path data-letter="H" d="M18 31 29 20h6v32h29V20h17v88H64V70H35v38H18Z" fill="{p['fg']}"/>
-      <path data-letter="V" d="M88 20h20l18 57 18-57h20l-30 88h-16Z" fill="{p['accent']}"/>
-      <path data-letter="H" d="M171 20h17v32h29V20h6l11 11v77h-17V70h-29v38h-17Z" fill="{p['fg']}"/>
-    </symbol>'''
+    <linearGradient id="hvh-metal" x1="0" y1="0" x2=".5" y2="1">
+      <stop offset="0" stop-color="{light}"/>
+      <stop offset=".36" stop-color="{mid}"/>
+      <stop offset=".55" stop-color="{dark}"/>
+      <stop offset=".72" stop-color="{light}"/>
+      <stop offset="1" stop-color="{mid}"/>
+    </linearGradient>
+    <linearGradient id="hvh-sheen" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#fff" stop-opacity="0"/>
+      <stop offset=".42" stop-color="#fff" stop-opacity=".9"/>
+      <stop offset=".58" stop-color="#fff" stop-opacity=".9"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="hvh-glow" x="-25%" y="-45%" width="150%" height="190%"><feGaussianBlur stdDeviation="6"/></filter>
+    <clipPath id="hvh-clip">{outlines}</clipPath>'''
 
 
-def duel(p):
+def plate(p):
+    """Extruded lettering: neon rim, cast shadow, brushed fill and a moving specular."""
+    outlines = "".join(f'<path d="{d}"/>' for _, d in LETTERS)
+    cx, cy = CENTER
     sparks = []
-    for index, angle in enumerate((-158, -124, -76, -32, 22, 63, 114, 157)):
-        radius = 27 + index % 3 * 11
-        dx = math.cos(math.radians(angle)) * radius
-        dy = math.sin(math.radians(angle)) * radius
-        color = p['accent'] if index % 2 else p['fg']
-        sparks.append(f'<path class="duel-spark" d="M-1-4h2v8h-2Z" fill="{color}" style="--dx:{dx:.1f}px;--dy:{dy:.1f}px;--turn:{angle}deg"/>')
+    for index, angle in enumerate((-166, -138, -104, -68, -26, 18, 62, 112, 148)):
+        radius = 34 + index % 3 * 13
+        sparks.append(
+            f'<path class="shard" d="M-1.5-7h3v14h-3Z" fill="{p["accent"]}" '
+            f'style="--dx:{math.cos(math.radians(angle))*radius:.1f}px;'
+            f'--dy:{math.sin(math.radians(angle))*radius:.1f}px;'
+            f'--turn:{angle}deg;--i:{index}"/>'
+        )
     return f'''
-    <path d="M0 34V8h26m200 0h26v26M0 94v26h26m200 0h26V94" fill="none" stroke="{p['line']}" stroke-width="1.4"/>
-    <use href="#hvh-symbol" width="252" height="128"/>
-    <path class="duel-trace" pathLength="100" d="M-22 64H121" fill="none" stroke="{p['accent']}" stroke-width="1.5"/>
-    <path class="duel-trace" pathLength="100" d="M274 64H131" fill="none" stroke="{p['fg']}" stroke-width="1.5"/>
-    <g transform="translate(126 64)">
-      {''.join(sparks)}
-      <path class="duel-impact" d="M-9-15h6m-12 6v6M9 15H3m12-6V3" fill="none" stroke="{p['accent']}"/>
+    <g class="plate">
+      <g filter="url(#hvh-glow)" opacity=".5" fill="{p['accent']}">{outlines}</g>
+      <g transform="translate(7 11)" opacity=".5" fill="#000">{outlines}</g>
+      <g fill="url(#hvh-metal)">{outlines}</g>
+      <g fill="none" stroke="#fff" stroke-opacity=".28" stroke-width=".9" transform="translate(0 -1)">{outlines}</g>
+      <g clip-path="url(#hvh-clip)"><g transform="skewX(-16)">
+        <rect class="sheen" x="-300" y="-40" width="104" height="220" fill="url(#hvh-sheen)"/>
+      </g></g>
+      <g transform="translate({cx} {cy})">{''.join(sparks)}</g>
     </g>'''
 
 
-def styles(duration):
-    return f'''
-    .duel-trace, .duel-spark, .duel-impact {{
-      opacity:0; animation-duration:{duration}s; animation-iteration-count:infinite;
-      animation-delay:var(--phase, 0s); animation-fill-mode:both;
+def styles():
+    return '''
+    .sheen {{ transform:translateX(0); animation:sheen 9s cubic-bezier(.4,0,.2,1) infinite; animation-delay:calc(var(--idx,0)*.09s + .4s); }}
+    .shard {{ opacity:0; animation:shard 1.15s cubic-bezier(.12,.66,.28,1) both; animation-delay:calc(var(--idx,0)*.09s + .62s); }}
+    .plate {{ transform-origin:0 0; }}
+    @keyframes sheen {{ 0%,58% {{ transform:translateX(0); }} 92%,100% {{ transform:translateX(700px); }} }}
+    @keyframes shard {{
+      0% {{ opacity:0; transform:translate(0,0) rotate(0) scale(.2); }}
+      12% {{ opacity:1; }}
+      100% {{ opacity:0; transform:translate(var(--dx),var(--dy)) rotate(var(--turn)) scale(.35); }}
     }}
-    .duel-trace {{ stroke-dasharray:18 100; animation-name:duel-trace; }}
-    .duel-spark {{ animation-name:duel-spark; animation-timing-function:cubic-bezier(.12,.65,.3,1); }}
-    .duel-impact {{ animation-name:duel-impact; }}
-    @keyframes duel-trace {{
-      0%,22% {{ stroke-dashoffset:20; opacity:0; }}
-      24% {{ stroke-dashoffset:20; opacity:.9; }}
-      42% {{ stroke-dashoffset:-100; opacity:.9; }}
-      43%,100% {{ stroke-dashoffset:-100; opacity:0; }}
-    }}
-    @keyframes duel-spark {{
-      0%,41% {{ opacity:0; transform:translate(0,0) scale(.3); }}
-      43% {{ opacity:1; }}
-      58%,100% {{ opacity:0; transform:translate(var(--dx),var(--dy)) rotate(var(--turn)) scale(.2); }}
-    }}
-    @keyframes duel-impact {{
-      0%,41% {{ opacity:0; transform:scale(.4); }}
-      43% {{ opacity:.8; }}
-      53%,100% {{ opacity:0; transform:scale(2.5); }}
-    }}
-    @media (prefers-reduced-motion: reduce) {{ .duel-trace, .duel-spark, .duel-impact {{ display:none; }} }}
+    @media (prefers-reduced-motion: reduce) {{ .shard {{ display:none; }} }}
     '''
 
 
@@ -65,8 +86,11 @@ def logo(p):
     return f'''<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
     <title id="title">HVH</title>
     <desc id="desc">Две зеркальные H и центральная V. Знак HVHBIGNAME.</desc>
-    <defs>{symbol(p)}</defs>
+    <defs>{defs(p)}{symbol(p)}</defs>
     <rect width="512" height="512" fill="{p['bg']}"/>
     <path d="M40 96V40h56m320 0h56v56M40 416v56h56m320 0h56v-56" fill="none" stroke="{p['line']}" stroke-width="2"/>
-    <use href="#hvh-symbol" x="22" y="137" width="468" height="238"/>
+    <g transform="translate(22 137)" style="--idx:0">
+      <use href="#hvh-symbol" width="252" height="128"/>
+      <g transform="scale(1.85714)">{plate(p)}</g>
+    </g>
     </svg>''' + '\n'

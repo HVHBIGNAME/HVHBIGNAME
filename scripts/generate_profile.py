@@ -7,7 +7,8 @@ import urllib.request
 from datetime import date, timedelta
 from html import escape
 
-from design import ROOT, VIEW_HEIGHT, activity_json, build_atlas, document, signal_body
+import motion
+from design import PALETTES, ROOT, VIEW_HEIGHT, activity_json, build_atlas, document, signal_body
 
 USERNAME = os.environ.get("GH_USERNAME", "HVHBIGNAME")
 API = "https://api.github.com"
@@ -141,7 +142,8 @@ def build_svg(calendar, theme="dark"):
         f"{active} active days, {peak} contributions on the busiest day. "
         "Each bar represents one day; bar height is proportional to contributions."
     )
-    return document("Build signal — last 90 days", description, VIEW_HEIGHT, signal_body(days, theme), theme)
+    body = motion.stage(PALETTES[theme], theme) + signal_body(days, theme)
+    return document("Build signal — last 90 days", description, VIEW_HEIGHT, body, theme)
 
 
 def main():

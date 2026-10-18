@@ -1,6 +1,7 @@
 """Regression checks for the data that gets published automatically."""
 
 import os
+import re
 import tempfile
 import unittest
 import xml.etree.ElementTree as ET
@@ -8,6 +9,7 @@ from datetime import date, timedelta
 from pathlib import Path
 from unittest.mock import patch
 
+import motion
 import generate_profile as profile
 from brand import logo
 from design import PALETTES, PROJECTS, VIEWS, VIEW_HEIGHT, activity_json, build_atlas, hero, load_activity, project
@@ -195,6 +197,57 @@ class ProfileTests(unittest.TestCase):
             path.write_text(activity_json(days[:-1]), encoding="utf-8")
             with self.assertRaises(ValueError):
                 load_activity(path)
+
+
+class MotionLayerTests(unittest.TestCase):
+    def test_stage_is_painted_before_content_and_packet_after(self):
+        for theme in ("dark", "light"):
+            atlas = build_atlas(load_activity(Path(__file__).parent.parent / "assets/activity.json"), theme)
+            for index, name in enumerate(VIEWS):
+                start = atlas.index(f'<g id="scene-{name}"')
+                nxt = VIEWS[index + 1] if index + 1 < len(VIEWS) else None
+                marker = f'<g id="scene-{nxt}"' if nxt else "</svg>"
+                end = atlas.index(marker, start)
+                scene = atlas[start:end]
+                stage_at = scene.index('class="stage"')
+                packet_at = scene.index('class="relay"')
+                body_at = scene.find('class="rise"')
+                self.assertGreater(body_at, stage_at, f"{theme}/{name}: stage must come first")
+                self.assertGreater(packet_at, body_at, f"{theme}/{name}: packet must be last")
+
+    def test_stage_assets_are_defined_once_and_reused(self):
+        atlas = build_atlas(load_activity(Path(__file__).parent.parent / "assets/activity.json"), "dark")
+        for asset in ("grain-filter", "grain-clip", "aura-a", "aura-b", "stars", "vignette"):
+            self.assertEqual(atlas.count(f'id="{asset}"'), 1, f"{asset} defined more than once")
+            self.assertGreater(atlas.count(f"url(#{asset})"), 1, f"{asset} never referenced")
+
+    def test_each_view_delays_the_packet_by_one_slot(self):
+        styles = motion.styles(len(VIEWS))
+        self.assertIn("--travel:0.92s", styles)
+        self.assertIn("--slot:1.05s", styles)
+        self.assertIn("animation-delay:calc(var(--idx,0) * 1.05s)", styles)
+        self.assertIn("translateY(392px)", styles)
+
+    def test_reduced_motion_stops_every_animation(self):
+        styles = motion.styles(len(VIEWS))
+        reduce_block = styles[styles.index("@media (prefers-reduced-motion: reduce)"):]
+        self.assertIn("animation:none !important", reduce_block)
+        self.assertIn("*::after", reduce_block)
+        for hidden in (".relay", ".grain", ".sweep"):
+            self.assertIn(hidden, reduce_block)
+
+    def test_packet_travel_matches_view_height(self):
+        styles = motion.styles(len(VIEWS))
+        last = [int(n) for n in re.findall(r"translateY\((\d+)px\)", styles)]
+        self.assertTrue(last, "packet keyframes missing")
+        self.assertGreaterEqual(last[-1], VIEW_HEIGHT, "packet must leave the card entirely")
+
+    def test_logo_exports_are_static(self):
+        for theme in ("dark", "light"):
+            markup = logo(PALETTES[theme])
+            self.assertNotIn("animation:", markup)
+            self.assertIn("<svg", markup)
+            ET.fromstring(markup)
 
 
 if __name__ == "__main__":
