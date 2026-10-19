@@ -55,29 +55,28 @@ def plate(p):
         )
     return f'''
     <g class="plate">
-      <g filter="url(#hvh-glow)" opacity=".5" fill="{p['accent']}">{outlines}</g>
+      <g filter="url(#hvh-glow)" opacity=".16" fill="{p['accent']}">{outlines}</g>
       <g transform="translate(7 11)" opacity=".5" fill="#000">{outlines}</g>
       <g fill="url(#hvh-metal)">{outlines}</g>
       <g fill="none" stroke="#fff" stroke-opacity=".28" stroke-width=".9" transform="translate(0 -1)">{outlines}</g>
       <g clip-path="url(#hvh-clip)"><g transform="skewX(-16)">
         <rect class="sheen" x="-300" y="-40" width="104" height="220" fill="url(#hvh-sheen)"/>
       </g></g>
-      <g transform="translate({cx} {cy})">{''.join(sparks)}</g>
+      <g class="sparks" transform="translate({cx} {cy})">{''.join(sparks)}</g>
     </g>'''
 
 
 def styles():
     return '''
-    .sheen {{ transform:translateX(0); animation:sheen 9s cubic-bezier(.4,0,.2,1) infinite; animation-delay:calc(var(--idx,0)*.09s + .4s); }}
-    .shard {{ opacity:0; animation:shard 1.15s cubic-bezier(.12,.66,.28,1) both; animation-delay:calc(var(--idx,0)*.09s + .62s); }}
-    .plate {{ transform-origin:0 0; }}
-    @keyframes sheen {{ 0%,58% {{ transform:translateX(0); }} 92%,100% {{ transform:translateX(700px); }} }}
-    @keyframes shard {{
-      0% {{ opacity:0; transform:translate(0,0) rotate(0) scale(.2); }}
-      12% {{ opacity:1; }}
-      100% {{ opacity:0; transform:translate(var(--dx),var(--dy)) rotate(var(--turn)) scale(.35); }}
-    }}
-    @media (prefers-reduced-motion: reduce) {{ .shard {{ display:none; }} }}
+    .sheen { animation:sheen 8s ease-in-out infinite; animation-delay:1.8s; }
+    .shard { opacity:0; animation:shard 1.15s cubic-bezier(.12,.66,.28,1) both; animation-delay:1.9s; }
+    @keyframes sheen { 0% { transform:translateX(0); } 22%,100% { transform:translateX(700px); } }
+    @keyframes shard {
+      0% { opacity:0; transform:translate(0,0) rotate(0) scale(.2); }
+      12% { opacity:.7; }
+      100% { opacity:0; transform:translate(var(--dx),var(--dy)) rotate(var(--turn)) scale(.35); }
+    }
+    @media (prefers-reduced-motion: reduce) { .shard, .sheen { display:none; } }
     '''
 
 
@@ -89,8 +88,8 @@ def logo(p):
     <defs>{defs(p)}{symbol(p)}</defs>
     <rect width="512" height="512" fill="{p['bg']}"/>
     <path d="M40 96V40h56m320 0h56v56M40 416v56h56m320 0h56v-56" fill="none" stroke="{p['line']}" stroke-width="2"/>
-    <g transform="translate(22 137)" style="--idx:0">
-      <use href="#hvh-symbol" width="252" height="128"/>
+    <style>.sparks, .sheen {{ display:none; }}</style>
+    <g transform="translate(22 137)">
       <g transform="scale(1.85714)">{plate(p)}</g>
     </g>
     </svg>''' + '\n'

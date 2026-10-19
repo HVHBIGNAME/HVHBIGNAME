@@ -3,14 +3,14 @@
     <desc id="desc">Анимированное портфолио: BCore, emberdeck, SoftDownloader и OpenCode Pocket. Световой пакет переходит из карточки в карточку при загрузке; публичная активность GitHub обновляется каждый час.</desc>
     <view id="hero" viewBox="0 0 1200 420"/><view id="bcore" viewBox="0 420 1200 420"/><view id="minecraft-panel" viewBox="0 840 1200 420"/><view id="softdownloader" viewBox="0 1260 1200 420"/><view id="opencode-pocket" viewBox="0 1680 1200 420"/><view id="signal" viewBox="0 2100 1200 420"/>
     <defs>
-      <symbol id="hvh-symbol" viewBox="0 0 252 128"><path data-letter="H" d="M18 31 29 20h6v32h29V20h17v88H64V70H35v38H18Z" fill="#141a0d"/><path data-letter="V" d="M88 20h20l18 57 18-57h20l-30 88h-16Z" fill="#4f7d0a"/><path data-letter="H" d="M171 20h17v32h29V20h6l11 11v77h-17V70h-29v38h-17Z" fill="#141a0d"/></symbol>
+      <symbol id="hvh-symbol" viewBox="0 0 252 128"><path data-letter="H" d="M18 31 29 20h6v32h29V20h17v88H64V70H35v38H18Z" fill="#202730"/><path data-letter="V" d="M88 20h20l18 57 18-57h20l-30 88h-16Z" fill="#427018"/><path data-letter="H" d="M171 20h17v32h29V20h6l11 11v77h-17V70h-29v38h-17Z" fill="#202730"/></symbol>
 
     <linearGradient id="hvh-metal" x1="0" y1="0" x2=".5" y2="1">
-      <stop offset="0" stop-color="#fdfcf5"/>
-      <stop offset=".36" stop-color="#c2c9b5"/>
-      <stop offset=".55" stop-color="#6f7867"/>
-      <stop offset=".72" stop-color="#fdfcf5"/>
-      <stop offset="1" stop-color="#c2c9b5"/>
+      <stop offset="0" stop-color="#fdfefe"/>
+      <stop offset=".36" stop-color="#9aa6b2"/>
+      <stop offset=".55" stop-color="#4d5c6a"/>
+      <stop offset=".72" stop-color="#fdfefe"/>
+      <stop offset="1" stop-color="#9aa6b2"/>
     </linearGradient>
     <linearGradient id="hvh-sheen" x1="0" y1="0" x2="1" y2="0">
       <stop offset="0" stop-color="#fff" stop-opacity="0"/>
@@ -25,23 +25,37 @@
         <feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="3" seed="17" stitchTiles="stitch"/>
         <feColorMatrix type="saturate" values="0"/>
       </filter>
-      <pattern id="stars" width="140" height="140" patternUnits="userSpaceOnUse">
-        <circle cx="18" cy="26" r=".9" fill="#fff" opacity=".5"/>
-        <circle cx="74" cy="12" r=".6" fill="#fff" opacity=".35"/>
-        <circle cx="112" cy="58" r="1.1" fill="#fff" opacity=".55"/>
-        <circle cx="46" cy="88" r=".7" fill="#fff" opacity=".3"/>
-        <circle cx="96" cy="118" r=".5" fill="#fff" opacity=".4"/>
-        <circle cx="24" cy="126" r=".8" fill="#fff" opacity=".25"/>
+      <pattern id="stars" width="240" height="180" patternUnits="userSpaceOnUse">
+        <circle cx="18" cy="26" r=".7" fill="#202730" opacity=".5"/>
+        <circle cx="112" cy="58" r=".8" fill="#202730" opacity=".4"/>
+        <circle cx="196" cy="138" r=".6" fill="#202730" opacity=".4"/>
       </pattern>
-      <radialGradient id="aura-a"><stop offset="0" stop-color="#4f7d0a" stop-opacity=".34"/><stop offset="1" stop-color="#4f7d0a" stop-opacity="0"/></radialGradient>
-      <radialGradient id="aura-b"><stop offset="0" stop-color="#0e7a63" stop-opacity=".26"/><stop offset="1" stop-color="#0e7a63" stop-opacity="0"/></radialGradient>
       <radialGradient id="vignette" cx=".5" cy=".46" r=".78">
-        <stop offset=".45" stop-color="#2c3320" stop-opacity="0"/>
-        <stop offset="1" stop-color="#2c3320" stop-opacity=".82"/>
+        <stop offset=".45" stop-color="#617080" stop-opacity="0"/>
+        <stop offset="1" stop-color="#617080" stop-opacity=".22"/>
       </radialGradient>
       <clipPath id="grain-clip"><rect x="1" y="1" width="1198" height="418" rx="10"/></clipPath>
-      <linearGradient id="sweep-fade" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#141a0d" stop-opacity=".10"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
-      <linearGradient id="carrier" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4f7d0a" stop-opacity="0"/><stop offset=".75" stop-color="#4f7d0a"/><stop offset="1" stop-color="#4f7d0a" stop-opacity="0"/></linearGradient>
+      <linearGradient id="sweep-fade" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#202730" stop-opacity=".06"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+      <radialGradient id="aura-hero">
+      <stop offset="0" stop-color="#427018" stop-opacity=".14"/>
+      <stop offset="1" stop-color="#427018" stop-opacity="0"/>
+    </radialGradient><radialGradient id="aura-bcore">
+      <stop offset="0" stop-color="#4f7d0a" stop-opacity=".14"/>
+      <stop offset="1" stop-color="#4f7d0a" stop-opacity="0"/>
+    </radialGradient><radialGradient id="aura-minecraft-panel">
+      <stop offset="0" stop-color="#9a4d12" stop-opacity=".14"/>
+      <stop offset="1" stop-color="#9a4d12" stop-opacity="0"/>
+    </radialGradient><radialGradient id="aura-softdownloader">
+      <stop offset="0" stop-color="#1c6675" stop-opacity=".14"/>
+      <stop offset="1" stop-color="#1c6675" stop-opacity="0"/>
+    </radialGradient><radialGradient id="aura-opencode-pocket">
+      <stop offset="0" stop-color="#64409c" stop-opacity=".14"/>
+      <stop offset="1" stop-color="#64409c" stop-opacity="0"/>
+    </radialGradient><radialGradient id="aura-signal">
+      <stop offset="0" stop-color="#427018" stop-opacity=".14"/>
+      <stop offset="1" stop-color="#427018" stop-opacity="0"/>
+    </radialGradient>
+      <clipPath id="scene-frame" clipPathUnits="userSpaceOnUse"><rect x="1" y="1" width="1198" height="418" rx="10"/></clipPath>
       <clipPath id="atlas-clips"><rect x="1" y="1" width="1198" height="418" rx="10"/><rect x="1" y="421" width="1198" height="418" rx="10"/><rect x="1" y="841" width="1198" height="418" rx="10"/><rect x="1" y="1261" width="1198" height="418" rx="10"/><rect x="1" y="1681" width="1198" height="418" rx="10"/><rect x="1" y="2101" width="1198" height="418" rx="10"/></clipPath>
     </defs>
     <style>
@@ -54,42 +68,42 @@
     @keyframes orbit { to { stroke-dashoffset: -248; } }
     @keyframes heartbeat { 0%,100% { opacity:.4; } 50% { opacity:1; } }
 
-    :root { --travel:0.92s; --slot:1.05s; }
-    .stage { animation:fade-in 1.1s ease-out both; }
-    .aura { transform-box:fill-box; transform-origin:center; }
-    .aura-a { animation:drift-a 19s ease-in-out infinite; }
-    .aura-b { animation:drift-b 25s ease-in-out infinite; }
-    .grain { mix-blend-mode:overlay; animation:grain-shift 5.5s steps(2) infinite; }
-    /* Intro: every element starts at its final value, so a frozen document still reads. */
-    .rise { animation:rise .78s cubic-bezier(.16,.84,.28,1) both; animation-delay:calc(var(--idx,0)*.09s + .06s); }
-    .wipe { animation:wipe 1.1s cubic-bezier(.3,.7,.2,1) both; animation-delay:calc(var(--idx,0)*.09s + .3s); }
-    .pop { animation:pop .7s cubic-bezier(.2,.85,.25,1) both; animation-delay:calc(var(--idx,0)*.09s + .12s); transform-box:fill-box; transform-origin:center; }
-    .draw { animation:draw 1s cubic-bezier(.3,.7,.2,1) both; animation-delay:calc(var(--idx,0)*.09s + .22s); }
-    .sweep { animation:sweep 1.5s cubic-bezier(.4,0,.2,1) both; animation-delay:calc(var(--idx,0)*.09s + .5s); }
-    .bar { animation:bar-up .6s cubic-bezier(.2,.8,.2,1) both; animation-delay:calc(var(--idx,0)*.09s + .35s + var(--n)*.006s); transform-box:fill-box; transform-origin:50% 100%; }
-    .beat { animation:beat 2.6s ease-in-out infinite; animation-delay:calc(var(--idx,0)*.09s + .5s); }
+    .stage { animation:fade-in 1.2s ease-out both; }
+    .aura { animation:aura-breathe 12s ease-in-out infinite; }
+    .grain { mix-blend-mode:normal; }
+    .rise { animation:rise 1s cubic-bezier(.22,.7,.25,1) both; animation-delay:calc(.25s + var(--scene,0)*.15s + var(--idx,0)*.12s); }
+    .wipe { animation:wipe 1.4s ease-out both; animation-delay:calc(.4s + var(--scene,0)*.15s); }
+    /* Layout transforms belong to the parent; this group owns only motion. */
+    .art-anchor { --enter-x:280px; --enter-turn:16deg; }
+    .art-anchor.from-left { --enter-x:-280px; --enter-turn:-16deg; }
+    .art-enter { animation:art-enter 2.2s cubic-bezier(.16,.7,.2,1) both; animation-delay:calc(.45s + var(--scene,0)*.18s); transform-box:view-box; transform-origin:0 0; }
+    .draw { animation:draw 1.4s ease-out both; animation-delay:calc(.5s + var(--scene,0)*.15s); }
+    .sweep { opacity:0; animation:sweep 1.8s ease-in-out both; animation-delay:calc(1.4s + var(--scene,0)*.18s); }
+    .bar { animation:bar-up 1s ease-out both; animation-delay:calc(.7s + var(--n)*.009s); transform-box:fill-box; transform-origin:50% 100%; }
+    .beat { animation:beat 4s ease-in-out infinite; }
     @keyframes fade-in { from { opacity:0; } to { opacity:1; } }
-    @keyframes rise { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
-    @keyframes pop { from { opacity:0; transform:scale(.86); } to { opacity:1; transform:scale(1); } }
-    @keyframes wipe { from { clip-path:inset(0 100% 0 0); } to { clip-path:inset(0 0 0 0); } }
+    @keyframes rise { from { opacity:0; transform:translateY(28px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes art-enter {
+      0% { opacity:0; transform:translate(var(--enter-x),100px) rotate(var(--enter-turn)) scale(.72); }
+      28% { opacity:1; }
+      76% { opacity:1; transform:translate(-6px,-4px) rotate(-1deg) scale(1.015); }
+      100% { opacity:1; transform:translate(0,0) rotate(0) scale(1); }
+    }
+    @keyframes wipe { from { opacity:0; clip-path:inset(0 100% 0 0); } to { opacity:1; clip-path:inset(0); } }
     @keyframes draw { from { stroke-dashoffset:100; } to { stroke-dashoffset:0; } }
-    @keyframes sweep { 0% { transform:translateX(-40px); opacity:0; } 30% { opacity:.75; } 100% { transform:translateX(1260px); opacity:0; } }
+    @keyframes sweep { 0% { transform:translateX(-40px); opacity:0; } 30% { opacity:.5; } 100% { transform:translateX(1460px); opacity:0; } }
     @keyframes bar-up { from { opacity:0; transform:scaleY(.05); } to { opacity:1; transform:scaleY(1); } }
     @keyframes beat { 0%,100% { opacity:.35; } 50% { opacity:.85; } }
-    @keyframes drift-a { 0%,100% { transform:translate(0,0) scale(1); } 50% { transform:translate(-70px,26px) scale(1.08); } }
-    @keyframes drift-b { 0%,100% { transform:translate(0,0) scale(1.05); } 50% { transform:translate(64px,-22px) scale(.94); } }
-    @keyframes grain-shift { 0% { transform:translate(0,0); } 50% { transform:translate(-2.5px,1.5px); } 100% { transform:translate(2px,-2px); } }
-    /* The travelling packet: leaves one card, enters the next one slot later. */
-    .relay { opacity:0; animation:relay 0.92s linear both; animation-delay:calc(var(--idx,0) * 1.05s); }
+    @keyframes aura-breathe { 0%,100% { opacity:.65; } 50% { opacity:1; } }
+    .relay { opacity:0; animation:relay 16s linear infinite; animation-delay:1s; }
     @keyframes relay {
-      0% { opacity:0; transform:translateY(-26px) scale(.7); }
-      8% { opacity:1; transform:translateY(-6px) scale(1); }
-      88% { opacity:1; transform:translateY(392px) scale(1); }
-      100% { opacity:0; transform:translateY(432px) scale(.7); }
+      0% { opacity:0; transform:translateY(-54px); }
+      1% { opacity:1; }
+      38.375% { opacity:1; }
+      39.375%,100% { opacity:0; transform:translateY(2574px); }
     }
     @media (prefers-reduced-motion: reduce) {
       .relay, .grain, .sweep { display:none; }
-      /* Blanket: every decorative loop must stop, including scene classes. */
       *, *::before, *::after { animation:none !important; transition:none !important; }
     }
 
@@ -732,16 +746,15 @@
       .package-arrival, .handoff, .typing-dots, .qr-scan, .debris, .ember { display:none; }
     }
 
-    .sheen {{ transform:translateX(0); animation:sheen 9s cubic-bezier(.4,0,.2,1) infinite; animation-delay:calc(var(--idx,0)*.09s + .4s); }}
-    .shard {{ opacity:0; animation:shard 1.15s cubic-bezier(.12,.66,.28,1) both; animation-delay:calc(var(--idx,0)*.09s + .62s); }}
-    .plate {{ transform-origin:0 0; }}
-    @keyframes sheen {{ 0%,58% {{ transform:translateX(0); }} 92%,100% {{ transform:translateX(700px); }} }}
-    @keyframes shard {{
-      0% {{ opacity:0; transform:translate(0,0) rotate(0) scale(.2); }}
-      12% {{ opacity:1; }}
-      100% {{ opacity:0; transform:translate(var(--dx),var(--dy)) rotate(var(--turn)) scale(.35); }}
-    }}
-    @media (prefers-reduced-motion: reduce) {{ .shard {{ display:none; }} }}
+    .sheen { animation:sheen 8s ease-in-out infinite; animation-delay:1.8s; }
+    .shard { opacity:0; animation:shard 1.15s cubic-bezier(.12,.66,.28,1) both; animation-delay:1.9s; }
+    @keyframes sheen { 0% { transform:translateX(0); } 22%,100% { transform:translateX(700px); } }
+    @keyframes shard {
+      0% { opacity:0; transform:translate(0,0) rotate(0) scale(.2); }
+      12% { opacity:.7; }
+      100% { opacity:0; transform:translate(var(--dx),var(--dy)) rotate(var(--turn)) scale(.35); }
+    }
+    @media (prefers-reduced-motion: reduce) { .shard, .sheen { display:none; } }
 
     @media (max-width: 600px) {
       .desktop { display:none; } .mobile { display:inline; }
@@ -750,113 +763,111 @@
       .signal-date { font-size:27px; } .month-label { display:none; }
     }
     </style>
-    <g id="scene-hero" transform="translate(0 0)">
-    <g class="stage" style="--idx:0">
-      <circle class="aura aura-a" cx="880" cy="120" r="330" fill="url(#aura-a)"/>
-      <circle class="aura aura-b" cx="300" cy="330" r="300" fill="url(#aura-b)"/>
-      <rect width="1200" height="420" fill="url(#stars)" opacity=".55"/>
+    <g id="scene-hero" transform="translate(0 0)" style="--scene:0"><g clip-path="url(#scene-frame)">
+    <g class="stage">
+      <rect x="1" y="1" width="1198" height="418" rx="10" fill="#f6f7f9"/>
+      <ellipse class="aura" cx="925" cy="202" rx="330" ry="215" fill="url(#aura-hero)"/>
+      <rect x="1" y="1" width="1198" height="418" fill="url(#stars)" opacity=".16"/>
       <rect x="1" y="1" width="1198" height="418" fill="url(#vignette)"/>
-      <g clip-path="url(#grain-clip)"><rect class="grain" x="-4" y="-4" width="1208" height="428" filter="url(#grain-filter)" opacity=".08"/></g>
+      <g clip-path="url(#grain-clip)"><rect class="grain" x="-4" y="-4" width="1208" height="428" filter="url(#grain-filter)" opacity=".025"/></g>
+      <rect x="1" y="1" width="1198" height="418" rx="10" fill="none" stroke="#d7dce2"/>
     </g>
     <g class="desktop" style="--idx:0">
       <g class="rise">
-        <text x="64" y="52" font-size="18" fill="#141a0d" class="mono" letter-spacing="2.4">HVHBIGNAME</text>
-        <text x="1156" y="52" font-size="14" fill="#5f6854" class="mono" text-anchor="end">ЛИЧНАЯ МАСТЕРСКАЯ / 1337</text>
+        <text x="64" y="52" font-size="18" fill="#202730" class="mono" letter-spacing="2.4">HVHBIGNAME</text>
+        <text x="1156" y="52" font-size="14" fill="#535e68" class="mono" text-anchor="end">ЛИЧНАЯ МАСТЕРСКАЯ / 1337</text>
       </g>
-      <path class="wipe" pathLength="100" stroke-dasharray="100" d="M64 74H1156" stroke="#c9cdb9"/>
+      <path class="wipe" pathLength="100" stroke-dasharray="100" d="M64 74H1156" stroke="#d7dce2"/>
 
-    <g class="plate-holder" transform="translate(925 214) rotate(-7) scale(1.62)">
-      <g transform="translate(-126 -64)">
+    <g class="art-anchor plate-holder" transform="translate(925 214) rotate(-7) scale(1.62)">
+      <g class="art-enter"><g transform="translate(-126 -64)">
     <g class="plate">
-      <g filter="url(#hvh-glow)" opacity=".5" fill="#4f7d0a"><path d="M18 31 29 20h6v32h29V20h17v88H64V70H35v38H18Z"/><path d="M88 20h20l18 57 18-57h20l-30 88h-16Z"/><path d="M171 20h17v32h29V20h6l11 11v77h-17V70h-29v38h-17Z"/></g>
+      <g filter="url(#hvh-glow)" opacity=".16" fill="#427018"><path d="M18 31 29 20h6v32h29V20h17v88H64V70H35v38H18Z"/><path d="M88 20h20l18 57 18-57h20l-30 88h-16Z"/><path d="M171 20h17v32h29V20h6l11 11v77h-17V70h-29v38h-17Z"/></g>
       <g transform="translate(7 11)" opacity=".5" fill="#000"><path d="M18 31 29 20h6v32h29V20h17v88H64V70H35v38H18Z"/><path d="M88 20h20l18 57 18-57h20l-30 88h-16Z"/><path d="M171 20h17v32h29V20h6l11 11v77h-17V70h-29v38h-17Z"/></g>
       <g fill="url(#hvh-metal)"><path d="M18 31 29 20h6v32h29V20h17v88H64V70H35v38H18Z"/><path d="M88 20h20l18 57 18-57h20l-30 88h-16Z"/><path d="M171 20h17v32h29V20h6l11 11v77h-17V70h-29v38h-17Z"/></g>
       <g fill="none" stroke="#fff" stroke-opacity=".28" stroke-width=".9" transform="translate(0 -1)"><path d="M18 31 29 20h6v32h29V20h17v88H64V70H35v38H18Z"/><path d="M88 20h20l18 57 18-57h20l-30 88h-16Z"/><path d="M171 20h17v32h29V20h6l11 11v77h-17V70h-29v38h-17Z"/></g>
       <g clip-path="url(#hvh-clip)"><g transform="skewX(-16)">
         <rect class="sheen" x="-300" y="-40" width="104" height="220" fill="url(#hvh-sheen)"/>
       </g></g>
-      <g transform="translate(126 64)"><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#4f7d0a" style="--dx:-33.0px;--dy:-8.2px;--turn:-166deg;--i:0"/><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#4f7d0a" style="--dx:-34.9px;--dy:-31.4px;--turn:-138deg;--i:1"/><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#4f7d0a" style="--dx:-14.5px;--dy:-58.2px;--turn:-104deg;--i:2"/><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#4f7d0a" style="--dx:12.7px;--dy:-31.5px;--turn:-68deg;--i:3"/><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#4f7d0a" style="--dx:42.2px;--dy:-20.6px;--turn:-26deg;--i:4"/><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#4f7d0a" style="--dx:57.1px;--dy:18.5px;--turn:18deg;--i:5"/><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#4f7d0a" style="--dx:16.0px;--dy:30.0px;--turn:62deg;--i:6"/><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#4f7d0a" style="--dx:-17.6px;--dy:43.6px;--turn:112deg;--i:7"/><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#4f7d0a" style="--dx:-50.9px;--dy:31.8px;--turn:148deg;--i:8"/></g>
-    </g></g>
+      <g class="sparks" transform="translate(126 64)"><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#427018" style="--dx:-33.0px;--dy:-8.2px;--turn:-166deg;--i:0"/><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#427018" style="--dx:-34.9px;--dy:-31.4px;--turn:-138deg;--i:1"/><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#427018" style="--dx:-14.5px;--dy:-58.2px;--turn:-104deg;--i:2"/><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#427018" style="--dx:12.7px;--dy:-31.5px;--turn:-68deg;--i:3"/><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#427018" style="--dx:42.2px;--dy:-20.6px;--turn:-26deg;--i:4"/><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#427018" style="--dx:57.1px;--dy:18.5px;--turn:18deg;--i:5"/><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#427018" style="--dx:16.0px;--dy:30.0px;--turn:62deg;--i:6"/><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#427018" style="--dx:-17.6px;--dy:43.6px;--turn:112deg;--i:7"/><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#427018" style="--dx:-50.9px;--dy:31.8px;--turn:148deg;--i:8"/></g>
+    </g></g></g>
     </g>
       <g transform="translate(66 152)">
-        <text class="rise" y="68" font-size="104" font-weight="900" letter-spacing="-5" fill="#141a0d" style="--idx:0">BIGNAME</text>
-        <text class="rise" y="112" font-size="25" fill="#5f6854" style="--idx:1">Игровые серверы. Утилиты. Свои проекты.</text>
+        <text class="rise" y="68" font-size="104" font-weight="900" letter-spacing="-5" fill="#202730" style="--idx:0">BIGNAME</text>
+        <text class="rise" y="112" font-size="25" fill="#535e68" style="--idx:1">Игровые серверы. Утилиты. Свои проекты.</text>
         <g class="rise" style="--idx:2">
-          <rect x="0" y="132" width="52" height="3" rx="1.5" fill="#4f7d0a"/>
-          <text x="62" y="137" font-size="15" fill="#4f7d0a" class="mono" letter-spacing="2">RUST / TYPESCRIPT / СВОИ ПРОЕКТЫ</text>
+          <rect x="0" y="132" width="52" height="3" rx="1.5" fill="#427018"/>
+          <text x="62" y="137" font-size="15" fill="#427018" class="mono" letter-spacing="2">RUST / TYPESCRIPT / СВОИ ПРОЕКТЫ</text>
         </g>
       </g>
-      <path class="wipe" pathLength="100" stroke-dasharray="100" d="M64 336H1156" stroke="#c9cdb9"/>
+      <path class="wipe" pathLength="100" stroke-dasharray="100" d="M64 336H1156" stroke="#d7dce2"/>
       <g class="rise" style="--idx:3">
-        <text x="64" y="378" font-size="15" fill="#5f6854" class="mono" letter-spacing="1">MINECRAFT / DESKTOP / MOBILE</text>
-        <text x="1156" y="378" font-size="14" fill="#5f6854" class="mono" text-anchor="end">04 ПРОЕКТА НИЖЕ ↓</text>
+        <text x="64" y="378" font-size="15" fill="#535e68" class="mono" letter-spacing="1">MINECRAFT / DESKTOP / MOBILE</text>
+        <text x="1156" y="378" font-size="14" fill="#535e68" class="mono" text-anchor="end">04 ПРОЕКТА НИЖЕ ↓</text>
       </g>
       <rect class="sweep" x="-260" y="0" width="240" height="420" fill="url(#sweep-fade)" opacity=".5"/>
     </g>
     <g class="mobile" style="--idx:1">
       <g class="rise">
-        <text x="53" y="66" font-size="38" fill="#141a0d" class="mono" letter-spacing="2">HVHBIGNAME</text>
-        <text x="1156" y="64" font-size="30" fill="#5f6854" class="mono" text-anchor="end">1337</text>
+        <text x="53" y="66" font-size="38" fill="#202730" class="mono" letter-spacing="2">HVHBIGNAME</text>
+        <text x="1156" y="64" font-size="30" fill="#535e68" class="mono" text-anchor="end">1337</text>
       </g>
-      <path class="wipe" pathLength="100" stroke-dasharray="100" d="M53 92H1156" stroke="#c9cdb9"/>
+      <path class="wipe" pathLength="100" stroke-dasharray="100" d="M53 92H1156" stroke="#d7dce2"/>
 
-    <g class="plate-holder" transform="translate(820 250) rotate(-6) scale(1.05)">
-      <g transform="translate(-126 -64)">
+    <g class="art-anchor plate-holder" transform="translate(995 205) rotate(-6) scale(0.88)">
+      <g class="art-enter"><g transform="translate(-126 -64)">
     <g class="plate">
-      <g filter="url(#hvh-glow)" opacity=".5" fill="#4f7d0a"><path d="M18 31 29 20h6v32h29V20h17v88H64V70H35v38H18Z"/><path d="M88 20h20l18 57 18-57h20l-30 88h-16Z"/><path d="M171 20h17v32h29V20h6l11 11v77h-17V70h-29v38h-17Z"/></g>
+      <g filter="url(#hvh-glow)" opacity=".16" fill="#427018"><path d="M18 31 29 20h6v32h29V20h17v88H64V70H35v38H18Z"/><path d="M88 20h20l18 57 18-57h20l-30 88h-16Z"/><path d="M171 20h17v32h29V20h6l11 11v77h-17V70h-29v38h-17Z"/></g>
       <g transform="translate(7 11)" opacity=".5" fill="#000"><path d="M18 31 29 20h6v32h29V20h17v88H64V70H35v38H18Z"/><path d="M88 20h20l18 57 18-57h20l-30 88h-16Z"/><path d="M171 20h17v32h29V20h6l11 11v77h-17V70h-29v38h-17Z"/></g>
       <g fill="url(#hvh-metal)"><path d="M18 31 29 20h6v32h29V20h17v88H64V70H35v38H18Z"/><path d="M88 20h20l18 57 18-57h20l-30 88h-16Z"/><path d="M171 20h17v32h29V20h6l11 11v77h-17V70h-29v38h-17Z"/></g>
       <g fill="none" stroke="#fff" stroke-opacity=".28" stroke-width=".9" transform="translate(0 -1)"><path d="M18 31 29 20h6v32h29V20h17v88H64V70H35v38H18Z"/><path d="M88 20h20l18 57 18-57h20l-30 88h-16Z"/><path d="M171 20h17v32h29V20h6l11 11v77h-17V70h-29v38h-17Z"/></g>
       <g clip-path="url(#hvh-clip)"><g transform="skewX(-16)">
         <rect class="sheen" x="-300" y="-40" width="104" height="220" fill="url(#hvh-sheen)"/>
       </g></g>
-      <g transform="translate(126 64)"><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#4f7d0a" style="--dx:-33.0px;--dy:-8.2px;--turn:-166deg;--i:0"/><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#4f7d0a" style="--dx:-34.9px;--dy:-31.4px;--turn:-138deg;--i:1"/><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#4f7d0a" style="--dx:-14.5px;--dy:-58.2px;--turn:-104deg;--i:2"/><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#4f7d0a" style="--dx:12.7px;--dy:-31.5px;--turn:-68deg;--i:3"/><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#4f7d0a" style="--dx:42.2px;--dy:-20.6px;--turn:-26deg;--i:4"/><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#4f7d0a" style="--dx:57.1px;--dy:18.5px;--turn:18deg;--i:5"/><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#4f7d0a" style="--dx:16.0px;--dy:30.0px;--turn:62deg;--i:6"/><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#4f7d0a" style="--dx:-17.6px;--dy:43.6px;--turn:112deg;--i:7"/><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#4f7d0a" style="--dx:-50.9px;--dy:31.8px;--turn:148deg;--i:8"/></g>
-    </g></g>
+      <g class="sparks" transform="translate(126 64)"><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#427018" style="--dx:-33.0px;--dy:-8.2px;--turn:-166deg;--i:0"/><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#427018" style="--dx:-34.9px;--dy:-31.4px;--turn:-138deg;--i:1"/><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#427018" style="--dx:-14.5px;--dy:-58.2px;--turn:-104deg;--i:2"/><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#427018" style="--dx:12.7px;--dy:-31.5px;--turn:-68deg;--i:3"/><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#427018" style="--dx:42.2px;--dy:-20.6px;--turn:-26deg;--i:4"/><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#427018" style="--dx:57.1px;--dy:18.5px;--turn:18deg;--i:5"/><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#427018" style="--dx:16.0px;--dy:30.0px;--turn:62deg;--i:6"/><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#427018" style="--dx:-17.6px;--dy:43.6px;--turn:112deg;--i:7"/><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#427018" style="--dx:-50.9px;--dy:31.8px;--turn:148deg;--i:8"/></g>
+    </g></g></g>
     </g>
-      <g class="rise" style="--idx:1" transform="translate(50 206)">
-        <text y="86" font-size="128" font-weight="900" letter-spacing="-6" fill="#141a0d">BIGNAME</text>
+      <g transform="translate(50 180)"><g class="rise" style="--idx:1">
+        <text y="86" font-size="128" font-weight="900" letter-spacing="-6" fill="#202730">BIGNAME</text>
+      </g>
       </g>
       <g class="rise" style="--idx:2">
-        <text x="53" y="356" font-size="32" fill="#5f6854" class="mono">RUST / TYPESCRIPT / СВОИ ПРОЕКТЫ</text>
+        <text x="53" y="356" font-size="32" fill="#535e68" class="mono">RUST / TYPESCRIPT / СВОИ ПРОЕКТЫ</text>
       </g>
     </g>
 
-    <g class="stage" style="--idx:0">
-      <path d="M26 22V398" stroke="#c9cdb9" stroke-width="2"/>
-      <circle class="beat" cx="26" cy="42" r="5" fill="#4f7d0a"/>
-    </g>
-    <g class="relay" transform="translate(26 0)">
-      <path d="M-9-4h18v-9H-9Z" fill="#4f7d0a"/>
-      <path d="M-12 0h24" stroke="#4f7d0a" stroke-width="2" stroke-linecap="round"/>
-      <path d="M0-30v-16" stroke="#4f7d0a" stroke-width="1.6" opacity=".4"/>
-      <circle cy="-4" r="9" fill="#4f7d0a" opacity=".22"/>
-    </g></g>
-<g id="scene-bcore" transform="translate(0 420)">
-    <g class="stage" style="--idx:0">
-      <circle class="aura aura-a" cx="880" cy="120" r="330" fill="url(#aura-a)"/>
-      <circle class="aura aura-b" cx="300" cy="330" r="300" fill="url(#aura-b)"/>
-      <rect width="1200" height="420" fill="url(#stars)" opacity=".55"/>
+    <g class="rail">
+      <path d="M26 1V419" stroke="#d7dce2" stroke-width="1"/>
+      <circle class="beat" cx="26" cy="42" r="5" fill="#427018"/>
+    </g></g></g>
+<g id="scene-bcore" transform="translate(0 420)" style="--scene:1"><g clip-path="url(#scene-frame)">
+    <g class="stage">
+      <rect x="1" y="1" width="1198" height="418" rx="10" fill="#f6f7f9"/>
+      <ellipse class="aura" cx="925" cy="202" rx="330" ry="215" fill="url(#aura-bcore)"/>
+      <rect x="1" y="1" width="1198" height="418" fill="url(#stars)" opacity=".16"/>
       <rect x="1" y="1" width="1198" height="418" fill="url(#vignette)"/>
-      <g clip-path="url(#grain-clip)"><rect class="grain" x="-4" y="-4" width="1208" height="428" filter="url(#grain-filter)" opacity=".08"/></g>
+      <g clip-path="url(#grain-clip)"><rect class="grain" x="-4" y="-4" width="1208" height="428" filter="url(#grain-filter)" opacity=".025"/></g>
+      <rect x="1" y="1" width="1198" height="418" rx="10" fill="none" stroke="#d7dce2"/>
     </g>
     <g class="desktop" style="--idx:1">
       <g class="rise" style="--idx:0">
-        <text x="53" y="49" font-size="15" fill="#5f6854" class="mono" letter-spacing="2">01 / WORLD ENGINE</text>
+        <text x="53" y="49" font-size="15" fill="#535e68" class="mono" letter-spacing="2">01 / WORLD ENGINE</text>
         <text x="1156" y="49" font-size="14" fill="#4f7d0a" class="mono" text-anchor="end">ALPHA</text>
       </g>
-      <path class="wipe" pathLength="100" stroke-dasharray="100" d="M53 72H1156" stroke="#c9cdb9"/>
-      <path class="draw" pathLength="100" stroke-dasharray="100" d="M748 88V310m-6-222h12m-12 222h12" stroke="#c9cdb9"/>
+      <path class="wipe" pathLength="100" stroke-dasharray="100" d="M53 72H1156" stroke="#d7dce2"/>
+      <path class="draw" pathLength="100" stroke-dasharray="100" d="M748 88V310m-6-222h12m-12 222h12" stroke="#d7dce2"/>
       <g transform="translate(0 0)">
         <g class="rise" style="--idx:1">
-          <text x="49" y="139" font-size="80" fill="#141a0d" font-weight="900" letter-spacing="-3">BCore</text>
+          <text x="49" y="139" font-size="80" fill="#202730" font-weight="900" letter-spacing="-3">BCore</text>
         </g>
         <g class="rise" style="--idx:2">
-          <text x="53" y="204" font-size="28" fill="#141a0d" >Свой Minecraft-сервер на Rust.</text>
-          <text x="53" y="244" font-size="27" fill="#5f6854" >Миры, свет, нативные плагины и JVM-мост.</text>
+          <text x="53" y="204" font-size="28" fill="#202730" >Свой Minecraft-сервер на Rust.</text>
+          <text x="53" y="244" font-size="27" fill="#535e68" >Миры, свет, нативные плагины и JVM-мост.</text>
         </g>
       </g>
-      <g class="pop" style="--idx:2" transform="translate(965 201) scale(1)">
-    <path d="M-151 12 0-75 151 12 0 99Z" fill="#e8e4d5" stroke="#c9cdb9"/>
+      <g class="art-anchor from-right" transform="translate(965 201) scale(1)">
+        <g class="art-enter"><g class="art-detail" style="--phase:-10s">
+    <path d="M-151 12 0-75 151 12 0 99Z" fill="#e9edf1" stroke="#d7dce2"/>
     <ellipse cx="0" cy="26" rx="126" ry="57" fill="#101912" opacity=".18"/>
     <g transform="translate(0 -72)">
       <g class="world-voxel voxel-0" data-layer="0">
@@ -1272,17 +1283,19 @@
         <path d="M-107 58 0-4 107 58 0 120Z" fill="none" stroke="#4f7d0a"/>
       </g>
     </g>
-    </g>
-      <path class="wipe" pathLength="100" stroke-dasharray="100" d="M53 313H1156" stroke="#c9cdb9"/>
+    </g></g>
+      </g>
+      <path class="wipe" pathLength="100" stroke-dasharray="100" d="M53 313H1156" stroke="#d7dce2"/>
       <g class="rise" style="--idx:3">
-        <text x="53" y="365" font-size="17" fill="#5f6854" class="mono">RUST / WORLDGEN / NATIVE PLUGINS / JVM</text>
-        <rect x="930" y="331" width="226" height="52" rx="3" fill="#e8e4d5" stroke="#c9cdb9"/><rect x="930" y="331" width="3" height="52" fill="#4f7d0a"/><text x="1044.0" y="364.8" font-size="19" fill="#141a0d" font-weight="700" text-anchor="middle">ОТКРЫТЬ ↗</text>
+        <text x="53" y="365" font-size="17" fill="#535e68" class="mono">RUST / WORLDGEN / NATIVE PLUGINS / JVM</text>
+        <rect x="930" y="331" width="226" height="52" rx="3" fill="#e9edf1" stroke="#d7dce2"/><rect x="930" y="331" width="3" height="52" fill="#4f7d0a"/><text x="1044.0" y="364.8" font-size="19" fill="#202730" font-weight="700" text-anchor="middle">ОТКРЫТЬ ↗</text>
       </g>
       <rect class="sweep" x="-260" y="0" width="240" height="420" fill="url(#sweep-fade)" opacity=".35"/>
     </g>
     <g class="mobile" style="--idx:1">
-      <g opacity=".2" transform="translate(995 193) scale(1.05)">
-    <path d="M-151 12 0-75 151 12 0 99Z" fill="#e8e4d5" stroke="#c9cdb9"/>
+      <g class="art-anchor" opacity=".14" transform="translate(995 193) scale(1.05)">
+        <g class="art-enter"><g class="art-detail" style="--phase:-10s">
+    <path d="M-151 12 0-75 151 12 0 99Z" fill="#e9edf1" stroke="#d7dce2"/>
     <ellipse cx="0" cy="26" rx="126" ry="57" fill="#101912" opacity=".18"/>
     <g transform="translate(0 -72)">
       <g class="world-voxel voxel-0" data-layer="0">
@@ -1698,468 +1711,461 @@
         <path d="M-107 58 0-4 107 58 0 120Z" fill="none" stroke="#4f7d0a"/>
       </g>
     </g>
-    </g>
+    </g></g>
+      </g>
       <g class="rise" style="--idx:0">
-        <text x="53" y="45" font-size="26" fill="#5f6854" class="mono" letter-spacing="1">01 / WORLD ENGINE</text>
+        <text x="53" y="45" font-size="26" fill="#535e68" class="mono" letter-spacing="1">01 / WORLD ENGINE</text>
       </g>
       <g class="rise" style="--idx:1">
-        <text x="47" y="125" font-size="96" fill="#141a0d" font-weight="900" letter-spacing="-3">BCore</text>
+        <text x="47" y="125" font-size="96" fill="#202730" font-weight="900" letter-spacing="-3">BCore</text>
       </g>
       <g class="rise" style="--idx:2">
-        <text x="53" y="212" font-size="50" fill="#141a0d" >Minecraft-сервер на Rust.</text>
-        <text x="53" y="273" font-size="49" fill="#141a0d" >Миры, свет, плагины и JVM-мост.</text>
+        <text x="53" y="212" font-size="50" fill="#202730" >Minecraft-сервер на Rust.</text>
+        <text x="53" y="273" font-size="49" fill="#202730" >Миры, свет, плагины и JVM-мост.</text>
       </g>
       <g class="rise" style="--idx:3">
-        <text x="53" y="361" font-size="38" fill="#5f6854" >Rust · alpha</text>
-        <rect x="778" y="318" width="378" height="66" rx="3" fill="#e8e4d5" stroke="#c9cdb9"/><rect x="778" y="318" width="3" height="66" fill="#4f7d0a"/><text x="968.0" y="360.9" font-size="39" fill="#141a0d" font-weight="700" text-anchor="middle">ОТКРЫТЬ ↗</text>
+        <text x="53" y="361" font-size="38" fill="#535e68" >Rust · alpha</text>
+        <rect x="778" y="318" width="378" height="66" rx="3" fill="#e9edf1" stroke="#d7dce2"/><rect x="778" y="318" width="3" height="66" fill="#4f7d0a"/><text x="968.0" y="360.9" font-size="39" fill="#202730" font-weight="700" text-anchor="middle">ОТКРЫТЬ ↗</text>
       </g>
     </g>
 
-    <g class="stage" style="--idx:0">
-      <path d="M26 22V398" stroke="#c9cdb9" stroke-width="2"/>
+    <g class="rail">
+      <path d="M26 1V419" stroke="#d7dce2" stroke-width="1"/>
       <circle class="beat" cx="26" cy="42" r="5" fill="#4f7d0a"/>
-    </g>
-    <g class="relay" transform="translate(26 0)">
-      <path d="M-9-4h18v-9H-9Z" fill="#4f7d0a"/>
-      <path d="M-12 0h24" stroke="#4f7d0a" stroke-width="2" stroke-linecap="round"/>
-      <path d="M0-30v-16" stroke="#4f7d0a" stroke-width="1.6" opacity=".4"/>
-      <circle cy="-4" r="9" fill="#4f7d0a" opacity=".22"/>
-    </g></g>
-<g id="scene-minecraft-panel" transform="translate(0 840)">
-    <g class="stage" style="--idx:0">
-      <circle class="aura aura-a" cx="880" cy="120" r="330" fill="url(#aura-a)"/>
-      <circle class="aura aura-b" cx="300" cy="330" r="300" fill="url(#aura-b)"/>
-      <rect width="1200" height="420" fill="url(#stars)" opacity=".55"/>
+    </g></g></g>
+<g id="scene-minecraft-panel" transform="translate(0 840)" style="--scene:2"><g clip-path="url(#scene-frame)">
+    <g class="stage">
+      <rect x="1" y="1" width="1198" height="418" rx="10" fill="#f6f7f9"/>
+      <ellipse class="aura" cx="238" cy="202" rx="330" ry="215" fill="url(#aura-minecraft-panel)"/>
+      <rect x="1" y="1" width="1198" height="418" fill="url(#stars)" opacity=".16"/>
       <rect x="1" y="1" width="1198" height="418" fill="url(#vignette)"/>
-      <g clip-path="url(#grain-clip)"><rect class="grain" x="-4" y="-4" width="1208" height="428" filter="url(#grain-filter)" opacity=".08"/></g>
+      <g clip-path="url(#grain-clip)"><rect class="grain" x="-4" y="-4" width="1208" height="428" filter="url(#grain-filter)" opacity=".025"/></g>
+      <rect x="1" y="1" width="1198" height="418" rx="10" fill="none" stroke="#d7dce2"/>
     </g>
     <g class="desktop" style="--idx:2">
       <g class="rise" style="--idx:0">
-        <text x="53" y="49" font-size="15" fill="#5f6854" class="mono" letter-spacing="2">02 / CONTROL ROOM</text>
+        <text x="53" y="49" font-size="15" fill="#535e68" class="mono" letter-spacing="2">02 / CONTROL ROOM</text>
         <text x="1156" y="49" font-size="14" fill="#9a4d12" class="mono" text-anchor="end">EARLY RELEASE</text>
       </g>
-      <path class="wipe" pathLength="100" stroke-dasharray="100" d="M53 72H1156" stroke="#c9cdb9"/>
-      <path class="draw" pathLength="100" stroke-dasharray="100" d="M418 88V310m-6-222h12m-12 222h12" stroke="#c9cdb9"/>
+      <path class="wipe" pathLength="100" stroke-dasharray="100" d="M53 72H1156" stroke="#d7dce2"/>
+      <path class="draw" pathLength="100" stroke-dasharray="100" d="M418 88V310m-6-222h12m-12 222h12" stroke="#d7dce2"/>
       <g transform="translate(396 0)">
         <g class="rise" style="--idx:1">
-          <text x="49" y="139" font-size="80" fill="#141a0d" font-weight="900" letter-spacing="-3">emberdeck.</text>
+          <text x="49" y="139" font-size="80" fill="#202730" font-weight="900" letter-spacing="-3">emberdeck.</text>
         </g>
         <g class="rise" style="--idx:2">
-          <text x="53" y="204" font-size="28" fill="#141a0d" >Minecraft-панель в одном Rust-бинарнике.</text>
-          <text x="53" y="244" font-size="27" fill="#5f6854" >Серверы, консоль, SFTP и резервные копии.</text>
+          <text x="53" y="204" font-size="28" fill="#202730" >Minecraft-панель в одном Rust-бинарнике.</text>
+          <text x="53" y="244" font-size="27" fill="#535e68" >Серверы, консоль, SFTP и резервные копии.</text>
         </g>
       </g>
-      <g class="pop" style="--idx:2" transform="translate(238 191) scale(0.9)">
+      <g class="art-anchor from-left" transform="translate(238 191) scale(0.9)">
+        <g class="art-enter"><g class="art-detail" style="--phase:-10s">
     <g>
-      <rect x="-166" y="-106" width="332" height="217" rx="4" fill="#e8e4d5" stroke="#5f6854" stroke-width="1.4"/>
-      <circle cx="-157" cy="-97" r="2.5" fill="none" stroke="#5f6854"/><path d="M-158.5 -97h3" stroke="#5f6854"/><circle cx="157" cy="-97" r="2.5" fill="none" stroke="#5f6854"/><path d="M155.5 -97h3" stroke="#5f6854"/><circle cx="-157" cy="102" r="2.5" fill="none" stroke="#5f6854"/><path d="M-158.5 102h3" stroke="#5f6854"/><circle cx="157" cy="102" r="2.5" fill="none" stroke="#5f6854"/><path d="M155.5 102h3" stroke="#5f6854"/>
-      <path d="M-166-73H166" stroke="#c9cdb9"/>
+      <rect x="-166" y="-106" width="332" height="217" rx="4" fill="#e9edf1" stroke="#535e68" stroke-width="1.4"/>
+      <circle cx="-157" cy="-97" r="2.5" fill="none" stroke="#535e68"/><path d="M-158.5 -97h3" stroke="#535e68"/><circle cx="157" cy="-97" r="2.5" fill="none" stroke="#535e68"/><path d="M155.5 -97h3" stroke="#535e68"/><circle cx="-157" cy="102" r="2.5" fill="none" stroke="#535e68"/><path d="M-158.5 102h3" stroke="#535e68"/><circle cx="157" cy="102" r="2.5" fill="none" stroke="#535e68"/><path d="M155.5 102h3" stroke="#535e68"/>
+      <path d="M-166-73H166" stroke="#d7dce2"/>
       <circle cx="-145" cy="-90" r="4" fill="#9a4d12" class="heartbeat"/>
-      <text x="-132" y="-87" fill="#141a0d" font-size="10" class="mono">emberdeck / node</text>
-      <path d="M122-94h22m-22 4h22m-22 4h22" stroke="#c9cdb9"/>
-      <rect x="-145" y="-53" width="67" height="142" rx="7" fill="#f4f1e6" stroke="#c9cdb9"/>
+      <text x="-132" y="-87" fill="#202730" font-size="10" class="mono">emberdeck / node</text>
+      <path d="M122-94h22m-22 4h22m-22 4h22" stroke="#d7dce2"/>
+      <rect x="-145" y="-53" width="67" height="142" rx="7" fill="#f6f7f9" stroke="#d7dce2"/>
       <g class="server-core">
-        <circle cx="-112" cy="-12" r="23" fill="#e8e4d5" stroke="#5f6854"/>
+        <circle cx="-112" cy="-12" r="23" fill="#e9edf1" stroke="#535e68"/>
         <g transform="translate(-112 -12)"><g class="fan" fill="#f2e0c8" stroke="#9a4d12" stroke-width=".7">
           <path d="M-4-4Q-22-19-7-19L2-5ZM4-4Q19-22 19-7L5 2ZM4 4Q22 19 7 19L-2 5ZM-4 4Q-19 22-19 7L-5-2Z"/>
         </g><circle r="4" fill="#9a4d12"/></g>
       </g>
-      <path d="M-131 30h38" stroke="#c9cdb9" stroke-width="2"/><path d="M-131 36h38" stroke="#c9cdb9" stroke-width="2"/><path d="M-131 42h38" stroke="#c9cdb9" stroke-width="2"/><path d="M-131 48h38" stroke="#c9cdb9" stroke-width="2"/><path d="M-131 54h38" stroke="#c9cdb9" stroke-width="2"/><path d="M-131 60h38" stroke="#c9cdb9" stroke-width="2"/><path d="M-131 66h38" stroke="#c9cdb9" stroke-width="2"/><path d="M-131 72h38" stroke="#c9cdb9" stroke-width="2"/><g transform="translate(-120 -29)"><path class="ember" d="M0 0h2v3H0Z" fill="#9a4d12" style="--dx:-10px;--event:calc(var(--cycle) * 0.000)"/></g><g transform="translate(-115 -29)"><path class="ember" d="M0 0h2v3H0Z" fill="#9a4d12" style="--dx:0px;--event:calc(var(--cycle) * 0.015)"/></g><g transform="translate(-110 -29)"><path class="ember" d="M0 0h2v3H0Z" fill="#9a4d12" style="--dx:10px;--event:calc(var(--cycle) * 0.030)"/></g><g transform="translate(-105 -29)"><path class="ember" d="M0 0h2v3H0Z" fill="#9a4d12" style="--dx:-10px;--event:calc(var(--cycle) * 0.045)"/></g><g transform="translate(-100 -29)"><path class="ember" d="M0 0h2v3H0Z" fill="#9a4d12" style="--dx:0px;--event:calc(var(--cycle) * 0.060)"/></g>
+      <path d="M-131 30h38" stroke="#d7dce2" stroke-width="2"/><path d="M-131 36h38" stroke="#d7dce2" stroke-width="2"/><path d="M-131 42h38" stroke="#d7dce2" stroke-width="2"/><path d="M-131 48h38" stroke="#d7dce2" stroke-width="2"/><path d="M-131 54h38" stroke="#d7dce2" stroke-width="2"/><path d="M-131 60h38" stroke="#d7dce2" stroke-width="2"/><path d="M-131 66h38" stroke="#d7dce2" stroke-width="2"/><path d="M-131 72h38" stroke="#d7dce2" stroke-width="2"/><g transform="translate(-120 -29)"><path class="ember" d="M0 0h2v3H0Z" fill="#9a4d12" style="--dx:-10px;--event:calc(var(--cycle) * 0.000)"/></g><g transform="translate(-115 -29)"><path class="ember" d="M0 0h2v3H0Z" fill="#9a4d12" style="--dx:0px;--event:calc(var(--cycle) * 0.015)"/></g><g transform="translate(-110 -29)"><path class="ember" d="M0 0h2v3H0Z" fill="#9a4d12" style="--dx:10px;--event:calc(var(--cycle) * 0.030)"/></g><g transform="translate(-105 -29)"><path class="ember" d="M0 0h2v3H0Z" fill="#9a4d12" style="--dx:-10px;--event:calc(var(--cycle) * 0.045)"/></g><g transform="translate(-100 -29)"><path class="ember" d="M0 0h2v3H0Z" fill="#9a4d12" style="--dx:0px;--event:calc(var(--cycle) * 0.060)"/></g>
       <g class="server-card">
-        <rect x="-57" y="-53" width="89" height="49" rx="7" fill="#f4f1e6" stroke="#c9cdb9"/>
-        <text x="-43" y="-33" font-size="8" fill="#5f6854" class="mono">SURVIVAL</text>
+        <rect x="-57" y="-53" width="89" height="49" rx="7" fill="#f6f7f9" stroke="#d7dce2"/>
+        <text x="-43" y="-33" font-size="8" fill="#535e68" class="mono">SURVIVAL</text>
         <path class="boot-progress" pathLength="100" d="M-43-20h59" stroke="#9a4d12" stroke-width="3"/>
         <circle class="server-ready" cx="17" cy="-37" r="4" fill="#9a4d12"/>
       </g>
       <g class="server-card second">
-        <rect x="46" y="-53" width="98" height="49" rx="7" fill="#f4f1e6" stroke="#c9cdb9"/>
-        <text x="60" y="-33" font-size="8" fill="#5f6854" class="mono">CREATIVE</text>
+        <rect x="46" y="-53" width="98" height="49" rx="7" fill="#f6f7f9" stroke="#d7dce2"/>
+        <text x="60" y="-33" font-size="8" fill="#535e68" class="mono">CREATIVE</text>
         <path class="boot-progress" pathLength="100" d="M60-20h68" stroke="#9a4d12" stroke-width="3"/>
         <circle class="server-ready" cx="129" cy="-37" r="4" fill="#9a4d12"/>
       </g>
-      <rect x="-57" y="12" width="201" height="77" rx="7" fill="#f4f1e6" stroke="#c9cdb9"/>
-      <path d="M-43 69H130M-43 38H130" stroke="#c9cdb9" stroke-dasharray="2 5"/>
+      <rect x="-57" y="12" width="201" height="77" rx="7" fill="#f6f7f9" stroke="#d7dce2"/>
+      <path d="M-43 69H130M-43 38H130" stroke="#d7dce2" stroke-dasharray="2 5"/>
       <path class="server-chart" pathLength="100" d="M-43 65-25 65-8 34 15 56 36 45 57 64 79 27 100 42 130 42" fill="none" stroke="#9a4d12" stroke-width="2.5"/>
       <g class="server-live"><circle cx="130" cy="42" r="4" fill="#9a4d12"/><circle class="heartbeat" cx="130" cy="42" r="9" fill="none" stroke="#9a4d12"/></g>
     </g>
-    <path d="M-141 112v9h25v-9m224 0v9h25v-9" fill="#e8e4d5" stroke="#c9cdb9"/>
+    <path d="M-141 112v9h25v-9m224 0v9h25v-9" fill="#e9edf1" stroke="#d7dce2"/>
     <g transform="translate(17 -37)"><path class="debris" d="M-1-2h3v3h-3Z" fill="#9a4d12" style="--dx:-16.5px;--dy:-10px;--event:calc(var(--cycle) * 0.4200)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#9a4d12" style="--dx:-5.5px;--dy:-17px;--event:calc(var(--cycle) * 0.4200)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#9a4d12" style="--dx:5.5px;--dy:-24px;--event:calc(var(--cycle) * 0.4200)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#9a4d12" style="--dx:16.5px;--dy:-10px;--event:calc(var(--cycle) * 0.4200)"/></g><g transform="translate(129 -37)"><path class="debris" d="M-1-2h3v3h-3Z" fill="#9a4d12" style="--dx:-16.5px;--dy:-10px;--event:calc(var(--cycle) * 0.5200)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#9a4d12" style="--dx:-5.5px;--dy:-17px;--event:calc(var(--cycle) * 0.5200)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#9a4d12" style="--dx:5.5px;--dy:-24px;--event:calc(var(--cycle) * 0.5200)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#9a4d12" style="--dx:16.5px;--dy:-10px;--event:calc(var(--cycle) * 0.5200)"/></g>
-    </g>
-      <path class="wipe" pathLength="100" stroke-dasharray="100" d="M53 313H1156" stroke="#c9cdb9"/>
+    </g></g>
+      </g>
+      <path class="wipe" pathLength="100" stroke-dasharray="100" d="M53 313H1156" stroke="#d7dce2"/>
       <g class="rise" style="--idx:3">
-        <text x="53" y="365" font-size="17" fill="#5f6854" class="mono">SELF-HOSTED / LINUX / SFTP / CLI</text>
-        <rect x="930" y="331" width="226" height="52" rx="3" fill="#e8e4d5" stroke="#c9cdb9"/><rect x="930" y="331" width="3" height="52" fill="#9a4d12"/><text x="1044.0" y="364.8" font-size="19" fill="#141a0d" font-weight="700" text-anchor="middle">ОТКРЫТЬ ↗</text>
+        <text x="53" y="365" font-size="17" fill="#535e68" class="mono">SELF-HOSTED / LINUX / SFTP / CLI</text>
+        <rect x="930" y="331" width="226" height="52" rx="3" fill="#e9edf1" stroke="#d7dce2"/><rect x="930" y="331" width="3" height="52" fill="#9a4d12"/><text x="1044.0" y="364.8" font-size="19" fill="#202730" font-weight="700" text-anchor="middle">ОТКРЫТЬ ↗</text>
       </g>
       <rect class="sweep" x="-260" y="0" width="240" height="420" fill="url(#sweep-fade)" opacity=".35"/>
     </g>
     <g class="mobile" style="--idx:2">
-      <g opacity=".2" transform="translate(995 193) scale(1.05)">
+      <g class="art-anchor" opacity=".14" transform="translate(995 193) scale(1.05)">
+        <g class="art-enter"><g class="art-detail" style="--phase:-10s">
     <g>
-      <rect x="-166" y="-106" width="332" height="217" rx="4" fill="#e8e4d5" stroke="#5f6854" stroke-width="1.4"/>
-      <circle cx="-157" cy="-97" r="2.5" fill="none" stroke="#5f6854"/><path d="M-158.5 -97h3" stroke="#5f6854"/><circle cx="157" cy="-97" r="2.5" fill="none" stroke="#5f6854"/><path d="M155.5 -97h3" stroke="#5f6854"/><circle cx="-157" cy="102" r="2.5" fill="none" stroke="#5f6854"/><path d="M-158.5 102h3" stroke="#5f6854"/><circle cx="157" cy="102" r="2.5" fill="none" stroke="#5f6854"/><path d="M155.5 102h3" stroke="#5f6854"/>
-      <path d="M-166-73H166" stroke="#c9cdb9"/>
+      <rect x="-166" y="-106" width="332" height="217" rx="4" fill="#e9edf1" stroke="#535e68" stroke-width="1.4"/>
+      <circle cx="-157" cy="-97" r="2.5" fill="none" stroke="#535e68"/><path d="M-158.5 -97h3" stroke="#535e68"/><circle cx="157" cy="-97" r="2.5" fill="none" stroke="#535e68"/><path d="M155.5 -97h3" stroke="#535e68"/><circle cx="-157" cy="102" r="2.5" fill="none" stroke="#535e68"/><path d="M-158.5 102h3" stroke="#535e68"/><circle cx="157" cy="102" r="2.5" fill="none" stroke="#535e68"/><path d="M155.5 102h3" stroke="#535e68"/>
+      <path d="M-166-73H166" stroke="#d7dce2"/>
       <circle cx="-145" cy="-90" r="4" fill="#9a4d12" class="heartbeat"/>
-      <text x="-132" y="-87" fill="#141a0d" font-size="10" class="mono">emberdeck / node</text>
-      <path d="M122-94h22m-22 4h22m-22 4h22" stroke="#c9cdb9"/>
-      <rect x="-145" y="-53" width="67" height="142" rx="7" fill="#f4f1e6" stroke="#c9cdb9"/>
+      <text x="-132" y="-87" fill="#202730" font-size="10" class="mono">emberdeck / node</text>
+      <path d="M122-94h22m-22 4h22m-22 4h22" stroke="#d7dce2"/>
+      <rect x="-145" y="-53" width="67" height="142" rx="7" fill="#f6f7f9" stroke="#d7dce2"/>
       <g class="server-core">
-        <circle cx="-112" cy="-12" r="23" fill="#e8e4d5" stroke="#5f6854"/>
+        <circle cx="-112" cy="-12" r="23" fill="#e9edf1" stroke="#535e68"/>
         <g transform="translate(-112 -12)"><g class="fan" fill="#f2e0c8" stroke="#9a4d12" stroke-width=".7">
           <path d="M-4-4Q-22-19-7-19L2-5ZM4-4Q19-22 19-7L5 2ZM4 4Q22 19 7 19L-2 5ZM-4 4Q-19 22-19 7L-5-2Z"/>
         </g><circle r="4" fill="#9a4d12"/></g>
       </g>
-      <path d="M-131 30h38" stroke="#c9cdb9" stroke-width="2"/><path d="M-131 36h38" stroke="#c9cdb9" stroke-width="2"/><path d="M-131 42h38" stroke="#c9cdb9" stroke-width="2"/><path d="M-131 48h38" stroke="#c9cdb9" stroke-width="2"/><path d="M-131 54h38" stroke="#c9cdb9" stroke-width="2"/><path d="M-131 60h38" stroke="#c9cdb9" stroke-width="2"/><path d="M-131 66h38" stroke="#c9cdb9" stroke-width="2"/><path d="M-131 72h38" stroke="#c9cdb9" stroke-width="2"/><g transform="translate(-120 -29)"><path class="ember" d="M0 0h2v3H0Z" fill="#9a4d12" style="--dx:-10px;--event:calc(var(--cycle) * 0.000)"/></g><g transform="translate(-115 -29)"><path class="ember" d="M0 0h2v3H0Z" fill="#9a4d12" style="--dx:0px;--event:calc(var(--cycle) * 0.015)"/></g><g transform="translate(-110 -29)"><path class="ember" d="M0 0h2v3H0Z" fill="#9a4d12" style="--dx:10px;--event:calc(var(--cycle) * 0.030)"/></g><g transform="translate(-105 -29)"><path class="ember" d="M0 0h2v3H0Z" fill="#9a4d12" style="--dx:-10px;--event:calc(var(--cycle) * 0.045)"/></g><g transform="translate(-100 -29)"><path class="ember" d="M0 0h2v3H0Z" fill="#9a4d12" style="--dx:0px;--event:calc(var(--cycle) * 0.060)"/></g>
+      <path d="M-131 30h38" stroke="#d7dce2" stroke-width="2"/><path d="M-131 36h38" stroke="#d7dce2" stroke-width="2"/><path d="M-131 42h38" stroke="#d7dce2" stroke-width="2"/><path d="M-131 48h38" stroke="#d7dce2" stroke-width="2"/><path d="M-131 54h38" stroke="#d7dce2" stroke-width="2"/><path d="M-131 60h38" stroke="#d7dce2" stroke-width="2"/><path d="M-131 66h38" stroke="#d7dce2" stroke-width="2"/><path d="M-131 72h38" stroke="#d7dce2" stroke-width="2"/><g transform="translate(-120 -29)"><path class="ember" d="M0 0h2v3H0Z" fill="#9a4d12" style="--dx:-10px;--event:calc(var(--cycle) * 0.000)"/></g><g transform="translate(-115 -29)"><path class="ember" d="M0 0h2v3H0Z" fill="#9a4d12" style="--dx:0px;--event:calc(var(--cycle) * 0.015)"/></g><g transform="translate(-110 -29)"><path class="ember" d="M0 0h2v3H0Z" fill="#9a4d12" style="--dx:10px;--event:calc(var(--cycle) * 0.030)"/></g><g transform="translate(-105 -29)"><path class="ember" d="M0 0h2v3H0Z" fill="#9a4d12" style="--dx:-10px;--event:calc(var(--cycle) * 0.045)"/></g><g transform="translate(-100 -29)"><path class="ember" d="M0 0h2v3H0Z" fill="#9a4d12" style="--dx:0px;--event:calc(var(--cycle) * 0.060)"/></g>
       <g class="server-card">
-        <rect x="-57" y="-53" width="89" height="49" rx="7" fill="#f4f1e6" stroke="#c9cdb9"/>
-        <text x="-43" y="-33" font-size="8" fill="#5f6854" class="mono">SURVIVAL</text>
+        <rect x="-57" y="-53" width="89" height="49" rx="7" fill="#f6f7f9" stroke="#d7dce2"/>
+        <text x="-43" y="-33" font-size="8" fill="#535e68" class="mono">SURVIVAL</text>
         <path class="boot-progress" pathLength="100" d="M-43-20h59" stroke="#9a4d12" stroke-width="3"/>
         <circle class="server-ready" cx="17" cy="-37" r="4" fill="#9a4d12"/>
       </g>
       <g class="server-card second">
-        <rect x="46" y="-53" width="98" height="49" rx="7" fill="#f4f1e6" stroke="#c9cdb9"/>
-        <text x="60" y="-33" font-size="8" fill="#5f6854" class="mono">CREATIVE</text>
+        <rect x="46" y="-53" width="98" height="49" rx="7" fill="#f6f7f9" stroke="#d7dce2"/>
+        <text x="60" y="-33" font-size="8" fill="#535e68" class="mono">CREATIVE</text>
         <path class="boot-progress" pathLength="100" d="M60-20h68" stroke="#9a4d12" stroke-width="3"/>
         <circle class="server-ready" cx="129" cy="-37" r="4" fill="#9a4d12"/>
       </g>
-      <rect x="-57" y="12" width="201" height="77" rx="7" fill="#f4f1e6" stroke="#c9cdb9"/>
-      <path d="M-43 69H130M-43 38H130" stroke="#c9cdb9" stroke-dasharray="2 5"/>
+      <rect x="-57" y="12" width="201" height="77" rx="7" fill="#f6f7f9" stroke="#d7dce2"/>
+      <path d="M-43 69H130M-43 38H130" stroke="#d7dce2" stroke-dasharray="2 5"/>
       <path class="server-chart" pathLength="100" d="M-43 65-25 65-8 34 15 56 36 45 57 64 79 27 100 42 130 42" fill="none" stroke="#9a4d12" stroke-width="2.5"/>
       <g class="server-live"><circle cx="130" cy="42" r="4" fill="#9a4d12"/><circle class="heartbeat" cx="130" cy="42" r="9" fill="none" stroke="#9a4d12"/></g>
     </g>
-    <path d="M-141 112v9h25v-9m224 0v9h25v-9" fill="#e8e4d5" stroke="#c9cdb9"/>
+    <path d="M-141 112v9h25v-9m224 0v9h25v-9" fill="#e9edf1" stroke="#d7dce2"/>
     <g transform="translate(17 -37)"><path class="debris" d="M-1-2h3v3h-3Z" fill="#9a4d12" style="--dx:-16.5px;--dy:-10px;--event:calc(var(--cycle) * 0.4200)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#9a4d12" style="--dx:-5.5px;--dy:-17px;--event:calc(var(--cycle) * 0.4200)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#9a4d12" style="--dx:5.5px;--dy:-24px;--event:calc(var(--cycle) * 0.4200)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#9a4d12" style="--dx:16.5px;--dy:-10px;--event:calc(var(--cycle) * 0.4200)"/></g><g transform="translate(129 -37)"><path class="debris" d="M-1-2h3v3h-3Z" fill="#9a4d12" style="--dx:-16.5px;--dy:-10px;--event:calc(var(--cycle) * 0.5200)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#9a4d12" style="--dx:-5.5px;--dy:-17px;--event:calc(var(--cycle) * 0.5200)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#9a4d12" style="--dx:5.5px;--dy:-24px;--event:calc(var(--cycle) * 0.5200)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#9a4d12" style="--dx:16.5px;--dy:-10px;--event:calc(var(--cycle) * 0.5200)"/></g>
-    </g>
+    </g></g>
+      </g>
       <g class="rise" style="--idx:0">
-        <text x="53" y="45" font-size="26" fill="#5f6854" class="mono" letter-spacing="1">02 / CONTROL ROOM</text>
+        <text x="53" y="45" font-size="26" fill="#535e68" class="mono" letter-spacing="1">02 / CONTROL ROOM</text>
       </g>
       <g class="rise" style="--idx:1">
-        <text x="47" y="125" font-size="96" fill="#141a0d" font-weight="900" letter-spacing="-3">emberdeck.</text>
+        <text x="47" y="125" font-size="96" fill="#202730" font-weight="900" letter-spacing="-3">emberdeck.</text>
       </g>
       <g class="rise" style="--idx:2">
-        <text x="53" y="212" font-size="50" fill="#141a0d" >Панель для Minecraft на Rust.</text>
-        <text x="53" y="273" font-size="49" fill="#141a0d" >Серверы, SFTP и резервные копии.</text>
+        <text x="53" y="212" font-size="50" fill="#202730" >Панель для Minecraft на Rust.</text>
+        <text x="53" y="273" font-size="49" fill="#202730" >Серверы, SFTP и резервные копии.</text>
       </g>
       <g class="rise" style="--idx:3">
-        <text x="53" y="361" font-size="38" fill="#5f6854" >Rust · ранний релиз</text>
-        <rect x="778" y="318" width="378" height="66" rx="3" fill="#e8e4d5" stroke="#c9cdb9"/><rect x="778" y="318" width="3" height="66" fill="#9a4d12"/><text x="968.0" y="360.9" font-size="39" fill="#141a0d" font-weight="700" text-anchor="middle">ОТКРЫТЬ ↗</text>
+        <text x="53" y="361" font-size="38" fill="#535e68" >Rust · ранний релиз</text>
+        <rect x="778" y="318" width="378" height="66" rx="3" fill="#e9edf1" stroke="#d7dce2"/><rect x="778" y="318" width="3" height="66" fill="#9a4d12"/><text x="968.0" y="360.9" font-size="39" fill="#202730" font-weight="700" text-anchor="middle">ОТКРЫТЬ ↗</text>
       </g>
     </g>
 
-    <g class="stage" style="--idx:0">
-      <path d="M26 22V398" stroke="#c9cdb9" stroke-width="2"/>
+    <g class="rail">
+      <path d="M26 1V419" stroke="#d7dce2" stroke-width="1"/>
       <circle class="beat" cx="26" cy="42" r="5" fill="#9a4d12"/>
-    </g>
-    <g class="relay" transform="translate(26 0)">
-      <path d="M-9-4h18v-9H-9Z" fill="#4f7d0a"/>
-      <path d="M-12 0h24" stroke="#4f7d0a" stroke-width="2" stroke-linecap="round"/>
-      <path d="M0-30v-16" stroke="#4f7d0a" stroke-width="1.6" opacity=".4"/>
-      <circle cy="-4" r="9" fill="#4f7d0a" opacity=".22"/>
-    </g></g>
-<g id="scene-softdownloader" transform="translate(0 1260)">
-    <g class="stage" style="--idx:0">
-      <circle class="aura aura-a" cx="880" cy="120" r="330" fill="url(#aura-a)"/>
-      <circle class="aura aura-b" cx="300" cy="330" r="300" fill="url(#aura-b)"/>
-      <rect width="1200" height="420" fill="url(#stars)" opacity=".55"/>
+    </g></g></g>
+<g id="scene-softdownloader" transform="translate(0 1260)" style="--scene:3"><g clip-path="url(#scene-frame)">
+    <g class="stage">
+      <rect x="1" y="1" width="1198" height="418" rx="10" fill="#f6f7f9"/>
+      <ellipse class="aura" cx="925" cy="202" rx="330" ry="215" fill="url(#aura-softdownloader)"/>
+      <rect x="1" y="1" width="1198" height="418" fill="url(#stars)" opacity=".16"/>
       <rect x="1" y="1" width="1198" height="418" fill="url(#vignette)"/>
-      <g clip-path="url(#grain-clip)"><rect class="grain" x="-4" y="-4" width="1208" height="428" filter="url(#grain-filter)" opacity=".08"/></g>
+      <g clip-path="url(#grain-clip)"><rect class="grain" x="-4" y="-4" width="1208" height="428" filter="url(#grain-filter)" opacity=".025"/></g>
+      <rect x="1" y="1" width="1198" height="418" rx="10" fill="none" stroke="#d7dce2"/>
     </g>
     <g class="desktop" style="--idx:3">
       <g class="rise" style="--idx:0">
-        <text x="53" y="49" font-size="15" fill="#5f6854" class="mono" letter-spacing="2">03 / DESKTOP KIT</text>
+        <text x="53" y="49" font-size="15" fill="#535e68" class="mono" letter-spacing="2">03 / DESKTOP KIT</text>
         <text x="1156" y="49" font-size="14" fill="#1c6675" class="mono" text-anchor="end">WINDOWS APP</text>
       </g>
-      <path class="wipe" pathLength="100" stroke-dasharray="100" d="M53 72H1156" stroke="#c9cdb9"/>
-      <path class="draw" pathLength="100" stroke-dasharray="100" d="M748 88V310m-6-222h12m-12 222h12" stroke="#c9cdb9"/>
+      <path class="wipe" pathLength="100" stroke-dasharray="100" d="M53 72H1156" stroke="#d7dce2"/>
+      <path class="draw" pathLength="100" stroke-dasharray="100" d="M748 88V310m-6-222h12m-12 222h12" stroke="#d7dce2"/>
       <g transform="translate(0 0)">
         <g class="rise" style="--idx:1">
-          <text x="49" y="139" font-size="66" fill="#141a0d" font-weight="900" letter-spacing="-3">SoftDownloader</text>
+          <text x="49" y="139" font-size="66" fill="#202730" font-weight="900" letter-spacing="-3">SoftDownloader</text>
         </g>
         <g class="rise" style="--idx:2">
-          <text x="53" y="204" font-size="28" fill="#141a0d" >Каталог программ в одном EXE.</text>
-          <text x="53" y="244" font-size="27" fill="#5f6854" >Установка очередью и перенос списка ПО.</text>
+          <text x="53" y="204" font-size="28" fill="#202730" >Каталог программ в одном EXE.</text>
+          <text x="53" y="244" font-size="27" fill="#535e68" >Установка очередью и перенос списка ПО.</text>
         </g>
       </g>
-      <g class="pop" style="--idx:2" transform="translate(965 190) scale(0.92)">
-    <rect x="-156" y="-95" width="316" height="202" rx="4" fill="#e8e4d5" stroke="#5f6854" stroke-width="1.3"/>
-    <path d="M-156-63H160" stroke="#c9cdb9"/>
-    <text x="-135" y="-74" font-size="10" fill="#141a0d" class="mono">SoftDownloader / queue</text>
-    <path d="M111-79h13m-6.5-6.5v13M138-82h9v8h-9Z" fill="none" stroke="#5f6854"/>
+      <g class="art-anchor from-right" transform="translate(965 190) scale(0.92)">
+        <g class="art-enter"><g class="art-detail" style="--phase:-10s">
+    <rect x="-156" y="-95" width="316" height="202" rx="4" fill="#e9edf1" stroke="#535e68" stroke-width="1.3"/>
+    <path d="M-156-63H160" stroke="#d7dce2"/>
+    <text x="-135" y="-74" font-size="10" fill="#202730" class="mono">SoftDownloader / queue</text>
+    <path d="M111-79h13m-6.5-6.5v13M138-82h9v8h-9Z" fill="none" stroke="#535e68"/>
 
         <g>
-          <rect x="-134" y="-36" width="43" height="42" rx="3" fill="#f4f1e6" stroke="#c9cdb9"/>
+          <rect x="-134" y="-36" width="43" height="42" rx="3" fill="#f6f7f9" stroke="#d7dce2"/>
           <rect class="package-installed installed-0" x="-134" y="-36" width="43" height="42" rx="3" fill="#d3e8ea" stroke="#1c6675"/>
-          <path d="M-125 -26h22v16h-22Zm0 5h22m-18 4 4 3-4 3m7 0h7" fill="none" stroke="#5f6854" stroke-width="1"/>
+          <path d="M-125 -26h22v16h-22Zm0 5h22m-18 4 4 3-4 3m7 0h7" fill="none" stroke="#535e68" stroke-width="1"/>
           <path class="package-check check-0" pathLength="100" d="M-107 -3 -103 1 -96 -8" fill="none" stroke="#1c6675" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </g>
         <g>
-          <rect x="-79" y="-36" width="43" height="42" rx="3" fill="#f4f1e6" stroke="#c9cdb9"/>
+          <rect x="-79" y="-36" width="43" height="42" rx="3" fill="#f6f7f9" stroke="#d7dce2"/>
           <rect class="package-installed installed-1" x="-79" y="-36" width="43" height="42" rx="3" fill="#d3e8ea" stroke="#1c6675"/>
-          <path d="M-70 -26h22v16h-22Zm0 5h22m-18 4 4 3-4 3m7 0h7" fill="none" stroke="#5f6854" stroke-width="1"/>
+          <path d="M-70 -26h22v16h-22Zm0 5h22m-18 4 4 3-4 3m7 0h7" fill="none" stroke="#535e68" stroke-width="1"/>
           <path class="package-check check-1" pathLength="100" d="M-52 -3 -48 1 -41 -8" fill="none" stroke="#1c6675" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </g>
         <g>
-          <rect x="-24" y="-36" width="43" height="42" rx="3" fill="#f4f1e6" stroke="#c9cdb9"/>
+          <rect x="-24" y="-36" width="43" height="42" rx="3" fill="#f6f7f9" stroke="#d7dce2"/>
           <rect class="package-installed installed-2" x="-24" y="-36" width="43" height="42" rx="3" fill="#d3e8ea" stroke="#1c6675"/>
-          <path d="M-15 -26h22v16h-22Zm0 5h22m-18 4 4 3-4 3m7 0h7" fill="none" stroke="#5f6854" stroke-width="1"/>
+          <path d="M-15 -26h22v16h-22Zm0 5h22m-18 4 4 3-4 3m7 0h7" fill="none" stroke="#535e68" stroke-width="1"/>
           <path class="package-check check-2" pathLength="100" d="M3 -3 7 1 14 -8" fill="none" stroke="#1c6675" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </g>
         <g>
-          <rect x="-134" y="18" width="43" height="42" rx="3" fill="#f4f1e6" stroke="#c9cdb9"/>
+          <rect x="-134" y="18" width="43" height="42" rx="3" fill="#f6f7f9" stroke="#d7dce2"/>
           <rect class="package-installed installed-3" x="-134" y="18" width="43" height="42" rx="3" fill="#d3e8ea" stroke="#1c6675"/>
-          <path d="M-125 28h22v16h-22Zm0 5h22m-18 4 4 3-4 3m7 0h7" fill="none" stroke="#5f6854" stroke-width="1"/>
+          <path d="M-125 28h22v16h-22Zm0 5h22m-18 4 4 3-4 3m7 0h7" fill="none" stroke="#535e68" stroke-width="1"/>
           <path class="package-check check-3" pathLength="100" d="M-107 51 -103 55 -96 46" fill="none" stroke="#1c6675" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </g>
         <g>
-          <rect x="-79" y="18" width="43" height="42" rx="3" fill="#f4f1e6" stroke="#c9cdb9"/>
+          <rect x="-79" y="18" width="43" height="42" rx="3" fill="#f6f7f9" stroke="#d7dce2"/>
           <rect class="package-installed installed-4" x="-79" y="18" width="43" height="42" rx="3" fill="#d3e8ea" stroke="#1c6675"/>
-          <path d="M-70 28h22v16h-22Zm0 5h22m-18 4 4 3-4 3m7 0h7" fill="none" stroke="#5f6854" stroke-width="1"/>
+          <path d="M-70 28h22v16h-22Zm0 5h22m-18 4 4 3-4 3m7 0h7" fill="none" stroke="#535e68" stroke-width="1"/>
           <path class="package-check check-4" pathLength="100" d="M-52 51 -48 55 -41 46" fill="none" stroke="#1c6675" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </g>
         <g>
-          <rect x="-24" y="18" width="43" height="42" rx="3" fill="#f4f1e6" stroke="#c9cdb9"/>
+          <rect x="-24" y="18" width="43" height="42" rx="3" fill="#f6f7f9" stroke="#d7dce2"/>
           <rect class="package-installed installed-5" x="-24" y="18" width="43" height="42" rx="3" fill="#d3e8ea" stroke="#1c6675"/>
-          <path d="M-15 28h22v16h-22Zm0 5h22m-18 4 4 3-4 3m7 0h7" fill="none" stroke="#5f6854" stroke-width="1"/>
+          <path d="M-15 28h22v16h-22Zm0 5h22m-18 4 4 3-4 3m7 0h7" fill="none" stroke="#535e68" stroke-width="1"/>
           <path class="package-check check-5" pathLength="100" d="M3 51 7 55 14 46" fill="none" stroke="#1c6675" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </g>
-    <path d="M49-36v109" stroke="#c9cdb9"/>
-    <text x="70" y="-25" font-size="8" fill="#5f6854" class="mono">packages.list</text>
-    <path d="M70-6h49M70 4h56M70 14h37" stroke="#5f6854" stroke-width="1.5"/>
-    <path d="M70 40h66" stroke="#c9cdb9" stroke-width="4"/>
+    <path d="M49-36v109" stroke="#d7dce2"/>
+    <text x="70" y="-25" font-size="8" fill="#535e68" class="mono">packages.list</text>
+    <path d="M70-6h49M70 4h56M70 14h37" stroke="#535e68" stroke-width="1.5"/>
+    <path d="M70 40h66" stroke="#d7dce2" stroke-width="4"/>
     <path class="install-progress" pathLength="100" d="M70 40h66" stroke="#1c6675" stroke-width="4"/>
     <path class="install-done" pathLength="100" d="M77 64 88 76 104 55" fill="none" stroke="#1c6675" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-    <g transform="translate(126 88)"><polygon points="-32.04,-18.50 0.00,0.00 0.00,37.00 -32.04,18.50" fill="#d3e8ea" stroke="#c9cdb9" stroke-width="1.2"/><polygon points="0.00,0.00 32.04,-18.50 32.04,18.50 0.00,37.00" fill="#1c6675" stroke="#c9cdb9" stroke-width="1.2"/><polygon points="0.00,-37.00 32.04,-18.50 0.00,0.00 -32.04,-18.50" fill="#1c6675" stroke="#c9cdb9" stroke-width="1.2"/><path d="M-16-27 16-9v30M-10-6v13l-13-7V-13Z" fill="none" stroke="#f4f1e6" stroke-width="2"/><path d="M7 17v9m4-12v9m4-11v9m4-12v9" stroke="#f4f1e6"/></g>
-    <g transform="translate(-113 -16)"><g class="package-arrival parcel-0"><path d="M9 15l8 12m-11-8 3 5m5-13 7 11" stroke="#1c6675" opacity=".45"/><polygon points="-12.12,-7.00 0.00,0.00 0.00,14.00 -12.12,7.00" fill="#d3e8ea" stroke="#c9cdb9" stroke-width="1.2"/><polygon points="0.00,0.00 12.12,-7.00 12.12,7.00 0.00,14.00" fill="#1c6675" stroke="#c9cdb9" stroke-width="1.2"/><polygon points="0.00,-14.00 12.12,-7.00 0.00,0.00 -12.12,-7.00" fill="#1c6675" stroke="#c9cdb9" stroke-width="1.2"/></g></g><g transform="translate(-113 -16)"><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:-11.0px;--dy:-10px;--event:calc(var(--cycle) * 0.1400)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:0.0px;--dy:-17px;--event:calc(var(--cycle) * 0.1400)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:11.0px;--dy:-24px;--event:calc(var(--cycle) * 0.1400)"/></g><g transform="translate(-58 -16)"><g class="package-arrival parcel-1"><path d="M9 15l8 12m-11-8 3 5m5-13 7 11" stroke="#1c6675" opacity=".45"/><polygon points="-12.12,-7.00 0.00,0.00 0.00,14.00 -12.12,7.00" fill="#d3e8ea" stroke="#c9cdb9" stroke-width="1.2"/><polygon points="0.00,0.00 12.12,-7.00 12.12,7.00 0.00,14.00" fill="#1c6675" stroke="#c9cdb9" stroke-width="1.2"/><polygon points="0.00,-14.00 12.12,-7.00 0.00,0.00 -12.12,-7.00" fill="#1c6675" stroke="#c9cdb9" stroke-width="1.2"/></g></g><g transform="translate(-58 -16)"><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:-11.0px;--dy:-10px;--event:calc(var(--cycle) * 0.2400)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:0.0px;--dy:-17px;--event:calc(var(--cycle) * 0.2400)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:11.0px;--dy:-24px;--event:calc(var(--cycle) * 0.2400)"/></g><g transform="translate(-3 -16)"><g class="package-arrival parcel-2"><path d="M9 15l8 12m-11-8 3 5m5-13 7 11" stroke="#1c6675" opacity=".45"/><polygon points="-12.12,-7.00 0.00,0.00 0.00,14.00 -12.12,7.00" fill="#d3e8ea" stroke="#c9cdb9" stroke-width="1.2"/><polygon points="0.00,0.00 12.12,-7.00 12.12,7.00 0.00,14.00" fill="#1c6675" stroke="#c9cdb9" stroke-width="1.2"/><polygon points="0.00,-14.00 12.12,-7.00 0.00,0.00 -12.12,-7.00" fill="#1c6675" stroke="#c9cdb9" stroke-width="1.2"/></g></g><g transform="translate(-3 -16)"><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:-11.0px;--dy:-10px;--event:calc(var(--cycle) * 0.3400)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:0.0px;--dy:-17px;--event:calc(var(--cycle) * 0.3400)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:11.0px;--dy:-24px;--event:calc(var(--cycle) * 0.3400)"/></g><g transform="translate(-113 38)"><g class="package-arrival parcel-3"><path d="M9 15l8 12m-11-8 3 5m5-13 7 11" stroke="#1c6675" opacity=".45"/><polygon points="-12.12,-7.00 0.00,0.00 0.00,14.00 -12.12,7.00" fill="#d3e8ea" stroke="#c9cdb9" stroke-width="1.2"/><polygon points="0.00,0.00 12.12,-7.00 12.12,7.00 0.00,14.00" fill="#1c6675" stroke="#c9cdb9" stroke-width="1.2"/><polygon points="0.00,-14.00 12.12,-7.00 0.00,0.00 -12.12,-7.00" fill="#1c6675" stroke="#c9cdb9" stroke-width="1.2"/></g></g><g transform="translate(-113 38)"><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:-11.0px;--dy:-10px;--event:calc(var(--cycle) * 0.4400)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:0.0px;--dy:-17px;--event:calc(var(--cycle) * 0.4400)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:11.0px;--dy:-24px;--event:calc(var(--cycle) * 0.4400)"/></g><g transform="translate(-58 38)"><g class="package-arrival parcel-4"><path d="M9 15l8 12m-11-8 3 5m5-13 7 11" stroke="#1c6675" opacity=".45"/><polygon points="-12.12,-7.00 0.00,0.00 0.00,14.00 -12.12,7.00" fill="#d3e8ea" stroke="#c9cdb9" stroke-width="1.2"/><polygon points="0.00,0.00 12.12,-7.00 12.12,7.00 0.00,14.00" fill="#1c6675" stroke="#c9cdb9" stroke-width="1.2"/><polygon points="0.00,-14.00 12.12,-7.00 0.00,0.00 -12.12,-7.00" fill="#1c6675" stroke="#c9cdb9" stroke-width="1.2"/></g></g><g transform="translate(-58 38)"><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:-11.0px;--dy:-10px;--event:calc(var(--cycle) * 0.5400)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:0.0px;--dy:-17px;--event:calc(var(--cycle) * 0.5400)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:11.0px;--dy:-24px;--event:calc(var(--cycle) * 0.5400)"/></g><g transform="translate(-3 38)"><g class="package-arrival parcel-5"><path d="M9 15l8 12m-11-8 3 5m5-13 7 11" stroke="#1c6675" opacity=".45"/><polygon points="-12.12,-7.00 0.00,0.00 0.00,14.00 -12.12,7.00" fill="#d3e8ea" stroke="#c9cdb9" stroke-width="1.2"/><polygon points="0.00,0.00 12.12,-7.00 12.12,7.00 0.00,14.00" fill="#1c6675" stroke="#c9cdb9" stroke-width="1.2"/><polygon points="0.00,-14.00 12.12,-7.00 0.00,0.00 -12.12,-7.00" fill="#1c6675" stroke="#c9cdb9" stroke-width="1.2"/></g></g><g transform="translate(-3 38)"><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:-11.0px;--dy:-10px;--event:calc(var(--cycle) * 0.6400)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:0.0px;--dy:-17px;--event:calc(var(--cycle) * 0.6400)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:11.0px;--dy:-24px;--event:calc(var(--cycle) * 0.6400)"/></g>
-    <path d="M-137 113h189m5 0h11" stroke="#c9cdb9"/>
-    </g>
-      <path class="wipe" pathLength="100" stroke-dasharray="100" d="M53 313H1156" stroke="#c9cdb9"/>
+    <g transform="translate(126 88)"><polygon points="-32.04,-18.50 0.00,0.00 0.00,37.00 -32.04,18.50" fill="#d3e8ea" stroke="#d7dce2" stroke-width="1.2"/><polygon points="0.00,0.00 32.04,-18.50 32.04,18.50 0.00,37.00" fill="#1c6675" stroke="#d7dce2" stroke-width="1.2"/><polygon points="0.00,-37.00 32.04,-18.50 0.00,0.00 -32.04,-18.50" fill="#1c6675" stroke="#d7dce2" stroke-width="1.2"/><path d="M-16-27 16-9v30M-10-6v13l-13-7V-13Z" fill="none" stroke="#f6f7f9" stroke-width="2"/><path d="M7 17v9m4-12v9m4-11v9m4-12v9" stroke="#f6f7f9"/></g>
+    <g transform="translate(-113 -16)"><g class="package-arrival parcel-0"><path d="M9 15l8 12m-11-8 3 5m5-13 7 11" stroke="#1c6675" opacity=".45"/><polygon points="-12.12,-7.00 0.00,0.00 0.00,14.00 -12.12,7.00" fill="#d3e8ea" stroke="#d7dce2" stroke-width="1.2"/><polygon points="0.00,0.00 12.12,-7.00 12.12,7.00 0.00,14.00" fill="#1c6675" stroke="#d7dce2" stroke-width="1.2"/><polygon points="0.00,-14.00 12.12,-7.00 0.00,0.00 -12.12,-7.00" fill="#1c6675" stroke="#d7dce2" stroke-width="1.2"/></g></g><g transform="translate(-113 -16)"><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:-11.0px;--dy:-10px;--event:calc(var(--cycle) * 0.1400)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:0.0px;--dy:-17px;--event:calc(var(--cycle) * 0.1400)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:11.0px;--dy:-24px;--event:calc(var(--cycle) * 0.1400)"/></g><g transform="translate(-58 -16)"><g class="package-arrival parcel-1"><path d="M9 15l8 12m-11-8 3 5m5-13 7 11" stroke="#1c6675" opacity=".45"/><polygon points="-12.12,-7.00 0.00,0.00 0.00,14.00 -12.12,7.00" fill="#d3e8ea" stroke="#d7dce2" stroke-width="1.2"/><polygon points="0.00,0.00 12.12,-7.00 12.12,7.00 0.00,14.00" fill="#1c6675" stroke="#d7dce2" stroke-width="1.2"/><polygon points="0.00,-14.00 12.12,-7.00 0.00,0.00 -12.12,-7.00" fill="#1c6675" stroke="#d7dce2" stroke-width="1.2"/></g></g><g transform="translate(-58 -16)"><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:-11.0px;--dy:-10px;--event:calc(var(--cycle) * 0.2400)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:0.0px;--dy:-17px;--event:calc(var(--cycle) * 0.2400)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:11.0px;--dy:-24px;--event:calc(var(--cycle) * 0.2400)"/></g><g transform="translate(-3 -16)"><g class="package-arrival parcel-2"><path d="M9 15l8 12m-11-8 3 5m5-13 7 11" stroke="#1c6675" opacity=".45"/><polygon points="-12.12,-7.00 0.00,0.00 0.00,14.00 -12.12,7.00" fill="#d3e8ea" stroke="#d7dce2" stroke-width="1.2"/><polygon points="0.00,0.00 12.12,-7.00 12.12,7.00 0.00,14.00" fill="#1c6675" stroke="#d7dce2" stroke-width="1.2"/><polygon points="0.00,-14.00 12.12,-7.00 0.00,0.00 -12.12,-7.00" fill="#1c6675" stroke="#d7dce2" stroke-width="1.2"/></g></g><g transform="translate(-3 -16)"><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:-11.0px;--dy:-10px;--event:calc(var(--cycle) * 0.3400)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:0.0px;--dy:-17px;--event:calc(var(--cycle) * 0.3400)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:11.0px;--dy:-24px;--event:calc(var(--cycle) * 0.3400)"/></g><g transform="translate(-113 38)"><g class="package-arrival parcel-3"><path d="M9 15l8 12m-11-8 3 5m5-13 7 11" stroke="#1c6675" opacity=".45"/><polygon points="-12.12,-7.00 0.00,0.00 0.00,14.00 -12.12,7.00" fill="#d3e8ea" stroke="#d7dce2" stroke-width="1.2"/><polygon points="0.00,0.00 12.12,-7.00 12.12,7.00 0.00,14.00" fill="#1c6675" stroke="#d7dce2" stroke-width="1.2"/><polygon points="0.00,-14.00 12.12,-7.00 0.00,0.00 -12.12,-7.00" fill="#1c6675" stroke="#d7dce2" stroke-width="1.2"/></g></g><g transform="translate(-113 38)"><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:-11.0px;--dy:-10px;--event:calc(var(--cycle) * 0.4400)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:0.0px;--dy:-17px;--event:calc(var(--cycle) * 0.4400)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:11.0px;--dy:-24px;--event:calc(var(--cycle) * 0.4400)"/></g><g transform="translate(-58 38)"><g class="package-arrival parcel-4"><path d="M9 15l8 12m-11-8 3 5m5-13 7 11" stroke="#1c6675" opacity=".45"/><polygon points="-12.12,-7.00 0.00,0.00 0.00,14.00 -12.12,7.00" fill="#d3e8ea" stroke="#d7dce2" stroke-width="1.2"/><polygon points="0.00,0.00 12.12,-7.00 12.12,7.00 0.00,14.00" fill="#1c6675" stroke="#d7dce2" stroke-width="1.2"/><polygon points="0.00,-14.00 12.12,-7.00 0.00,0.00 -12.12,-7.00" fill="#1c6675" stroke="#d7dce2" stroke-width="1.2"/></g></g><g transform="translate(-58 38)"><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:-11.0px;--dy:-10px;--event:calc(var(--cycle) * 0.5400)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:0.0px;--dy:-17px;--event:calc(var(--cycle) * 0.5400)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:11.0px;--dy:-24px;--event:calc(var(--cycle) * 0.5400)"/></g><g transform="translate(-3 38)"><g class="package-arrival parcel-5"><path d="M9 15l8 12m-11-8 3 5m5-13 7 11" stroke="#1c6675" opacity=".45"/><polygon points="-12.12,-7.00 0.00,0.00 0.00,14.00 -12.12,7.00" fill="#d3e8ea" stroke="#d7dce2" stroke-width="1.2"/><polygon points="0.00,0.00 12.12,-7.00 12.12,7.00 0.00,14.00" fill="#1c6675" stroke="#d7dce2" stroke-width="1.2"/><polygon points="0.00,-14.00 12.12,-7.00 0.00,0.00 -12.12,-7.00" fill="#1c6675" stroke="#d7dce2" stroke-width="1.2"/></g></g><g transform="translate(-3 38)"><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:-11.0px;--dy:-10px;--event:calc(var(--cycle) * 0.6400)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:0.0px;--dy:-17px;--event:calc(var(--cycle) * 0.6400)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:11.0px;--dy:-24px;--event:calc(var(--cycle) * 0.6400)"/></g>
+    <path d="M-137 113h189m5 0h11" stroke="#d7dce2"/>
+    </g></g>
+      </g>
+      <path class="wipe" pathLength="100" stroke-dasharray="100" d="M53 313H1156" stroke="#d7dce2"/>
       <g class="rise" style="--idx:3">
-        <text x="53" y="365" font-size="17" fill="#5f6854" class="mono">RUST + EGUI / WINDOWS / ONE EXE</text>
-        <rect x="930" y="331" width="226" height="52" rx="3" fill="#e8e4d5" stroke="#c9cdb9"/><rect x="930" y="331" width="3" height="52" fill="#1c6675"/><text x="1044.0" y="364.8" font-size="19" fill="#141a0d" font-weight="700" text-anchor="middle">ОТКРЫТЬ ↗</text>
+        <text x="53" y="365" font-size="17" fill="#535e68" class="mono">RUST + EGUI / WINDOWS / ONE EXE</text>
+        <rect x="930" y="331" width="226" height="52" rx="3" fill="#e9edf1" stroke="#d7dce2"/><rect x="930" y="331" width="3" height="52" fill="#1c6675"/><text x="1044.0" y="364.8" font-size="19" fill="#202730" font-weight="700" text-anchor="middle">ОТКРЫТЬ ↗</text>
       </g>
       <rect class="sweep" x="-260" y="0" width="240" height="420" fill="url(#sweep-fade)" opacity=".35"/>
     </g>
     <g class="mobile" style="--idx:3">
-      <g opacity=".2" transform="translate(995 193) scale(1.05)">
-    <rect x="-156" y="-95" width="316" height="202" rx="4" fill="#e8e4d5" stroke="#5f6854" stroke-width="1.3"/>
-    <path d="M-156-63H160" stroke="#c9cdb9"/>
-    <text x="-135" y="-74" font-size="10" fill="#141a0d" class="mono">SoftDownloader / queue</text>
-    <path d="M111-79h13m-6.5-6.5v13M138-82h9v8h-9Z" fill="none" stroke="#5f6854"/>
+      <g class="art-anchor" opacity=".14" transform="translate(995 193) scale(1.05)">
+        <g class="art-enter"><g class="art-detail" style="--phase:-10s">
+    <rect x="-156" y="-95" width="316" height="202" rx="4" fill="#e9edf1" stroke="#535e68" stroke-width="1.3"/>
+    <path d="M-156-63H160" stroke="#d7dce2"/>
+    <text x="-135" y="-74" font-size="10" fill="#202730" class="mono">SoftDownloader / queue</text>
+    <path d="M111-79h13m-6.5-6.5v13M138-82h9v8h-9Z" fill="none" stroke="#535e68"/>
 
         <g>
-          <rect x="-134" y="-36" width="43" height="42" rx="3" fill="#f4f1e6" stroke="#c9cdb9"/>
+          <rect x="-134" y="-36" width="43" height="42" rx="3" fill="#f6f7f9" stroke="#d7dce2"/>
           <rect class="package-installed installed-0" x="-134" y="-36" width="43" height="42" rx="3" fill="#d3e8ea" stroke="#1c6675"/>
-          <path d="M-125 -26h22v16h-22Zm0 5h22m-18 4 4 3-4 3m7 0h7" fill="none" stroke="#5f6854" stroke-width="1"/>
+          <path d="M-125 -26h22v16h-22Zm0 5h22m-18 4 4 3-4 3m7 0h7" fill="none" stroke="#535e68" stroke-width="1"/>
           <path class="package-check check-0" pathLength="100" d="M-107 -3 -103 1 -96 -8" fill="none" stroke="#1c6675" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </g>
         <g>
-          <rect x="-79" y="-36" width="43" height="42" rx="3" fill="#f4f1e6" stroke="#c9cdb9"/>
+          <rect x="-79" y="-36" width="43" height="42" rx="3" fill="#f6f7f9" stroke="#d7dce2"/>
           <rect class="package-installed installed-1" x="-79" y="-36" width="43" height="42" rx="3" fill="#d3e8ea" stroke="#1c6675"/>
-          <path d="M-70 -26h22v16h-22Zm0 5h22m-18 4 4 3-4 3m7 0h7" fill="none" stroke="#5f6854" stroke-width="1"/>
+          <path d="M-70 -26h22v16h-22Zm0 5h22m-18 4 4 3-4 3m7 0h7" fill="none" stroke="#535e68" stroke-width="1"/>
           <path class="package-check check-1" pathLength="100" d="M-52 -3 -48 1 -41 -8" fill="none" stroke="#1c6675" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </g>
         <g>
-          <rect x="-24" y="-36" width="43" height="42" rx="3" fill="#f4f1e6" stroke="#c9cdb9"/>
+          <rect x="-24" y="-36" width="43" height="42" rx="3" fill="#f6f7f9" stroke="#d7dce2"/>
           <rect class="package-installed installed-2" x="-24" y="-36" width="43" height="42" rx="3" fill="#d3e8ea" stroke="#1c6675"/>
-          <path d="M-15 -26h22v16h-22Zm0 5h22m-18 4 4 3-4 3m7 0h7" fill="none" stroke="#5f6854" stroke-width="1"/>
+          <path d="M-15 -26h22v16h-22Zm0 5h22m-18 4 4 3-4 3m7 0h7" fill="none" stroke="#535e68" stroke-width="1"/>
           <path class="package-check check-2" pathLength="100" d="M3 -3 7 1 14 -8" fill="none" stroke="#1c6675" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </g>
         <g>
-          <rect x="-134" y="18" width="43" height="42" rx="3" fill="#f4f1e6" stroke="#c9cdb9"/>
+          <rect x="-134" y="18" width="43" height="42" rx="3" fill="#f6f7f9" stroke="#d7dce2"/>
           <rect class="package-installed installed-3" x="-134" y="18" width="43" height="42" rx="3" fill="#d3e8ea" stroke="#1c6675"/>
-          <path d="M-125 28h22v16h-22Zm0 5h22m-18 4 4 3-4 3m7 0h7" fill="none" stroke="#5f6854" stroke-width="1"/>
+          <path d="M-125 28h22v16h-22Zm0 5h22m-18 4 4 3-4 3m7 0h7" fill="none" stroke="#535e68" stroke-width="1"/>
           <path class="package-check check-3" pathLength="100" d="M-107 51 -103 55 -96 46" fill="none" stroke="#1c6675" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </g>
         <g>
-          <rect x="-79" y="18" width="43" height="42" rx="3" fill="#f4f1e6" stroke="#c9cdb9"/>
+          <rect x="-79" y="18" width="43" height="42" rx="3" fill="#f6f7f9" stroke="#d7dce2"/>
           <rect class="package-installed installed-4" x="-79" y="18" width="43" height="42" rx="3" fill="#d3e8ea" stroke="#1c6675"/>
-          <path d="M-70 28h22v16h-22Zm0 5h22m-18 4 4 3-4 3m7 0h7" fill="none" stroke="#5f6854" stroke-width="1"/>
+          <path d="M-70 28h22v16h-22Zm0 5h22m-18 4 4 3-4 3m7 0h7" fill="none" stroke="#535e68" stroke-width="1"/>
           <path class="package-check check-4" pathLength="100" d="M-52 51 -48 55 -41 46" fill="none" stroke="#1c6675" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </g>
         <g>
-          <rect x="-24" y="18" width="43" height="42" rx="3" fill="#f4f1e6" stroke="#c9cdb9"/>
+          <rect x="-24" y="18" width="43" height="42" rx="3" fill="#f6f7f9" stroke="#d7dce2"/>
           <rect class="package-installed installed-5" x="-24" y="18" width="43" height="42" rx="3" fill="#d3e8ea" stroke="#1c6675"/>
-          <path d="M-15 28h22v16h-22Zm0 5h22m-18 4 4 3-4 3m7 0h7" fill="none" stroke="#5f6854" stroke-width="1"/>
+          <path d="M-15 28h22v16h-22Zm0 5h22m-18 4 4 3-4 3m7 0h7" fill="none" stroke="#535e68" stroke-width="1"/>
           <path class="package-check check-5" pathLength="100" d="M3 51 7 55 14 46" fill="none" stroke="#1c6675" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </g>
-    <path d="M49-36v109" stroke="#c9cdb9"/>
-    <text x="70" y="-25" font-size="8" fill="#5f6854" class="mono">packages.list</text>
-    <path d="M70-6h49M70 4h56M70 14h37" stroke="#5f6854" stroke-width="1.5"/>
-    <path d="M70 40h66" stroke="#c9cdb9" stroke-width="4"/>
+    <path d="M49-36v109" stroke="#d7dce2"/>
+    <text x="70" y="-25" font-size="8" fill="#535e68" class="mono">packages.list</text>
+    <path d="M70-6h49M70 4h56M70 14h37" stroke="#535e68" stroke-width="1.5"/>
+    <path d="M70 40h66" stroke="#d7dce2" stroke-width="4"/>
     <path class="install-progress" pathLength="100" d="M70 40h66" stroke="#1c6675" stroke-width="4"/>
     <path class="install-done" pathLength="100" d="M77 64 88 76 104 55" fill="none" stroke="#1c6675" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-    <g transform="translate(126 88)"><polygon points="-32.04,-18.50 0.00,0.00 0.00,37.00 -32.04,18.50" fill="#d3e8ea" stroke="#c9cdb9" stroke-width="1.2"/><polygon points="0.00,0.00 32.04,-18.50 32.04,18.50 0.00,37.00" fill="#1c6675" stroke="#c9cdb9" stroke-width="1.2"/><polygon points="0.00,-37.00 32.04,-18.50 0.00,0.00 -32.04,-18.50" fill="#1c6675" stroke="#c9cdb9" stroke-width="1.2"/><path d="M-16-27 16-9v30M-10-6v13l-13-7V-13Z" fill="none" stroke="#f4f1e6" stroke-width="2"/><path d="M7 17v9m4-12v9m4-11v9m4-12v9" stroke="#f4f1e6"/></g>
-    <g transform="translate(-113 -16)"><g class="package-arrival parcel-0"><path d="M9 15l8 12m-11-8 3 5m5-13 7 11" stroke="#1c6675" opacity=".45"/><polygon points="-12.12,-7.00 0.00,0.00 0.00,14.00 -12.12,7.00" fill="#d3e8ea" stroke="#c9cdb9" stroke-width="1.2"/><polygon points="0.00,0.00 12.12,-7.00 12.12,7.00 0.00,14.00" fill="#1c6675" stroke="#c9cdb9" stroke-width="1.2"/><polygon points="0.00,-14.00 12.12,-7.00 0.00,0.00 -12.12,-7.00" fill="#1c6675" stroke="#c9cdb9" stroke-width="1.2"/></g></g><g transform="translate(-113 -16)"><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:-11.0px;--dy:-10px;--event:calc(var(--cycle) * 0.1400)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:0.0px;--dy:-17px;--event:calc(var(--cycle) * 0.1400)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:11.0px;--dy:-24px;--event:calc(var(--cycle) * 0.1400)"/></g><g transform="translate(-58 -16)"><g class="package-arrival parcel-1"><path d="M9 15l8 12m-11-8 3 5m5-13 7 11" stroke="#1c6675" opacity=".45"/><polygon points="-12.12,-7.00 0.00,0.00 0.00,14.00 -12.12,7.00" fill="#d3e8ea" stroke="#c9cdb9" stroke-width="1.2"/><polygon points="0.00,0.00 12.12,-7.00 12.12,7.00 0.00,14.00" fill="#1c6675" stroke="#c9cdb9" stroke-width="1.2"/><polygon points="0.00,-14.00 12.12,-7.00 0.00,0.00 -12.12,-7.00" fill="#1c6675" stroke="#c9cdb9" stroke-width="1.2"/></g></g><g transform="translate(-58 -16)"><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:-11.0px;--dy:-10px;--event:calc(var(--cycle) * 0.2400)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:0.0px;--dy:-17px;--event:calc(var(--cycle) * 0.2400)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:11.0px;--dy:-24px;--event:calc(var(--cycle) * 0.2400)"/></g><g transform="translate(-3 -16)"><g class="package-arrival parcel-2"><path d="M9 15l8 12m-11-8 3 5m5-13 7 11" stroke="#1c6675" opacity=".45"/><polygon points="-12.12,-7.00 0.00,0.00 0.00,14.00 -12.12,7.00" fill="#d3e8ea" stroke="#c9cdb9" stroke-width="1.2"/><polygon points="0.00,0.00 12.12,-7.00 12.12,7.00 0.00,14.00" fill="#1c6675" stroke="#c9cdb9" stroke-width="1.2"/><polygon points="0.00,-14.00 12.12,-7.00 0.00,0.00 -12.12,-7.00" fill="#1c6675" stroke="#c9cdb9" stroke-width="1.2"/></g></g><g transform="translate(-3 -16)"><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:-11.0px;--dy:-10px;--event:calc(var(--cycle) * 0.3400)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:0.0px;--dy:-17px;--event:calc(var(--cycle) * 0.3400)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:11.0px;--dy:-24px;--event:calc(var(--cycle) * 0.3400)"/></g><g transform="translate(-113 38)"><g class="package-arrival parcel-3"><path d="M9 15l8 12m-11-8 3 5m5-13 7 11" stroke="#1c6675" opacity=".45"/><polygon points="-12.12,-7.00 0.00,0.00 0.00,14.00 -12.12,7.00" fill="#d3e8ea" stroke="#c9cdb9" stroke-width="1.2"/><polygon points="0.00,0.00 12.12,-7.00 12.12,7.00 0.00,14.00" fill="#1c6675" stroke="#c9cdb9" stroke-width="1.2"/><polygon points="0.00,-14.00 12.12,-7.00 0.00,0.00 -12.12,-7.00" fill="#1c6675" stroke="#c9cdb9" stroke-width="1.2"/></g></g><g transform="translate(-113 38)"><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:-11.0px;--dy:-10px;--event:calc(var(--cycle) * 0.4400)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:0.0px;--dy:-17px;--event:calc(var(--cycle) * 0.4400)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:11.0px;--dy:-24px;--event:calc(var(--cycle) * 0.4400)"/></g><g transform="translate(-58 38)"><g class="package-arrival parcel-4"><path d="M9 15l8 12m-11-8 3 5m5-13 7 11" stroke="#1c6675" opacity=".45"/><polygon points="-12.12,-7.00 0.00,0.00 0.00,14.00 -12.12,7.00" fill="#d3e8ea" stroke="#c9cdb9" stroke-width="1.2"/><polygon points="0.00,0.00 12.12,-7.00 12.12,7.00 0.00,14.00" fill="#1c6675" stroke="#c9cdb9" stroke-width="1.2"/><polygon points="0.00,-14.00 12.12,-7.00 0.00,0.00 -12.12,-7.00" fill="#1c6675" stroke="#c9cdb9" stroke-width="1.2"/></g></g><g transform="translate(-58 38)"><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:-11.0px;--dy:-10px;--event:calc(var(--cycle) * 0.5400)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:0.0px;--dy:-17px;--event:calc(var(--cycle) * 0.5400)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:11.0px;--dy:-24px;--event:calc(var(--cycle) * 0.5400)"/></g><g transform="translate(-3 38)"><g class="package-arrival parcel-5"><path d="M9 15l8 12m-11-8 3 5m5-13 7 11" stroke="#1c6675" opacity=".45"/><polygon points="-12.12,-7.00 0.00,0.00 0.00,14.00 -12.12,7.00" fill="#d3e8ea" stroke="#c9cdb9" stroke-width="1.2"/><polygon points="0.00,0.00 12.12,-7.00 12.12,7.00 0.00,14.00" fill="#1c6675" stroke="#c9cdb9" stroke-width="1.2"/><polygon points="0.00,-14.00 12.12,-7.00 0.00,0.00 -12.12,-7.00" fill="#1c6675" stroke="#c9cdb9" stroke-width="1.2"/></g></g><g transform="translate(-3 38)"><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:-11.0px;--dy:-10px;--event:calc(var(--cycle) * 0.6400)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:0.0px;--dy:-17px;--event:calc(var(--cycle) * 0.6400)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:11.0px;--dy:-24px;--event:calc(var(--cycle) * 0.6400)"/></g>
-    <path d="M-137 113h189m5 0h11" stroke="#c9cdb9"/>
-    </g>
+    <g transform="translate(126 88)"><polygon points="-32.04,-18.50 0.00,0.00 0.00,37.00 -32.04,18.50" fill="#d3e8ea" stroke="#d7dce2" stroke-width="1.2"/><polygon points="0.00,0.00 32.04,-18.50 32.04,18.50 0.00,37.00" fill="#1c6675" stroke="#d7dce2" stroke-width="1.2"/><polygon points="0.00,-37.00 32.04,-18.50 0.00,0.00 -32.04,-18.50" fill="#1c6675" stroke="#d7dce2" stroke-width="1.2"/><path d="M-16-27 16-9v30M-10-6v13l-13-7V-13Z" fill="none" stroke="#f6f7f9" stroke-width="2"/><path d="M7 17v9m4-12v9m4-11v9m4-12v9" stroke="#f6f7f9"/></g>
+    <g transform="translate(-113 -16)"><g class="package-arrival parcel-0"><path d="M9 15l8 12m-11-8 3 5m5-13 7 11" stroke="#1c6675" opacity=".45"/><polygon points="-12.12,-7.00 0.00,0.00 0.00,14.00 -12.12,7.00" fill="#d3e8ea" stroke="#d7dce2" stroke-width="1.2"/><polygon points="0.00,0.00 12.12,-7.00 12.12,7.00 0.00,14.00" fill="#1c6675" stroke="#d7dce2" stroke-width="1.2"/><polygon points="0.00,-14.00 12.12,-7.00 0.00,0.00 -12.12,-7.00" fill="#1c6675" stroke="#d7dce2" stroke-width="1.2"/></g></g><g transform="translate(-113 -16)"><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:-11.0px;--dy:-10px;--event:calc(var(--cycle) * 0.1400)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:0.0px;--dy:-17px;--event:calc(var(--cycle) * 0.1400)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:11.0px;--dy:-24px;--event:calc(var(--cycle) * 0.1400)"/></g><g transform="translate(-58 -16)"><g class="package-arrival parcel-1"><path d="M9 15l8 12m-11-8 3 5m5-13 7 11" stroke="#1c6675" opacity=".45"/><polygon points="-12.12,-7.00 0.00,0.00 0.00,14.00 -12.12,7.00" fill="#d3e8ea" stroke="#d7dce2" stroke-width="1.2"/><polygon points="0.00,0.00 12.12,-7.00 12.12,7.00 0.00,14.00" fill="#1c6675" stroke="#d7dce2" stroke-width="1.2"/><polygon points="0.00,-14.00 12.12,-7.00 0.00,0.00 -12.12,-7.00" fill="#1c6675" stroke="#d7dce2" stroke-width="1.2"/></g></g><g transform="translate(-58 -16)"><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:-11.0px;--dy:-10px;--event:calc(var(--cycle) * 0.2400)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:0.0px;--dy:-17px;--event:calc(var(--cycle) * 0.2400)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:11.0px;--dy:-24px;--event:calc(var(--cycle) * 0.2400)"/></g><g transform="translate(-3 -16)"><g class="package-arrival parcel-2"><path d="M9 15l8 12m-11-8 3 5m5-13 7 11" stroke="#1c6675" opacity=".45"/><polygon points="-12.12,-7.00 0.00,0.00 0.00,14.00 -12.12,7.00" fill="#d3e8ea" stroke="#d7dce2" stroke-width="1.2"/><polygon points="0.00,0.00 12.12,-7.00 12.12,7.00 0.00,14.00" fill="#1c6675" stroke="#d7dce2" stroke-width="1.2"/><polygon points="0.00,-14.00 12.12,-7.00 0.00,0.00 -12.12,-7.00" fill="#1c6675" stroke="#d7dce2" stroke-width="1.2"/></g></g><g transform="translate(-3 -16)"><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:-11.0px;--dy:-10px;--event:calc(var(--cycle) * 0.3400)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:0.0px;--dy:-17px;--event:calc(var(--cycle) * 0.3400)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:11.0px;--dy:-24px;--event:calc(var(--cycle) * 0.3400)"/></g><g transform="translate(-113 38)"><g class="package-arrival parcel-3"><path d="M9 15l8 12m-11-8 3 5m5-13 7 11" stroke="#1c6675" opacity=".45"/><polygon points="-12.12,-7.00 0.00,0.00 0.00,14.00 -12.12,7.00" fill="#d3e8ea" stroke="#d7dce2" stroke-width="1.2"/><polygon points="0.00,0.00 12.12,-7.00 12.12,7.00 0.00,14.00" fill="#1c6675" stroke="#d7dce2" stroke-width="1.2"/><polygon points="0.00,-14.00 12.12,-7.00 0.00,0.00 -12.12,-7.00" fill="#1c6675" stroke="#d7dce2" stroke-width="1.2"/></g></g><g transform="translate(-113 38)"><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:-11.0px;--dy:-10px;--event:calc(var(--cycle) * 0.4400)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:0.0px;--dy:-17px;--event:calc(var(--cycle) * 0.4400)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:11.0px;--dy:-24px;--event:calc(var(--cycle) * 0.4400)"/></g><g transform="translate(-58 38)"><g class="package-arrival parcel-4"><path d="M9 15l8 12m-11-8 3 5m5-13 7 11" stroke="#1c6675" opacity=".45"/><polygon points="-12.12,-7.00 0.00,0.00 0.00,14.00 -12.12,7.00" fill="#d3e8ea" stroke="#d7dce2" stroke-width="1.2"/><polygon points="0.00,0.00 12.12,-7.00 12.12,7.00 0.00,14.00" fill="#1c6675" stroke="#d7dce2" stroke-width="1.2"/><polygon points="0.00,-14.00 12.12,-7.00 0.00,0.00 -12.12,-7.00" fill="#1c6675" stroke="#d7dce2" stroke-width="1.2"/></g></g><g transform="translate(-58 38)"><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:-11.0px;--dy:-10px;--event:calc(var(--cycle) * 0.5400)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:0.0px;--dy:-17px;--event:calc(var(--cycle) * 0.5400)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:11.0px;--dy:-24px;--event:calc(var(--cycle) * 0.5400)"/></g><g transform="translate(-3 38)"><g class="package-arrival parcel-5"><path d="M9 15l8 12m-11-8 3 5m5-13 7 11" stroke="#1c6675" opacity=".45"/><polygon points="-12.12,-7.00 0.00,0.00 0.00,14.00 -12.12,7.00" fill="#d3e8ea" stroke="#d7dce2" stroke-width="1.2"/><polygon points="0.00,0.00 12.12,-7.00 12.12,7.00 0.00,14.00" fill="#1c6675" stroke="#d7dce2" stroke-width="1.2"/><polygon points="0.00,-14.00 12.12,-7.00 0.00,0.00 -12.12,-7.00" fill="#1c6675" stroke="#d7dce2" stroke-width="1.2"/></g></g><g transform="translate(-3 38)"><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:-11.0px;--dy:-10px;--event:calc(var(--cycle) * 0.6400)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:0.0px;--dy:-17px;--event:calc(var(--cycle) * 0.6400)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#1c6675" style="--dx:11.0px;--dy:-24px;--event:calc(var(--cycle) * 0.6400)"/></g>
+    <path d="M-137 113h189m5 0h11" stroke="#d7dce2"/>
+    </g></g>
+      </g>
       <g class="rise" style="--idx:0">
-        <text x="53" y="45" font-size="26" fill="#5f6854" class="mono" letter-spacing="1">03 / DESKTOP KIT</text>
+        <text x="53" y="45" font-size="26" fill="#535e68" class="mono" letter-spacing="1">03 / DESKTOP KIT</text>
       </g>
       <g class="rise" style="--idx:1">
-        <text x="47" y="125" font-size="85" fill="#141a0d" font-weight="900" letter-spacing="-3">SoftDownloader</text>
+        <text x="47" y="125" font-size="85" fill="#202730" font-weight="900" letter-spacing="-3">SoftDownloader</text>
       </g>
       <g class="rise" style="--idx:2">
-        <text x="53" y="212" font-size="50" fill="#141a0d" >Менеджер программ для Windows.</text>
-        <text x="53" y="273" font-size="49" fill="#141a0d" >Установка и перенос списка ПО.</text>
+        <text x="53" y="212" font-size="50" fill="#202730" >Менеджер программ для Windows.</text>
+        <text x="53" y="273" font-size="49" fill="#202730" >Установка и перенос списка ПО.</text>
       </g>
       <g class="rise" style="--idx:3">
-        <text x="53" y="361" font-size="38" fill="#5f6854" >Rust · egui · Windows</text>
-        <rect x="778" y="318" width="378" height="66" rx="3" fill="#e8e4d5" stroke="#c9cdb9"/><rect x="778" y="318" width="3" height="66" fill="#1c6675"/><text x="968.0" y="360.9" font-size="39" fill="#141a0d" font-weight="700" text-anchor="middle">ОТКРЫТЬ ↗</text>
+        <text x="53" y="361" font-size="38" fill="#535e68" >Rust · egui · Windows</text>
+        <rect x="778" y="318" width="378" height="66" rx="3" fill="#e9edf1" stroke="#d7dce2"/><rect x="778" y="318" width="3" height="66" fill="#1c6675"/><text x="968.0" y="360.9" font-size="39" fill="#202730" font-weight="700" text-anchor="middle">ОТКРЫТЬ ↗</text>
       </g>
     </g>
 
-    <g class="stage" style="--idx:0">
-      <path d="M26 22V398" stroke="#c9cdb9" stroke-width="2"/>
+    <g class="rail">
+      <path d="M26 1V419" stroke="#d7dce2" stroke-width="1"/>
       <circle class="beat" cx="26" cy="42" r="5" fill="#1c6675"/>
-    </g>
-    <g class="relay" transform="translate(26 0)">
-      <path d="M-9-4h18v-9H-9Z" fill="#4f7d0a"/>
-      <path d="M-12 0h24" stroke="#4f7d0a" stroke-width="2" stroke-linecap="round"/>
-      <path d="M0-30v-16" stroke="#4f7d0a" stroke-width="1.6" opacity=".4"/>
-      <circle cy="-4" r="9" fill="#4f7d0a" opacity=".22"/>
-    </g></g>
-<g id="scene-opencode-pocket" transform="translate(0 1680)">
-    <g class="stage" style="--idx:0">
-      <circle class="aura aura-a" cx="880" cy="120" r="330" fill="url(#aura-a)"/>
-      <circle class="aura aura-b" cx="300" cy="330" r="300" fill="url(#aura-b)"/>
-      <rect width="1200" height="420" fill="url(#stars)" opacity=".55"/>
+    </g></g></g>
+<g id="scene-opencode-pocket" transform="translate(0 1680)" style="--scene:4"><g clip-path="url(#scene-frame)">
+    <g class="stage">
+      <rect x="1" y="1" width="1198" height="418" rx="10" fill="#f6f7f9"/>
+      <ellipse class="aura" cx="238" cy="202" rx="330" ry="215" fill="url(#aura-opencode-pocket)"/>
+      <rect x="1" y="1" width="1198" height="418" fill="url(#stars)" opacity=".16"/>
       <rect x="1" y="1" width="1198" height="418" fill="url(#vignette)"/>
-      <g clip-path="url(#grain-clip)"><rect class="grain" x="-4" y="-4" width="1208" height="428" filter="url(#grain-filter)" opacity=".08"/></g>
+      <g clip-path="url(#grain-clip)"><rect class="grain" x="-4" y="-4" width="1208" height="428" filter="url(#grain-filter)" opacity=".025"/></g>
+      <rect x="1" y="1" width="1198" height="418" rx="10" fill="none" stroke="#d7dce2"/>
     </g>
     <g class="desktop" style="--idx:4">
       <g class="rise" style="--idx:0">
-        <text x="53" y="49" font-size="15" fill="#5f6854" class="mono" letter-spacing="2">04 / CODE WITH YOU</text>
+        <text x="53" y="49" font-size="15" fill="#535e68" class="mono" letter-spacing="2">04 / CODE WITH YOU</text>
         <text x="1156" y="49" font-size="14" fill="#64409c" class="mono" text-anchor="end">MOBILE CLIENT</text>
       </g>
-      <path class="wipe" pathLength="100" stroke-dasharray="100" d="M53 72H1156" stroke="#c9cdb9"/>
-      <path class="draw" pathLength="100" stroke-dasharray="100" d="M418 88V310m-6-222h12m-12 222h12" stroke="#c9cdb9"/>
+      <path class="wipe" pathLength="100" stroke-dasharray="100" d="M53 72H1156" stroke="#d7dce2"/>
+      <path class="draw" pathLength="100" stroke-dasharray="100" d="M418 88V310m-6-222h12m-12 222h12" stroke="#d7dce2"/>
       <g transform="translate(396 0)">
         <g class="rise" style="--idx:1">
-          <text x="49" y="139" font-size="66" fill="#141a0d" font-weight="900" letter-spacing="-3">OpenCode Pocket</text>
+          <text x="49" y="139" font-size="66" fill="#202730" font-weight="900" letter-spacing="-3">OpenCode Pocket</text>
         </g>
         <g class="rise" style="--idx:2">
-          <text x="53" y="204" font-size="28" fill="#141a0d" >OpenCode на Android и iOS.</text>
-          <text x="53" y="244" font-size="27" fill="#5f6854" >Сессии, промпты и подключение по QR.</text>
+          <text x="53" y="204" font-size="28" fill="#202730" >OpenCode на Android и iOS.</text>
+          <text x="53" y="244" font-size="27" fill="#535e68" >Сессии, промпты и подключение по QR.</text>
         </g>
       </g>
-      <g class="pop" style="--idx:2" transform="translate(238 188) scale(0.85)">
+      <g class="art-anchor from-left" transform="translate(238 188) scale(0.85)">
+        <g class="art-enter"><g class="art-detail" style="--phase:-10s">
     <g transform="translate(-27 -19) rotate(-5)">
-      <rect x="-160" y="-70" width="234" height="158" rx="11" fill="#e8e4d5" stroke="#c9cdb9" stroke-width="1.5"/>
-      <path d="M-160-42H74" stroke="#c9cdb9"/>
+      <rect x="-160" y="-70" width="234" height="158" rx="11" fill="#e9edf1" stroke="#d7dce2" stroke-width="1.5"/>
+      <path d="M-160-42H74" stroke="#d7dce2"/>
       <circle cx="-143" cy="-56" r="3" fill="#64409c"/>
-      <path d="M-131-56h41M-65-14h112M-65 5h93M-65 24h106M-65 44h59" stroke="#5f6854" stroke-width="2"/>
+      <path d="M-131-56h41M-65-14h112M-65 5h93M-65 24h106M-65 44h59" stroke="#535e68" stroke-width="2"/>
       <rect x="-136" y="-5" width="24" height="24" rx="2" fill="none" stroke="#64409c" stroke-width="3"/><rect x="-129" y="2" width="10" height="10" fill="#64409c"/><rect x="-104" y="-5" width="24" height="24" rx="2" fill="none" stroke="#64409c" stroke-width="3"/><rect x="-97" y="2" width="10" height="10" fill="#64409c"/><rect x="-136" y="27" width="24" height="24" rx="2" fill="none" stroke="#64409c" stroke-width="3"/><rect x="-129" y="34" width="10" height="10" fill="#64409c"/>
       <path class="qr-scan" d="M-143-10h70" stroke="#64409c" stroke-width="2"/>
-      <g class="paired-mark"><circle cx="-83" cy="44" r="12" fill="#64409c"/><path d="M-89 44-84 49-77 39" fill="none" stroke="#f4f1e6" stroke-width="2.5"/></g>
+      <g class="paired-mark"><circle cx="-83" cy="44" r="12" fill="#64409c"/><path d="M-89 44-84 49-77 39" fill="none" stroke="#f6f7f9" stroke-width="2.5"/></g>
     </g>
     <path class="orbit" d="M-13 85C13 145 96 159 138 104" fill="none" stroke="#64409c" stroke-width="2"/>
-    <g transform="translate(-62 -39)"><g class="handoff"><path d="M-13 0h-15m2-4h-10m3 8h-12" stroke="#64409c" opacity=".5"/><polygon points="-7.79,-4.50 0.00,0.00 0.00,9.00 -7.79,4.50" fill="#e4dbf2" stroke="#c9cdb9" stroke-width="1.2"/><polygon points="0.00,0.00 7.79,-4.50 7.79,4.50 0.00,9.00" fill="#64409c" stroke="#c9cdb9" stroke-width="1.2"/><polygon points="0.00,-9.00 7.79,-4.50 0.00,0.00 -7.79,-4.50" fill="#64409c" stroke="#c9cdb9" stroke-width="1.2"/></g></g>
+    <g transform="translate(-62 -39)"><g class="handoff"><path d="M-13 0h-15m2-4h-10m3 8h-12" stroke="#64409c" opacity=".5"/><polygon points="-7.79,-4.50 0.00,0.00 0.00,9.00 -7.79,4.50" fill="#e4dbf2" stroke="#d7dce2" stroke-width="1.2"/><polygon points="0.00,0.00 7.79,-4.50 7.79,4.50 0.00,9.00" fill="#64409c" stroke="#d7dce2" stroke-width="1.2"/><polygon points="0.00,-9.00 7.79,-4.50 0.00,0.00 -7.79,-4.50" fill="#64409c" stroke="#d7dce2" stroke-width="1.2"/></g></g>
     <g transform="translate(87 -3) rotate(7)"><g class="levitate">
-      <rect x="-64" y="-131" width="132" height="262" rx="24" fill="#f4f1e6" stroke="#5f6854" stroke-width="2"/>
-      <path d="M-67-78v25m0 9v17M71-55v32" stroke="#5f6854" stroke-width="2"/>
-      <rect x="-53" y="-116" width="110" height="230" rx="15" fill="#e8e4d5"/>
+      <rect x="-64" y="-131" width="132" height="262" rx="24" fill="#f6f7f9" stroke="#535e68" stroke-width="2"/>
+      <path d="M-67-78v25m0 9v17M71-55v32" stroke="#535e68" stroke-width="2"/>
+      <rect x="-53" y="-116" width="110" height="230" rx="15" fill="#e9edf1"/>
       <rect x="-19" y="-121" width="43" height="7" rx="3.5" fill="#64409c" opacity=".55"/>
       <circle cx="-31" cy="-85" r="9" fill="#e4dbf2" stroke="#64409c"/>
-      <path d="M-35-88-31-84-35-80m6 0h4" fill="none" stroke="#141a0d"/>
-      <path d="M-12-89h48M-12-79h31" stroke="#5f6854" stroke-width="2"/>
+      <path d="M-35-88-31-84-35-80m6 0h4" fill="none" stroke="#202730"/>
+      <path d="M-12-89h48M-12-79h31" stroke="#535e68" stroke-width="2"/>
       <g class="chat-line message-0"><rect x="-39" y="-53" width="83" height="31" rx="9" fill="#e4dbf2"/><path d="M-28-40h51M-28-31h34" stroke="#64409c" stroke-width="2"/></g>
-      <g class="chat-line message-1"><rect x="-27" y="-9" width="73" height="43" rx="9" fill="#f4f1e6"/><path d="M-16 4h51M-16 14h37M-16 24h44" stroke="#5f6854" stroke-width="2"/></g>
+      <g class="chat-line message-1"><rect x="-27" y="-9" width="73" height="43" rx="9" fill="#f6f7f9"/><path d="M-16 4h51M-16 14h37M-16 24h44" stroke="#535e68" stroke-width="2"/></g>
       <g class="chat-line message-2"><rect x="-39" y="47" width="82" height="27" rx="9" fill="#e4dbf2"/><path d="M-27 60h52" stroke="#64409c" stroke-width="2"/></g>
-      <rect x="-39" y="89" width="83" height="15" rx="7" fill="#f4f1e6"/>
+      <rect x="-39" y="89" width="83" height="15" rx="7" fill="#f6f7f9"/>
       <circle class="heartbeat" cx="35" cy="96.5" r="4" fill="#64409c"/>
       <g class="typing-dots" fill="#64409c"><circle cx="-27" cy="96.5" r="2.5"/><circle cx="-17" cy="96.5" r="2.5"/><circle cx="-7" cy="96.5" r="2.5"/></g>
-      <path d="M-19 120h42" stroke="#5f6854" stroke-width="3" stroke-linecap="round"/>
+      <path d="M-19 120h42" stroke="#535e68" stroke-width="3" stroke-linecap="round"/>
     </g></g>
     <g transform="translate(64 -50)"><path class="debris" d="M-1-2h3v3h-3Z" fill="#64409c" style="--dx:-16.5px;--dy:-10px;--event:calc(var(--cycle) * 0.3900)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#64409c" style="--dx:-5.5px;--dy:-17px;--event:calc(var(--cycle) * 0.3900)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#64409c" style="--dx:5.5px;--dy:-24px;--event:calc(var(--cycle) * 0.3900)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#64409c" style="--dx:16.5px;--dy:-10px;--event:calc(var(--cycle) * 0.3900)"/></g>
-    </g>
-      <path class="wipe" pathLength="100" stroke-dasharray="100" d="M53 313H1156" stroke="#c9cdb9"/>
+    </g></g>
+      </g>
+      <path class="wipe" pathLength="100" stroke-dasharray="100" d="M53 313H1156" stroke="#d7dce2"/>
       <g class="rise" style="--idx:3">
-        <text x="53" y="365" font-size="17" fill="#5f6854" class="mono">REACT / TYPESCRIPT / COMPANION BRIDGE</text>
-        <rect x="930" y="331" width="226" height="52" rx="3" fill="#e8e4d5" stroke="#c9cdb9"/><rect x="930" y="331" width="3" height="52" fill="#64409c"/><text x="1044.0" y="364.8" font-size="19" fill="#141a0d" font-weight="700" text-anchor="middle">ОТКРЫТЬ ↗</text>
+        <text x="53" y="365" font-size="17" fill="#535e68" class="mono">REACT / TYPESCRIPT / COMPANION BRIDGE</text>
+        <rect x="930" y="331" width="226" height="52" rx="3" fill="#e9edf1" stroke="#d7dce2"/><rect x="930" y="331" width="3" height="52" fill="#64409c"/><text x="1044.0" y="364.8" font-size="19" fill="#202730" font-weight="700" text-anchor="middle">ОТКРЫТЬ ↗</text>
       </g>
       <rect class="sweep" x="-260" y="0" width="240" height="420" fill="url(#sweep-fade)" opacity=".35"/>
     </g>
     <g class="mobile" style="--idx:4">
-      <g opacity=".2" transform="translate(995 193) scale(1.05)">
+      <g class="art-anchor" opacity=".14" transform="translate(995 193) scale(1.05)">
+        <g class="art-enter"><g class="art-detail" style="--phase:-10s">
     <g transform="translate(-27 -19) rotate(-5)">
-      <rect x="-160" y="-70" width="234" height="158" rx="11" fill="#e8e4d5" stroke="#c9cdb9" stroke-width="1.5"/>
-      <path d="M-160-42H74" stroke="#c9cdb9"/>
+      <rect x="-160" y="-70" width="234" height="158" rx="11" fill="#e9edf1" stroke="#d7dce2" stroke-width="1.5"/>
+      <path d="M-160-42H74" stroke="#d7dce2"/>
       <circle cx="-143" cy="-56" r="3" fill="#64409c"/>
-      <path d="M-131-56h41M-65-14h112M-65 5h93M-65 24h106M-65 44h59" stroke="#5f6854" stroke-width="2"/>
+      <path d="M-131-56h41M-65-14h112M-65 5h93M-65 24h106M-65 44h59" stroke="#535e68" stroke-width="2"/>
       <rect x="-136" y="-5" width="24" height="24" rx="2" fill="none" stroke="#64409c" stroke-width="3"/><rect x="-129" y="2" width="10" height="10" fill="#64409c"/><rect x="-104" y="-5" width="24" height="24" rx="2" fill="none" stroke="#64409c" stroke-width="3"/><rect x="-97" y="2" width="10" height="10" fill="#64409c"/><rect x="-136" y="27" width="24" height="24" rx="2" fill="none" stroke="#64409c" stroke-width="3"/><rect x="-129" y="34" width="10" height="10" fill="#64409c"/>
       <path class="qr-scan" d="M-143-10h70" stroke="#64409c" stroke-width="2"/>
-      <g class="paired-mark"><circle cx="-83" cy="44" r="12" fill="#64409c"/><path d="M-89 44-84 49-77 39" fill="none" stroke="#f4f1e6" stroke-width="2.5"/></g>
+      <g class="paired-mark"><circle cx="-83" cy="44" r="12" fill="#64409c"/><path d="M-89 44-84 49-77 39" fill="none" stroke="#f6f7f9" stroke-width="2.5"/></g>
     </g>
     <path class="orbit" d="M-13 85C13 145 96 159 138 104" fill="none" stroke="#64409c" stroke-width="2"/>
-    <g transform="translate(-62 -39)"><g class="handoff"><path d="M-13 0h-15m2-4h-10m3 8h-12" stroke="#64409c" opacity=".5"/><polygon points="-7.79,-4.50 0.00,0.00 0.00,9.00 -7.79,4.50" fill="#e4dbf2" stroke="#c9cdb9" stroke-width="1.2"/><polygon points="0.00,0.00 7.79,-4.50 7.79,4.50 0.00,9.00" fill="#64409c" stroke="#c9cdb9" stroke-width="1.2"/><polygon points="0.00,-9.00 7.79,-4.50 0.00,0.00 -7.79,-4.50" fill="#64409c" stroke="#c9cdb9" stroke-width="1.2"/></g></g>
+    <g transform="translate(-62 -39)"><g class="handoff"><path d="M-13 0h-15m2-4h-10m3 8h-12" stroke="#64409c" opacity=".5"/><polygon points="-7.79,-4.50 0.00,0.00 0.00,9.00 -7.79,4.50" fill="#e4dbf2" stroke="#d7dce2" stroke-width="1.2"/><polygon points="0.00,0.00 7.79,-4.50 7.79,4.50 0.00,9.00" fill="#64409c" stroke="#d7dce2" stroke-width="1.2"/><polygon points="0.00,-9.00 7.79,-4.50 0.00,0.00 -7.79,-4.50" fill="#64409c" stroke="#d7dce2" stroke-width="1.2"/></g></g>
     <g transform="translate(87 -3) rotate(7)"><g class="levitate">
-      <rect x="-64" y="-131" width="132" height="262" rx="24" fill="#f4f1e6" stroke="#5f6854" stroke-width="2"/>
-      <path d="M-67-78v25m0 9v17M71-55v32" stroke="#5f6854" stroke-width="2"/>
-      <rect x="-53" y="-116" width="110" height="230" rx="15" fill="#e8e4d5"/>
+      <rect x="-64" y="-131" width="132" height="262" rx="24" fill="#f6f7f9" stroke="#535e68" stroke-width="2"/>
+      <path d="M-67-78v25m0 9v17M71-55v32" stroke="#535e68" stroke-width="2"/>
+      <rect x="-53" y="-116" width="110" height="230" rx="15" fill="#e9edf1"/>
       <rect x="-19" y="-121" width="43" height="7" rx="3.5" fill="#64409c" opacity=".55"/>
       <circle cx="-31" cy="-85" r="9" fill="#e4dbf2" stroke="#64409c"/>
-      <path d="M-35-88-31-84-35-80m6 0h4" fill="none" stroke="#141a0d"/>
-      <path d="M-12-89h48M-12-79h31" stroke="#5f6854" stroke-width="2"/>
+      <path d="M-35-88-31-84-35-80m6 0h4" fill="none" stroke="#202730"/>
+      <path d="M-12-89h48M-12-79h31" stroke="#535e68" stroke-width="2"/>
       <g class="chat-line message-0"><rect x="-39" y="-53" width="83" height="31" rx="9" fill="#e4dbf2"/><path d="M-28-40h51M-28-31h34" stroke="#64409c" stroke-width="2"/></g>
-      <g class="chat-line message-1"><rect x="-27" y="-9" width="73" height="43" rx="9" fill="#f4f1e6"/><path d="M-16 4h51M-16 14h37M-16 24h44" stroke="#5f6854" stroke-width="2"/></g>
+      <g class="chat-line message-1"><rect x="-27" y="-9" width="73" height="43" rx="9" fill="#f6f7f9"/><path d="M-16 4h51M-16 14h37M-16 24h44" stroke="#535e68" stroke-width="2"/></g>
       <g class="chat-line message-2"><rect x="-39" y="47" width="82" height="27" rx="9" fill="#e4dbf2"/><path d="M-27 60h52" stroke="#64409c" stroke-width="2"/></g>
-      <rect x="-39" y="89" width="83" height="15" rx="7" fill="#f4f1e6"/>
+      <rect x="-39" y="89" width="83" height="15" rx="7" fill="#f6f7f9"/>
       <circle class="heartbeat" cx="35" cy="96.5" r="4" fill="#64409c"/>
       <g class="typing-dots" fill="#64409c"><circle cx="-27" cy="96.5" r="2.5"/><circle cx="-17" cy="96.5" r="2.5"/><circle cx="-7" cy="96.5" r="2.5"/></g>
-      <path d="M-19 120h42" stroke="#5f6854" stroke-width="3" stroke-linecap="round"/>
+      <path d="M-19 120h42" stroke="#535e68" stroke-width="3" stroke-linecap="round"/>
     </g></g>
     <g transform="translate(64 -50)"><path class="debris" d="M-1-2h3v3h-3Z" fill="#64409c" style="--dx:-16.5px;--dy:-10px;--event:calc(var(--cycle) * 0.3900)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#64409c" style="--dx:-5.5px;--dy:-17px;--event:calc(var(--cycle) * 0.3900)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#64409c" style="--dx:5.5px;--dy:-24px;--event:calc(var(--cycle) * 0.3900)"/><path class="debris" d="M-1-2h3v3h-3Z" fill="#64409c" style="--dx:16.5px;--dy:-10px;--event:calc(var(--cycle) * 0.3900)"/></g>
-    </g>
+    </g></g>
+      </g>
       <g class="rise" style="--idx:0">
-        <text x="53" y="45" font-size="26" fill="#5f6854" class="mono" letter-spacing="1">04 / CODE WITH YOU</text>
+        <text x="53" y="45" font-size="26" fill="#535e68" class="mono" letter-spacing="1">04 / CODE WITH YOU</text>
       </g>
       <g class="rise" style="--idx:1">
-        <text x="47" y="125" font-size="85" fill="#141a0d" font-weight="900" letter-spacing="-3">OpenCode Pocket</text>
+        <text x="47" y="125" font-size="85" fill="#202730" font-weight="900" letter-spacing="-3">OpenCode Pocket</text>
       </g>
       <g class="rise" style="--idx:2">
-        <text x="53" y="212" font-size="50" fill="#141a0d" >OpenCode на Android и iOS.</text>
-        <text x="53" y="273" font-size="49" fill="#141a0d" >Твои сессии с компьютера — по QR.</text>
+        <text x="53" y="212" font-size="50" fill="#202730" >OpenCode на Android и iOS.</text>
+        <text x="53" y="273" font-size="49" fill="#202730" >Твои сессии с компьютера — по QR.</text>
       </g>
       <g class="rise" style="--idx:3">
-        <text x="53" y="361" font-size="38" fill="#5f6854" >Android · iOS · QR</text>
-        <rect x="778" y="318" width="378" height="66" rx="3" fill="#e8e4d5" stroke="#c9cdb9"/><rect x="778" y="318" width="3" height="66" fill="#64409c"/><text x="968.0" y="360.9" font-size="39" fill="#141a0d" font-weight="700" text-anchor="middle">ОТКРЫТЬ ↗</text>
+        <text x="53" y="361" font-size="38" fill="#535e68" >Android · iOS · QR</text>
+        <rect x="778" y="318" width="378" height="66" rx="3" fill="#e9edf1" stroke="#d7dce2"/><rect x="778" y="318" width="3" height="66" fill="#64409c"/><text x="968.0" y="360.9" font-size="39" fill="#202730" font-weight="700" text-anchor="middle">ОТКРЫТЬ ↗</text>
       </g>
     </g>
 
-    <g class="stage" style="--idx:0">
-      <path d="M26 22V398" stroke="#c9cdb9" stroke-width="2"/>
+    <g class="rail">
+      <path d="M26 1V419" stroke="#d7dce2" stroke-width="1"/>
       <circle class="beat" cx="26" cy="42" r="5" fill="#64409c"/>
-    </g>
-    <g class="relay" transform="translate(26 0)">
-      <path d="M-9-4h18v-9H-9Z" fill="#4f7d0a"/>
-      <path d="M-12 0h24" stroke="#4f7d0a" stroke-width="2" stroke-linecap="round"/>
-      <path d="M0-30v-16" stroke="#4f7d0a" stroke-width="1.6" opacity=".4"/>
-      <circle cy="-4" r="9" fill="#4f7d0a" opacity=".22"/>
-    </g></g>
-<g id="scene-signal" transform="translate(0 2100)">
-    <g class="stage" style="--idx:0">
-      <circle class="aura aura-a" cx="880" cy="120" r="330" fill="url(#aura-a)"/>
-      <circle class="aura aura-b" cx="300" cy="330" r="300" fill="url(#aura-b)"/>
-      <rect width="1200" height="420" fill="url(#stars)" opacity=".55"/>
+    </g></g></g>
+<g id="scene-signal" transform="translate(0 2100)" style="--scene:5"><g clip-path="url(#scene-frame)">
+    <g class="stage">
+      <rect x="1" y="1" width="1198" height="418" rx="10" fill="#f6f7f9"/>
+      <ellipse class="aura" cx="925" cy="202" rx="330" ry="215" fill="url(#aura-signal)"/>
+      <rect x="1" y="1" width="1198" height="418" fill="url(#stars)" opacity=".16"/>
       <rect x="1" y="1" width="1198" height="418" fill="url(#vignette)"/>
-      <g clip-path="url(#grain-clip)"><rect class="grain" x="-4" y="-4" width="1208" height="428" filter="url(#grain-filter)" opacity=".08"/></g>
-    </g><g style="--idx:5"><text x="53" y="59" font-size="30" fill="#141a0d" class="signal-title rise" font-weight="700">BUILD SIGNAL / 90D</text>
-<text x="1156" y="56" font-size="18" fill="#5f6854" class="signal-auto mono rise" text-anchor="end">↻ КАЖДЫЙ ЧАС</text>
-<path class="wipe" pathLength="100" stroke-dasharray="100" d="M53 83H1156M53 227H1156" stroke="#c9cdb9"/>
+      <g clip-path="url(#grain-clip)"><rect class="grain" x="-4" y="-4" width="1208" height="428" filter="url(#grain-filter)" opacity=".025"/></g>
+      <rect x="1" y="1" width="1198" height="418" rx="10" fill="none" stroke="#d7dce2"/>
+    </g><g style="--idx:5"><text x="53" y="59" font-size="30" fill="#202730" class="signal-title rise" font-weight="700">BUILD SIGNAL / 90D</text>
+<text x="1156" y="56" font-size="18" fill="#535e68" class="signal-auto mono rise" text-anchor="end">↻ КАЖДЫЙ ЧАС</text>
+<path class="wipe" pathLength="100" stroke-dasharray="100" d="M53 83H1156M53 227H1156" stroke="#d7dce2"/>
 <g class="rise" style="--idx:1">
-<text x="53" y="174" font-size="84" fill="#141a0d" class="signal-value" font-weight="700" letter-spacing="-3">251</text>
-<text x="55" y="210" font-size="17" fill="#5f6854" class="mono signal-label" letter-spacing="1">CONTRIB.</text>
+<text x="53" y="174" font-size="84" fill="#202730" class="signal-value" font-weight="700" letter-spacing="-3">251</text>
+<text x="55" y="210" font-size="17" fill="#535e68" class="mono signal-label" letter-spacing="1">CONTRIB.</text>
 </g>
 <g class="rise" style="--idx:2">
-<text x="449" y="174" font-size="84" fill="#141a0d" class="signal-value" font-weight="700" letter-spacing="-3">31</text>
-<text x="451" y="210" font-size="17" fill="#5f6854" class="mono signal-label" letter-spacing="1">АКТИВНЫХ ДНЕЙ</text>
+<text x="449" y="174" font-size="84" fill="#202730" class="signal-value" font-weight="700" letter-spacing="-3">31</text>
+<text x="451" y="210" font-size="17" fill="#535e68" class="mono signal-label" letter-spacing="1">АКТИВНЫХ ДНЕЙ</text>
 </g>
 <g class="rise" style="--idx:3">
-<text x="843" y="174" font-size="84" fill="#141a0d" class="signal-value" font-weight="700" letter-spacing="-3">38</text>
-<text x="845" y="210" font-size="17" fill="#5f6854" class="mono signal-label" letter-spacing="1">ПИК / ДЕНЬ</text>
+<text x="843" y="174" font-size="84" fill="#202730" class="signal-value" font-weight="700" letter-spacing="-3">38</text>
+<text x="845" y="210" font-size="17" fill="#535e68" class="mono signal-label" letter-spacing="1">ПИК / ДЕНЬ</text>
 </g>
-<path d="M53 239H1150" stroke="#c9cdb9" stroke-dasharray="2 6"/>
-<path d="M53 290H1150" stroke="#c9cdb9" stroke-dasharray="2 6"/>
-<path d="M53 345H1150" stroke="#c9cdb9" stroke-dasharray="2 6"/>
+<path d="M53 239H1150" stroke="#d7dce2" stroke-dasharray="2 6"/>
+<path d="M53 290H1150" stroke="#d7dce2" stroke-dasharray="2 6"/>
+<path d="M53 345H1150" stroke="#d7dce2" stroke-dasharray="2 6"/>
 <g class="bars">
 <rect class="bar" style="--n:0" x="53.00" y="347.00" width="9.19" height="2.00" rx="2" fill="#d9ddcc"><title>2026-07-22: 0 contributions</title></rect>
 <rect class="bar" style="--n:1" x="65.19" y="347.00" width="9.19" height="2.00" rx="2" fill="#d9ddcc"><title>2026-07-23: 0 contributions</title></rect>
@@ -2252,17 +2258,19 @@
 <rect class="bar" style="--n:88" x="1125.62" y="326.74" width="9.19" height="16.26" rx="2" fill="#b4c296"><title>2026-10-18: 6 contributions</title></rect>
 <rect class="bar" style="--n:89" x="1137.81" y="347.00" width="9.19" height="2.00" rx="2" fill="#d9ddcc"><title>2026-10-19: 0 contributions</title></rect>
 </g>
-<path class="scan" d="M53 238V343" stroke="#4f7d0a" opacity=".3"/>
-<text x="53" y="385" font-size="15" fill="#5f6854" class="mono signal-date">2026-07-22</text>
-<text x="1156" y="385" font-size="15" fill="#5f6854" class="mono signal-date" text-anchor="end">2026-10-19 / UTC</text></g>
-    <g class="stage" style="--idx:0">
-      <path d="M26 22V398" stroke="#c9cdb9" stroke-width="2"/>
-      <circle class="beat" cx="26" cy="42" r="5" fill="#4f7d0a"/>
-    </g>
-    <g class="relay" transform="translate(26 0)">
-      <path d="M-9-4h18v-9H-9Z" fill="#4f7d0a"/>
-      <path d="M-12 0h24" stroke="#4f7d0a" stroke-width="2" stroke-linecap="round"/>
-      <path d="M0-30v-16" stroke="#4f7d0a" stroke-width="1.6" opacity=".4"/>
-      <circle cy="-4" r="9" fill="#4f7d0a" opacity=".22"/>
+<path class="scan" d="M53 238V343" stroke="#427018" opacity=".3"/>
+<text x="53" y="385" font-size="15" fill="#535e68" class="mono signal-date">2026-07-22</text>
+<text x="1156" y="385" font-size="15" fill="#535e68" class="mono signal-date" text-anchor="end">2026-10-19 / UTC</text></g>
+    <g class="rail">
+      <path d="M26 1V419" stroke="#d7dce2" stroke-width="1"/>
+      <circle class="beat" cx="26" cy="42" r="5" fill="#427018"/>
+    </g></g></g>
+
+    <g clip-path="url(#atlas-clips)"><g transform="translate(26 0)">
+      <g class="relay">
+        <path d="M0-42V-14" stroke="#427018" stroke-width="2" opacity=".45"/>
+        <path d="M0-13 6-5 0 3-6-5Z" fill="#427018"/>
+        <circle cy="-5" r="10" fill="#427018" opacity=".14"/>
+      </g>
     </g></g>
     </svg>

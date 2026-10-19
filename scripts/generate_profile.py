@@ -142,7 +142,7 @@ def build_svg(calendar, theme="dark"):
         f"{active} active days, {peak} contributions on the busiest day. "
         "Each bar represents one day; bar height is proportional to contributions."
     )
-    body = motion.stage(PALETTES[theme], theme) + signal_body(days, theme)
+    body = motion.stage(PALETTES[theme], theme, "signal") + signal_body(days, theme)
     return document("Build signal — last 90 days", description, VIEW_HEIGHT, body, theme)
 
 

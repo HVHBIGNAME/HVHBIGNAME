@@ -1,40 +1,40 @@
 <picture>
-  <source media="(prefers-color-scheme: light)" srcset="./assets/profile-light.svg?v=hvh3#hero">
-  <img src="./assets/profile-dark.svg?v=hvh3#hero" width="100%" alt="HVH / BIGNAME — личная мастерская. Игровые серверы, утилиты и свои проекты. Rust и TypeScript.">
+  <source media="(prefers-color-scheme: light)" srcset="./assets/profile-light.svg?v=hvh4#hero">
+  <img src="./assets/profile-dark.svg?v=hvh4#hero" width="100%" alt="HVH / BIGNAME — личная мастерская. Игровые серверы, утилиты и свои проекты. Rust и TypeScript.">
 </picture>
 
 <a href="https://github.com/HVHBIGNAME/BCore">
   <picture>
-    <source media="(prefers-color-scheme: light)" srcset="./assets/profile-light.svg?v=hvh3#bcore">
-    <img src="./assets/profile-dark.svg?v=hvh3#bcore" width="100%" alt="Открыть BCore — Minecraft-сервер на Rust: миры, освещение, нативные плагины и JVM-мост. Alpha.">
+    <source media="(prefers-color-scheme: light)" srcset="./assets/profile-light.svg?v=hvh4#bcore">
+    <img src="./assets/profile-dark.svg?v=hvh4#bcore" width="100%" alt="Открыть BCore — Minecraft-сервер на Rust: миры, освещение, нативные плагины и JVM-мост. Alpha.">
   </picture>
 </a>
 
 <a href="https://github.com/HVHBIGNAME/emberdeck">
   <picture>
-    <source media="(prefers-color-scheme: light)" srcset="./assets/profile-light.svg?v=hvh3#minecraft-panel">
-    <img src="./assets/profile-dark.svg?v=hvh3#minecraft-panel" width="100%" alt="Открыть emberdeck — self-hosted Minecraft-панель на Rust: серверы, консоль, SFTP, CLI и резервные копии. Ранний релиз.">
+    <source media="(prefers-color-scheme: light)" srcset="./assets/profile-light.svg?v=hvh4#minecraft-panel">
+    <img src="./assets/profile-dark.svg?v=hvh4#minecraft-panel" width="100%" alt="Открыть emberdeck — self-hosted Minecraft-панель на Rust: серверы, консоль, SFTP, CLI и резервные копии. Ранний релиз.">
   </picture>
 </a>
 
 <a href="https://github.com/HVHBIGNAME/SoftDownloader">
   <picture>
-    <source media="(prefers-color-scheme: light)" srcset="./assets/profile-light.svg?v=hvh3#softdownloader">
-    <img src="./assets/profile-dark.svg?v=hvh3#softdownloader" width="100%" alt="Открыть SoftDownloader — менеджер программ для Windows на Rust и egui. Один EXE, установка очередью и перенос списка ПО.">
+    <source media="(prefers-color-scheme: light)" srcset="./assets/profile-light.svg?v=hvh4#softdownloader">
+    <img src="./assets/profile-dark.svg?v=hvh4#softdownloader" width="100%" alt="Открыть SoftDownloader — менеджер программ для Windows на Rust и egui. Один EXE, установка очередью и перенос списка ПО.">
   </picture>
 </a>
 
 <a href="https://github.com/HVHBIGNAME/OpenCodePocket">
   <picture>
-    <source media="(prefers-color-scheme: light)" srcset="./assets/profile-light.svg?v=hvh3#opencode-pocket">
-    <img src="./assets/profile-dark.svg?v=hvh3#opencode-pocket" width="100%" alt="Открыть OpenCode Pocket — OpenCode на Android и iOS: сессии с компьютера, промпты и подключение по QR через companion bridge.">
+    <source media="(prefers-color-scheme: light)" srcset="./assets/profile-light.svg?v=hvh4#opencode-pocket">
+    <img src="./assets/profile-dark.svg?v=hvh4#opencode-pocket" width="100%" alt="Открыть OpenCode Pocket — OpenCode на Android и iOS: сессии с компьютера, промпты и подключение по QR через companion bridge.">
   </picture>
 </a>
 
 <a href="https://github.com/HVHBIGNAME/HVHBIGNAME/actions/workflows/update-profile.yml">
   <picture>
-    <source media="(prefers-color-scheme: light)" srcset="./assets/profile-light.svg?v=hvh3#signal">
-    <img src="./assets/profile-dark.svg?v=hvh3#signal" width="100%" alt="Build signal — публичные GitHub contributions за 90 дней. Автообновление каждый час; открыть статус GitHub Actions.">
+    <source media="(prefers-color-scheme: light)" srcset="./assets/profile-light.svg?v=hvh4#signal">
+    <img src="./assets/profile-dark.svg?v=hvh4#signal" width="100%" alt="Build signal — публичные GitHub contributions за 90 дней. Автообновление каждый час; открыть статус GitHub Actions.">
   </picture>
 </a>
 

@@ -14,19 +14,19 @@ from illustrations import ART, scene_styles
 ROOT = Path(__file__).resolve().parents[1]
 PALETTES = {
     "dark": {
-        "bg": "#0a0c09", "panel": "#14190f", "fg": "#f2f5e9",
-        "muted": "#98a08a", "line": "#2a3123", "accent": "#c6ff3d",
-        "glow": "#5ef2c2", "shadow": "#000000",
-        "soft": "#1e2a12", "empty": "#1b2116",
-        "metal": ("#eef6dc", "#a9b79a", "#4a5440"),
-        "levels": ["#1b2116", "#3c4a24", "#657a30", "#93b03d", "#c6ff3d"],
+        "bg": "#0d1117", "panel": "#161c24", "fg": "#f1f3f5",
+        "muted": "#a0a8b2", "line": "#2a323d", "accent": "#bef264",
+        "shadow": "#000000",
+        "soft": "#202d23", "empty": "#202832",
+        "metal": ("#f7fafb", "#a6b0b8", "#404c56"),
+        "levels": ["#202832", "#344b30", "#587b39", "#85b44b", "#bef264"],
     },
     "light": {
-        "bg": "#f4f1e6", "panel": "#e8e4d5", "fg": "#141a0d",
-        "muted": "#5f6854", "line": "#c9cdb9", "accent": "#4f7d0a",
-        "glow": "#0e7a63", "shadow": "#2c3320",
-        "soft": "#dde6c6", "empty": "#d9ddcc",
-        "metal": ("#fdfcf5", "#c2c9b5", "#6f7867"),
+        "bg": "#f6f7f9", "panel": "#e9edf1", "fg": "#202730",
+        "muted": "#535e68", "line": "#d7dce2", "accent": "#427018",
+        "shadow": "#617080",
+        "soft": "#e1e9d8", "empty": "#d9dfe5",
+        "metal": ("#fdfefe", "#9aa6b2", "#4d5c6a"),
         "levels": ["#d9ddcc", "#b4c296", "#8aa861", "#6c8f3a", "#4f7d0a"],
     },
 }
@@ -88,7 +88,7 @@ def stylesheet(height):
     .heartbeat {{ animation: heartbeat 4s ease-in-out infinite; }}
     @keyframes orbit {{ to {{ stroke-dashoffset: -248; }} }}
     @keyframes heartbeat {{ 0%,100% {{ opacity:.4; }} 50% {{ opacity:1; }} }}
-    {motion.styles(len(VIEWS))}
+    {motion.styles(height)}
     {scene_styles(CYCLE_SECONDS)}
     {brand_styles()}
     @media (max-width: 600px) {{
@@ -104,7 +104,10 @@ def document(title, description, height, body, theme, views=()):
     p = PALETTES[theme]
     height_attr = "" if views else f' height="{height}"'
     view_tags = "".join(f'<view id="{name}" viewBox="0 {i*VIEW_HEIGHT} 1200 {VIEW_HEIGHT}"/>' for i, name in enumerate(views))
-    clips = "".join(f'<rect x="1" y="{i*VIEW_HEIGHT+1}" width="1198" height="{VIEW_HEIGHT-2}" rx="10"/>' for i in range(len(views)))
+    clips = "".join(f'<rect x="1" y="{i*VIEW_HEIGHT+1}" width="1198" height="{VIEW_HEIGHT-2}" rx="10"/>' for i in range(max(1, len(views))))
+    backdrops = "".join(motion.backdrop_defs(scene_palette(theme, name), name) for name in VIEWS)
+    if not views:
+        body = f'<g clip-path="url(#scene-frame)">{body}</g>'
     svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="1200"{height_attr} viewBox="0 0 1200 {height}" role="img" aria-labelledby="title desc">
     <title id="title">{escape(title)}</title>
     <desc id="desc">{escape(description)}</desc>
@@ -115,7 +118,8 @@ def document(title, description, height, body, theme, views=()):
       {motion.grain(p)}
       {motion.grain_clip()}
       {motion.sweep_defs(p)}
-      <linearGradient id="carrier" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{p['accent']}" stop-opacity="0"/><stop offset=".75" stop-color="{p['accent']}"/><stop offset="1" stop-color="{p['accent']}" stop-opacity="0"/></linearGradient>
+      {backdrops}
+      <clipPath id="scene-frame" clipPathUnits="userSpaceOnUse"><rect x="1" y="1" width="1198" height="{VIEW_HEIGHT-2}" rx="10"/></clipPath>
       <clipPath id="atlas-clips">{clips}</clipPath>
     </defs>
     <style>{stylesheet(height)}</style>
@@ -126,16 +130,16 @@ def document(title, description, height, body, theme, views=()):
 
 def rail(p):
     return f'''
-    <g class="stage" style="--idx:0">
-      <path d="M26 22V398" stroke="{p['line']}" stroke-width="2"/>
+    <g class="rail">
+      <path d="M26 1V419" stroke="{p['line']}" stroke-width="1"/>
       <circle class="beat" cx="26" cy="42" r="5" fill="{p['accent']}"/>
     </g>'''
 
 
 def plate_art(p, scale, rotate, origin):
     return f'''
-    <g class="plate-holder" transform="translate({origin}) rotate({rotate}) scale({scale})">
-      <g transform="translate(-126 -64)">{plate(p)}</g>
+    <g class="art-anchor plate-holder" transform="translate({origin}) rotate({rotate}) scale({scale})">
+      <g class="art-enter"><g transform="translate(-126 -64)">{plate(p)}</g></g>
     </g>'''
 
 
@@ -170,9 +174,10 @@ def hero_body(theme):
         {text(1156, 64, '1337', 30, 'muted', p, class_='mono', text_anchor='end')}
       </g>
       <path class="wipe" pathLength="100" stroke-dasharray="100" d="M53 92H1156" stroke="{p['line']}"/>
-      {plate_art(p, 1.05, -6, '820 250')}
-      <g class="rise" style="--idx:1" transform="translate(50 206)">
+      {plate_art(p, .88, -6, '995 205')}
+      <g transform="translate(50 180)"><g class="rise" style="--idx:1">
         <text y="86" font-size="128" font-weight="900" letter-spacing="-6" fill="{p['fg']}">BIGNAME</text>
+      </g>
       </g>
       <g class="rise" style="--idx:2">
         {text(53, 356, 'RUST / TYPESCRIPT / СВОИ ПРОЕКТЫ', 32, 'muted', p, class_='mono')}
@@ -181,9 +186,15 @@ def hero_body(theme):
     {rail(p)}'''
 
 
+def scene_palette(theme, name):
+    if name in PROJECTS:
+        return {**PALETTES[theme], **dict(zip(("accent", "soft"), PROJECTS[name][theme]))}
+    return PALETTES[theme]
+
+
 def project_body(theme, name, index):
     item = PROJECTS[name]
-    p = {**PALETTES[theme], **dict(zip(("accent", "soft"), item[theme]))}
+    p = scene_palette(theme, name)
     art = ART[name](p)
     title_size = 80 if name in ("bcore", "minecraft-panel") else 66
     reverse = name in ("minecraft-panel", "opencode-pocket")
@@ -206,7 +217,9 @@ def project_body(theme, name, index):
           {text(53, 244, item['description'][1], 27, 'muted', p)}
         </g>
       </g>
-      <g class="pop" style="--idx:2" transform="translate({art_x} {art_y}) scale({art_scale})">{art}</g>
+      <g class="art-anchor {'from-left' if reverse else 'from-right'}" transform="translate({art_x} {art_y}) scale({art_scale})">
+        <g class="art-enter"><g class="art-detail" style="--phase:-10s">{art}</g></g>
+      </g>
       <path class="wipe" pathLength="100" stroke-dasharray="100" d="M53 313H1156" stroke="{p['line']}"/>
       <g class="rise" style="--idx:3">
         {text(53, 365, item['tech'], 17, 'muted', p, class_='mono')}
@@ -215,7 +228,9 @@ def project_body(theme, name, index):
       <rect class="sweep" x="-260" y="0" width="240" height="420" fill="url(#sweep-fade)" opacity=".35"/>
     </g>
     <g class="mobile" style="--idx:{index}">
-      <g opacity=".2" transform="translate(995 193) scale(1.05)">{art}</g>
+      <g class="art-anchor" opacity=".14" transform="translate(995 193) scale(1.05)">
+        <g class="art-enter"><g class="art-detail" style="--phase:-10s">{art}</g></g>
+      </g>
       <g class="rise" style="--idx:0">
         {text(53, 45, item['eyebrow'], 26, 'muted', p, class_='mono', letter_spacing=1)}
       </g>
@@ -293,7 +308,7 @@ def hero(theme):
 
 def project(theme, name):
     item = PROJECTS[name]
-    body = motion.stage({**PALETTES[theme], **dict(zip(("accent", "soft"), item[theme]))}, theme) + project_body(theme, name, 0)
+    body = motion.stage(scene_palette(theme, name), theme, name) + project_body(theme, name, 0)
     return document(item["name"], " ".join(item["description"]) + " " + item["status"], VIEW_HEIGHT, body, theme)
 
 
@@ -306,9 +321,10 @@ def build_atlas(days, theme):
     groups = []
     for index, (name, body) in enumerate(zip(VIEWS, sections)):
         groups.append(
-            f'<g id="scene-{name}" transform="translate(0 {index*VIEW_HEIGHT})">'
-            f'{motion.stage(PALETTES[theme], theme)}{body}{motion.packet(PALETTES[theme])}</g>'
+            f'<g id="scene-{name}" transform="translate(0 {index*VIEW_HEIGHT})" style="--scene:{index}">'
+            f'<g clip-path="url(#scene-frame)">{motion.stage(scene_palette(theme, name), theme, name)}{body}</g></g>'
         )
+    groups.append(motion.packet(PALETTES[theme]))
     return document(
         "HVHBIGNAME / connected builds",
         "Анимированное портфолио: BCore, emberdeck, SoftDownloader и OpenCode Pocket. "

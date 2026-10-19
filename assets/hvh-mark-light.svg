@@ -3,11 +3,11 @@
     <desc id="desc">Две зеркальные H и центральная V. Знак HVHBIGNAME.</desc>
     <defs>
     <linearGradient id="hvh-metal" x1="0" y1="0" x2=".5" y2="1">
-      <stop offset="0" stop-color="#fdfcf5"/>
-      <stop offset=".36" stop-color="#c2c9b5"/>
-      <stop offset=".55" stop-color="#6f7867"/>
-      <stop offset=".72" stop-color="#fdfcf5"/>
-      <stop offset="1" stop-color="#c2c9b5"/>
+      <stop offset="0" stop-color="#fdfefe"/>
+      <stop offset=".36" stop-color="#9aa6b2"/>
+      <stop offset=".55" stop-color="#4d5c6a"/>
+      <stop offset=".72" stop-color="#fdfefe"/>
+      <stop offset="1" stop-color="#9aa6b2"/>
     </linearGradient>
     <linearGradient id="hvh-sheen" x1="0" y1="0" x2="1" y2="0">
       <stop offset="0" stop-color="#fff" stop-opacity="0"/>
@@ -16,21 +16,21 @@
       <stop offset="1" stop-color="#fff" stop-opacity="0"/>
     </linearGradient>
     <filter id="hvh-glow" x="-25%" y="-45%" width="150%" height="190%"><feGaussianBlur stdDeviation="6"/></filter>
-    <clipPath id="hvh-clip"><path d="M18 31 29 20h6v32h29V20h17v88H64V70H35v38H18Z"/><path d="M88 20h20l18 57 18-57h20l-30 88h-16Z"/><path d="M171 20h17v32h29V20h6l11 11v77h-17V70h-29v38h-17Z"/></clipPath><symbol id="hvh-symbol" viewBox="0 0 252 128"><path data-letter="H" d="M18 31 29 20h6v32h29V20h17v88H64V70H35v38H18Z" fill="#141a0d"/><path data-letter="V" d="M88 20h20l18 57 18-57h20l-30 88h-16Z" fill="#4f7d0a"/><path data-letter="H" d="M171 20h17v32h29V20h6l11 11v77h-17V70h-29v38h-17Z" fill="#141a0d"/></symbol></defs>
-    <rect width="512" height="512" fill="#f4f1e6"/>
-    <path d="M40 96V40h56m320 0h56v56M40 416v56h56m320 0h56v-56" fill="none" stroke="#c9cdb9" stroke-width="2"/>
-    <g transform="translate(22 137)" style="--idx:0">
-      <use href="#hvh-symbol" width="252" height="128"/>
+    <clipPath id="hvh-clip"><path d="M18 31 29 20h6v32h29V20h17v88H64V70H35v38H18Z"/><path d="M88 20h20l18 57 18-57h20l-30 88h-16Z"/><path d="M171 20h17v32h29V20h6l11 11v77h-17V70h-29v38h-17Z"/></clipPath><symbol id="hvh-symbol" viewBox="0 0 252 128"><path data-letter="H" d="M18 31 29 20h6v32h29V20h17v88H64V70H35v38H18Z" fill="#202730"/><path data-letter="V" d="M88 20h20l18 57 18-57h20l-30 88h-16Z" fill="#427018"/><path data-letter="H" d="M171 20h17v32h29V20h6l11 11v77h-17V70h-29v38h-17Z" fill="#202730"/></symbol></defs>
+    <rect width="512" height="512" fill="#f6f7f9"/>
+    <path d="M40 96V40h56m320 0h56v56M40 416v56h56m320 0h56v-56" fill="none" stroke="#d7dce2" stroke-width="2"/>
+    <style>.sparks, .sheen { display:none; }</style>
+    <g transform="translate(22 137)">
       <g transform="scale(1.85714)">
     <g class="plate">
-      <g filter="url(#hvh-glow)" opacity=".5" fill="#4f7d0a"><path d="M18 31 29 20h6v32h29V20h17v88H64V70H35v38H18Z"/><path d="M88 20h20l18 57 18-57h20l-30 88h-16Z"/><path d="M171 20h17v32h29V20h6l11 11v77h-17V70h-29v38h-17Z"/></g>
+      <g filter="url(#hvh-glow)" opacity=".16" fill="#427018"><path d="M18 31 29 20h6v32h29V20h17v88H64V70H35v38H18Z"/><path d="M88 20h20l18 57 18-57h20l-30 88h-16Z"/><path d="M171 20h17v32h29V20h6l11 11v77h-17V70h-29v38h-17Z"/></g>
       <g transform="translate(7 11)" opacity=".5" fill="#000"><path d="M18 31 29 20h6v32h29V20h17v88H64V70H35v38H18Z"/><path d="M88 20h20l18 57 18-57h20l-30 88h-16Z"/><path d="M171 20h17v32h29V20h6l11 11v77h-17V70h-29v38h-17Z"/></g>
       <g fill="url(#hvh-metal)"><path d="M18 31 29 20h6v32h29V20h17v88H64V70H35v38H18Z"/><path d="M88 20h20l18 57 18-57h20l-30 88h-16Z"/><path d="M171 20h17v32h29V20h6l11 11v77h-17V70h-29v38h-17Z"/></g>
       <g fill="none" stroke="#fff" stroke-opacity=".28" stroke-width=".9" transform="translate(0 -1)"><path d="M18 31 29 20h6v32h29V20h17v88H64V70H35v38H18Z"/><path d="M88 20h20l18 57 18-57h20l-30 88h-16Z"/><path d="M171 20h17v32h29V20h6l11 11v77h-17V70h-29v38h-17Z"/></g>
       <g clip-path="url(#hvh-clip)"><g transform="skewX(-16)">
         <rect class="sheen" x="-300" y="-40" width="104" height="220" fill="url(#hvh-sheen)"/>
       </g></g>
-      <g transform="translate(126 64)"><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#4f7d0a" style="--dx:-33.0px;--dy:-8.2px;--turn:-166deg;--i:0"/><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#4f7d0a" style="--dx:-34.9px;--dy:-31.4px;--turn:-138deg;--i:1"/><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#4f7d0a" style="--dx:-14.5px;--dy:-58.2px;--turn:-104deg;--i:2"/><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#4f7d0a" style="--dx:12.7px;--dy:-31.5px;--turn:-68deg;--i:3"/><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#4f7d0a" style="--dx:42.2px;--dy:-20.6px;--turn:-26deg;--i:4"/><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#4f7d0a" style="--dx:57.1px;--dy:18.5px;--turn:18deg;--i:5"/><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#4f7d0a" style="--dx:16.0px;--dy:30.0px;--turn:62deg;--i:6"/><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#4f7d0a" style="--dx:-17.6px;--dy:43.6px;--turn:112deg;--i:7"/><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#4f7d0a" style="--dx:-50.9px;--dy:31.8px;--turn:148deg;--i:8"/></g>
+      <g class="sparks" transform="translate(126 64)"><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#427018" style="--dx:-33.0px;--dy:-8.2px;--turn:-166deg;--i:0"/><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#427018" style="--dx:-34.9px;--dy:-31.4px;--turn:-138deg;--i:1"/><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#427018" style="--dx:-14.5px;--dy:-58.2px;--turn:-104deg;--i:2"/><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#427018" style="--dx:12.7px;--dy:-31.5px;--turn:-68deg;--i:3"/><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#427018" style="--dx:42.2px;--dy:-20.6px;--turn:-26deg;--i:4"/><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#427018" style="--dx:57.1px;--dy:18.5px;--turn:18deg;--i:5"/><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#427018" style="--dx:16.0px;--dy:30.0px;--turn:62deg;--i:6"/><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#427018" style="--dx:-17.6px;--dy:43.6px;--turn:112deg;--i:7"/><path class="shard" d="M-1.5-7h3v14h-3Z" fill="#427018" style="--dx:-50.9px;--dy:31.8px;--turn:148deg;--i:8"/></g>
     </g></g>
     </g>
     </svg>

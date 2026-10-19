@@ -9,7 +9,6 @@ from datetime import date, timedelta
 from pathlib import Path
 from unittest.mock import patch
 
-import motion
 import generate_profile as profile
 from brand import logo
 from design import PALETTES, PROJECTS, VIEWS, VIEW_HEIGHT, activity_json, build_atlas, hero, load_activity, project
@@ -166,6 +165,9 @@ class ProfileTests(unittest.TestCase):
                     if 'href' in node.attrib:
                         self.assertTrue(node.attrib['href'].startswith('#'))
                         self.assertIn(node.attrib['href'][1:], ids)
+                    for value in node.attrib.values():
+                        for reference in re.findall(r'url\(#([^)]*)\)', value):
+                            self.assertIn(reference, ids)
 
     def test_refresh_publishes_atlases_and_cache_and_is_idempotent(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -200,47 +202,56 @@ class ProfileTests(unittest.TestCase):
 
 
 class MotionLayerTests(unittest.TestCase):
-    def test_stage_is_painted_before_content_and_packet_after(self):
+    def setUp(self):
+        self.days = profile.contribution_window(calendar_fixture())
+        self.ns = {"svg": "http://www.w3.org/2000/svg"}
+
+    def test_each_scene_is_clipped_locally_and_relay_is_shared(self):
         for theme in ("dark", "light"):
-            atlas = build_atlas(load_activity(Path(__file__).parent.parent / "assets/activity.json"), theme)
+            atlas = ET.fromstring(build_atlas(self.days, theme))
+            frame = atlas.find('.//svg:clipPath[@id="scene-frame"]/svg:rect', self.ns)
+            self.assertEqual(frame.get("height"), str(VIEW_HEIGHT - 2))
             for index, name in enumerate(VIEWS):
-                start = atlas.index(f'<g id="scene-{name}"')
-                nxt = VIEWS[index + 1] if index + 1 < len(VIEWS) else None
-                marker = f'<g id="scene-{nxt}"' if nxt else "</svg>"
-                end = atlas.index(marker, start)
-                scene = atlas[start:end]
-                stage_at = scene.index('class="stage"')
-                packet_at = scene.index('class="relay"')
-                body_at = scene.find('class="rise"')
-                self.assertGreater(body_at, stage_at, f"{theme}/{name}: stage must come first")
-                self.assertGreater(packet_at, body_at, f"{theme}/{name}: packet must be last")
+                scene = atlas.find(f'svg:g[@id="scene-{name}"]', self.ns)
+                self.assertEqual(scene.get("transform"), f"translate(0 {index * VIEW_HEIGHT})")
+                self.assertEqual(len(scene), 1)
+                clipped = scene[0]
+                self.assertEqual(clipped.get("clip-path"), "url(#scene-frame)")
+                self.assertEqual(clipped[0].get("class"), "stage")
+                self.assertEqual(len(clipped.findall('.//svg:g[@class="relay"]', self.ns)), 0)
+            relays = atlas.findall('.//svg:g[@class="relay"]', self.ns)
+            self.assertEqual(len(relays), 1)
+            self.assertEqual(atlas[-1].get("clip-path"), "url(#atlas-clips)")
+            self.assertIsNotNone(atlas[-1].find('.//svg:g[@class="relay"]', self.ns))
 
-    def test_stage_assets_are_defined_once_and_reused(self):
-        atlas = build_atlas(load_activity(Path(__file__).parent.parent / "assets/activity.json"), "dark")
-        for asset in ("grain-filter", "grain-clip", "aura-a", "aura-b", "stars", "vignette"):
-            self.assertEqual(atlas.count(f'id="{asset}"'), 1, f"{asset} defined more than once")
-            self.assertGreater(atlas.count(f"url(#{asset})"), 1, f"{asset} never referenced")
+    def test_motion_does_not_replace_layout_transforms(self):
+        animated = {"rise", "art-enter", "relay", "sheen", "shard", "world-voxel",
+                    "server-card", "server-core", "handoff", "sapling", "debris", "fan"}
+        for theme in PALETTES:
+            root = ET.fromstring(build_atlas(self.days, theme))
+            for element in root.iter():
+                if animated.intersection(element.get("class", "").split()):
+                    self.assertNotIn("transform", element.attrib, element.attrib)
+            anchors = [e for e in root.iter() if "art-anchor" in e.get("class", "").split()]
+            self.assertEqual(len(anchors), 10)
+            for anchor in anchors:
+                self.assertIn("transform", anchor.attrib)
+                self.assertEqual(anchor[0].get("class"), "art-enter")
 
-    def test_each_view_delays_the_packet_by_one_slot(self):
-        styles = motion.styles(len(VIEWS))
-        self.assertIn("--travel:0.92s", styles)
-        self.assertIn("--slot:1.05s", styles)
-        self.assertIn("animation-delay:calc(var(--idx,0) * 1.05s)", styles)
-        self.assertIn("translateY(392px)", styles)
+    def test_styles_have_no_unexpanded_template_braces(self):
+        for theme in PALETTES:
+            root = ET.fromstring(build_atlas(self.days, theme))
+            css = root.find("svg:style", self.ns).text
+            self.assertNotIn("{{", css)
+            self.assertNotIn("}}", css)
 
-    def test_reduced_motion_stops_every_animation(self):
-        styles = motion.styles(len(VIEWS))
-        reduce_block = styles[styles.index("@media (prefers-reduced-motion: reduce)"):]
-        self.assertIn("animation:none !important", reduce_block)
-        self.assertIn("*::after", reduce_block)
-        for hidden in (".relay", ".grain", ".sweep"):
-            self.assertIn(hidden, reduce_block)
-
-    def test_packet_travel_matches_view_height(self):
-        styles = motion.styles(len(VIEWS))
-        last = [int(n) for n in re.findall(r"translateY\((\d+)px\)", styles)]
-        self.assertTrue(last, "packet keyframes missing")
-        self.assertGreaterEqual(last[-1], VIEW_HEIGHT, "packet must leave the card entirely")
+    def test_standalone_cards_have_the_same_frame_clipping(self):
+        for theme in PALETTES:
+            cards = (hero(theme), *(project(theme, name) for name in PROJECTS),
+                     profile.build_svg(calendar_fixture(), theme))
+            for card in cards:
+                root = ET.fromstring(card)
+                self.assertEqual(root[-1].get("clip-path"), "url(#scene-frame)")
 
     def test_logo_exports_are_static(self):
         for theme in ("dark", "light"):
