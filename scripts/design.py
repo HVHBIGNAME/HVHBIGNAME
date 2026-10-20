@@ -10,6 +10,8 @@ import motion
 from brand import defs as brand_defs
 from brand import logo, plate, styles as brand_styles, symbol
 from illustrations import ART, scene_styles
+from motion import CYCLE_SECONDS, LOOP_PHASE_SECONDS
+from svg_timeline import compile_timeline
 
 ROOT = Path(__file__).resolve().parents[1]
 PALETTES = {
@@ -32,7 +34,6 @@ PALETTES = {
 }
 
 VIEW_HEIGHT = 420
-CYCLE_SECONDS = 16
 PROJECTS = {
     "bcore": {
         "name": "BCore", "eyebrow": "01 / WORLD ENGINE", "status": "ALPHA",
@@ -80,16 +81,16 @@ def text(x, y, value, size=14, fill="fg", palette=None, **attrs):
 
 def stylesheet(height):
     return f'''
-    svg {{ --cycle:{CYCLE_SECONDS}s; }}
+    svg {{ --cycle:{CYCLE_SECONDS}s; --phase:{LOOP_PHASE_SECONDS}s; }}
     text {{ font-family: 'Inter', 'Segoe UI', Arial, Helvetica, sans-serif; }}
     .mono {{ font-family: 'JetBrains Mono', 'Cascadia Mono', Consolas, 'Courier New', monospace; }}
     .mobile {{ display: none; }}
-    .orbit {{ stroke-dasharray: 7 24; animation: orbit {CYCLE_SECONDS}s linear infinite; }}
-    .heartbeat {{ animation: heartbeat 4s ease-in-out infinite; }}
+    .orbit {{ stroke-dasharray: 7 24; animation: orbit var(--cycle) linear infinite; animation-delay:var(--phase); }}
+    .heartbeat {{ animation: heartbeat calc(var(--cycle) / 4) ease-in-out infinite; animation-delay:var(--phase); }}
     @keyframes orbit {{ to {{ stroke-dashoffset: -248; }} }}
     @keyframes heartbeat {{ 0%,100% {{ opacity:.4; }} 50% {{ opacity:1; }} }}
     {motion.styles(height)}
-    {scene_styles(CYCLE_SECONDS)}
+    {scene_styles()}
     {brand_styles()}
     @media (max-width: 600px) {{
       .desktop {{ display:none; }} .mobile {{ display:inline; }}
@@ -106,6 +107,7 @@ def document(title, description, height, body, theme, views=()):
     view_tags = "".join(f'<view id="{name}" viewBox="0 {i*VIEW_HEIGHT} 1200 {VIEW_HEIGHT}"/>' for i, name in enumerate(views))
     clips = "".join(f'<rect x="1" y="{i*VIEW_HEIGHT+1}" width="1198" height="{VIEW_HEIGHT-2}" rx="10"/>' for i in range(max(1, len(views))))
     backdrops = "".join(motion.backdrop_defs(scene_palette(theme, name), name) for name in VIEWS)
+    scene_clips = "".join(f'<clipPath id="scene-frame-{name}" clipPathUnits="userSpaceOnUse"><rect x="1" y="1" width="1198" height="418" rx="10"/></clipPath>' for name in views)
     if not views:
         body = f'<g clip-path="url(#scene-frame)">{body}</g>'
     svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="1200"{height_attr} viewBox="0 0 1200 {height}" role="img" aria-labelledby="title desc">
@@ -119,20 +121,21 @@ def document(title, description, height, body, theme, views=()):
       {motion.grain_clip()}
       {motion.sweep_defs(p)}
       {backdrops}
+      {scene_clips}
       <clipPath id="scene-frame" clipPathUnits="userSpaceOnUse"><rect x="1" y="1" width="1198" height="{VIEW_HEIGHT-2}" rx="10"/></clipPath>
       <clipPath id="atlas-clips">{clips}</clipPath>
     </defs>
     <style>{stylesheet(height)}</style>
     {body}
     </svg>'''
-    return "\n".join(line.rstrip() for line in svg.splitlines()) + "\n"
+    return compile_timeline("\n".join(line.rstrip() for line in svg.splitlines()))
 
 
-def rail(p):
+def rail(p, y=0):
     return f'''
     <g class="rail">
-      <path d="M26 1V419" stroke="{p['line']}" stroke-width="1"/>
-      <circle class="beat" cx="26" cy="42" r="5" fill="{p['accent']}"/>
+      <path d="M26 {y+1}V{y+419}" stroke="{p['line']}" stroke-width="1"/>
+      <circle class="beat" cx="26" cy="{y+42}" r="5" fill="{p['accent']}"/>
     </g>'''
 
 
@@ -146,16 +149,16 @@ def plate_art(p, scale, rotate, origin):
 def hero_body(theme):
     p = PALETTES[theme]
     return f'''
-    <g class="desktop" style="--idx:0">
-      <g class="rise">
+    <g class="desktop">
+      <g class="rise" style="--idx:0">
         {text(64, 52, 'HVHBIGNAME', 18, 'fg', p, class_='mono', letter_spacing=2.4)}
         {text(1156, 52, 'ЛИЧНАЯ МАСТЕРСКАЯ / 1337', 14, 'muted', p, class_='mono', text_anchor='end')}
       </g>
       <path class="wipe" pathLength="100" stroke-dasharray="100" d="M64 74H1156" stroke="{p['line']}"/>
       {plate_art(p, 1.62, -7, '925 214')}
       <g transform="translate(66 152)">
-        <text class="rise" y="68" font-size="104" font-weight="900" letter-spacing="-5" fill="{p['fg']}" style="--idx:0">BIGNAME</text>
-        <text class="rise" y="112" font-size="25" fill="{p['muted']}" style="--idx:1">Игровые серверы. Утилиты. Свои проекты.</text>
+        <text class="rise" y="68" font-size="104" font-weight="900" letter-spacing="-5" fill="{p['fg']}" style="--idx:1">BIGNAME</text>
+        <text class="rise" y="112" font-size="25" fill="{p['muted']}" style="--idx:2">Игровые серверы. Утилиты. Свои проекты.</text>
         <g class="rise" style="--idx:2">
           <rect x="0" y="132" width="52" height="3" rx="1.5" fill="{p['accent']}"/>
           {text(62, 137, 'RUST / TYPESCRIPT / СВОИ ПРОЕКТЫ', 15, 'accent', p, class_='mono', letter_spacing=2)}
@@ -168,8 +171,8 @@ def hero_body(theme):
       </g>
       <rect class="sweep" x="-260" y="0" width="240" height="420" fill="url(#sweep-fade)" opacity=".5"/>
     </g>
-    <g class="mobile" style="--idx:1">
-      <g class="rise">
+    <g class="mobile">
+      <g class="rise" style="--idx:0">
         {text(53, 66, 'HVHBIGNAME', 38, 'fg', p, class_='mono', letter_spacing=2)}
         {text(1156, 64, '1337', 30, 'muted', p, class_='mono', text_anchor='end')}
       </g>
@@ -183,7 +186,7 @@ def hero_body(theme):
         {text(53, 356, 'RUST / TYPESCRIPT / СВОИ ПРОЕКТЫ', 32, 'muted', p, class_='mono')}
       </g>
     </g>
-    {rail(p)}'''
+    '''
 
 
 def scene_palette(theme, name):
@@ -192,7 +195,7 @@ def scene_palette(theme, name):
     return PALETTES[theme]
 
 
-def project_body(theme, name, index):
+def project_body(theme, name):
     item = PROJECTS[name]
     p = scene_palette(theme, name)
     art = ART[name](p)
@@ -201,7 +204,7 @@ def project_body(theme, name, index):
     art_x, divider_x, text_shift = (238, 418, 396) if reverse else (965, 748, 0)
     art_y, art_scale = {"minecraft-panel": (191, .9), "softdownloader": (190, .92), "opencode-pocket": (188, .85)}.get(name, (201, 1))
     return f'''
-    <g class="desktop" style="--idx:{index}">
+    <g class="desktop">
       <g class="rise" style="--idx:0">
         {text(53, 49, item['eyebrow'], 15, 'muted', p, class_='mono', letter_spacing=2)}
         {text(1156, 49, item['status'], 14, 'accent', p, class_='mono', text_anchor='end')}
@@ -218,7 +221,7 @@ def project_body(theme, name, index):
         </g>
       </g>
       <g class="art-anchor {'from-left' if reverse else 'from-right'}" transform="translate({art_x} {art_y}) scale({art_scale})">
-        <g class="art-enter"><g class="art-detail" style="--phase:-10s">{art}</g></g>
+        <g class="art-enter"><g class="art-detail">{art}</g></g>
       </g>
       <path class="wipe" pathLength="100" stroke-dasharray="100" d="M53 313H1156" stroke="{p['line']}"/>
       <g class="rise" style="--idx:3">
@@ -227,9 +230,9 @@ def project_body(theme, name, index):
       </g>
       <rect class="sweep" x="-260" y="0" width="240" height="420" fill="url(#sweep-fade)" opacity=".35"/>
     </g>
-    <g class="mobile" style="--idx:{index}">
+    <g class="mobile">
       <g class="art-anchor" opacity=".14" transform="translate(995 193) scale(1.05)">
-        <g class="art-enter"><g class="art-detail" style="--phase:-10s">{art}</g></g>
+        <g class="art-enter"><g class="art-detail">{art}</g></g>
       </g>
       <g class="rise" style="--idx:0">
         {text(53, 45, item['eyebrow'], 26, 'muted', p, class_='mono', letter_spacing=1)}
@@ -246,21 +249,21 @@ def project_body(theme, name, index):
         {button(p, mobile=True)}
       </g>
     </g>
-    {rail(p)}'''
+    '''
 
 
-def signal_body(days, theme, index=0):
+def signal_body(days, theme):
     p = PALETTES[theme]
     total = sum(count for _, count in days)
     active = sum(count > 0 for _, count in days)
     peak = max(count for _, count in days)
     parts = [
-        text(53, 59, "BUILD SIGNAL / 90D", 30, "fg", p, class_="signal-title rise", font_weight=700),
-        text(1156, 56, "↻ КАЖДЫЙ ЧАС", 18, "muted", p, class_="signal-auto mono rise", text_anchor="end"),
+        text(53, 59, "BUILD SIGNAL / 90D", 30, "fg", p, class_="signal-title rise", font_weight=700, style="--idx:0"),
+        text(1156, 56, "↻ КАЖДЫЙ ЧАС", 18, "muted", p, class_="signal-auto mono rise", text_anchor="end", style="--idx:0"),
         f'<path class="wipe" pathLength="100" stroke-dasharray="100" d="M53 83H1156M53 227H1156" stroke="{p["line"]}"/>',
     ]
-    for position, (x, number, label) in enumerate(((53, total, "CONTRIB."), (449, active, "АКТИВНЫХ ДНЕЙ"), (843, peak, "ПИК / ДЕНЬ"))):
-        parts.append(f'<g class="rise" style="--idx:{position + 1}">')
+    for x, number, label in ((53, total, "CONTRIB."), (449, active, "АКТИВНЫХ ДНЕЙ"), (843, peak, "ПИК / ДЕНЬ")):
+        parts.append('<g class="rise" style="--idx:1">')
         parts.append(text(x, 174, number, 84, "fg", p, class_="signal-value", font_weight=700, letter_spacing=-3))
         parts.append(text(x+2, 210, label, 17, "muted", p, class_="mono signal-label", letter_spacing=1))
         parts.append('</g>')
@@ -274,7 +277,7 @@ def signal_body(days, theme, index=0):
         y = 347 if count == 0 else 343-height
         level = min(4, (4*count+peak-1)//peak) if peak else 0
         parts.append(
-            f'<rect class="bar" style="--n:{day_index}" x="{x:.2f}" y="{y:.2f}" '
+            f'<rect class="bar" x="{x:.2f}" y="{y:.2f}" '
             f'width="{step-3:.2f}" height="{height:.2f}" rx="2" fill="{p["levels"][level]}">'
             f'<title>{day.isoformat()}: {count} contributions</title></rect>'
         )
@@ -284,7 +287,7 @@ def signal_body(days, theme, index=0):
         text(53, 385, days[0][0].isoformat(), 15, "muted", p, class_="mono signal-date"),
         text(1156, 385, days[-1][0].isoformat() + " / UTC", 15, "muted", p, class_="mono signal-date", text_anchor="end"),
     ])
-    return f'<g style="--idx:{index}">' + "\n".join(parts) + '</g>' + rail(p)
+    return '<g>' + "\n".join(parts) + '</g>'
 
 
 def button(p, mobile=False):
@@ -301,29 +304,31 @@ def hero(theme):
         "HVH / BIGNAME",
         "Личная мастерская HVHBIGNAME. Игровые серверы, утилиты и свои проекты. Rust и TypeScript.",
         VIEW_HEIGHT,
-        motion.stage(PALETTES[theme], theme) + hero_body(theme),
+        motion.stage(PALETTES[theme], theme) + hero_body(theme) + rail(PALETTES[theme]),
         theme,
     )
 
 
 def project(theme, name):
     item = PROJECTS[name]
-    body = motion.stage(scene_palette(theme, name), theme, name) + project_body(theme, name, 0)
+    body = motion.stage(scene_palette(theme, name), theme, name) + project_body(theme, name) + rail(scene_palette(theme, name))
     return document(item["name"], " ".join(item["description"]) + " " + item["status"], VIEW_HEIGHT, body, theme)
 
 
 def build_atlas(days, theme):
     sections = [
         hero_body(theme),
-        *(project_body(theme, name, index + 1) for index, name in enumerate(PROJECTS)),
-        signal_body(days, theme, len(VIEWS) - 1),
+        *(project_body(theme, name) for name in PROJECTS),
+        signal_body(days, theme),
     ]
     groups = []
     for index, (name, body) in enumerate(zip(VIEWS, sections)):
         groups.append(
-            f'<g id="scene-{name}" transform="translate(0 {index*VIEW_HEIGHT})" style="--scene:{index}">'
-            f'<g clip-path="url(#scene-frame)">{motion.stage(scene_palette(theme, name), theme, name)}{body}</g></g>'
+            f'<g id="scene-{name}" transform="translate(0 {index*VIEW_HEIGHT})">'
+            f'<g clip-path="url(#scene-frame-{name})">{motion.stage(scene_palette(theme, name), theme, name)}{body}</g></g>'
         )
+    rails = ''.join(rail(scene_palette(theme, name), index*VIEW_HEIGHT) for index, name in enumerate(VIEWS))
+    groups.append(f'<g id="shared-rail" clip-path="url(#atlas-clips)">{rails}</g>')
     groups.append(motion.packet(PALETTES[theme]))
     return document(
         "HVHBIGNAME / connected builds",

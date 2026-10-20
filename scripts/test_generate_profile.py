@@ -216,7 +216,7 @@ class MotionLayerTests(unittest.TestCase):
                 self.assertEqual(scene.get("transform"), f"translate(0 {index * VIEW_HEIGHT})")
                 self.assertEqual(len(scene), 1)
                 clipped = scene[0]
-                self.assertEqual(clipped.get("clip-path"), "url(#scene-frame)")
+                self.assertEqual(clipped.get("clip-path"), f"url(#scene-frame-{name})")
                 self.assertEqual(clipped[0].get("class"), "stage")
                 self.assertEqual(len(clipped.findall('.//svg:g[@class="relay"]', self.ns)), 0)
             relays = atlas.findall('.//svg:g[@class="relay"]', self.ns)
@@ -232,7 +232,8 @@ class MotionLayerTests(unittest.TestCase):
             for element in root.iter():
                 if animated.intersection(element.get("class", "").split()):
                     self.assertNotIn("transform", element.attrib, element.attrib)
-            anchors = [e for e in root.iter() if "art-anchor" in e.get("class", "").split()]
+            anchors = [e for scene in root if "motion-active" in scene.get("class", "").split()
+                       for e in scene.iter() if "art-anchor" in e.get("class", "").split()]
             self.assertEqual(len(anchors), 10)
             for anchor in anchors:
                 self.assertIn("transform", anchor.attrib)
@@ -244,6 +245,19 @@ class MotionLayerTests(unittest.TestCase):
             css = root.find("svg:style", self.ns).text
             self.assertNotIn("{{", css)
             self.assertNotIn("}}", css)
+
+    def test_card_order_cannot_offset_the_shared_clock(self):
+        for theme in PALETTES:
+            markup = build_atlas(self.days, theme)
+            self.assertNotIn("--scene", markup)
+            root = ET.fromstring(markup)
+            for node in root.iter():
+                style = node.get("style", "")
+                self.assertNotIn("--phase:", style)
+                self.assertNotIn("--cycle:", style)
+            for name in VIEWS:
+                scene = root.find(f'svg:g[@id="scene-{name}"]', self.ns)
+                self.assertNotIn("style", scene.attrib)
 
     def test_standalone_cards_have_the_same_frame_clipping(self):
         for theme in PALETTES:
@@ -259,6 +273,32 @@ class MotionLayerTests(unittest.TestCase):
             self.assertNotIn("animation:", markup)
             self.assertIn("<svg", markup)
             ET.fromstring(markup)
+
+    def test_published_motion_uses_native_svg_timing(self):
+        root = ET.fromstring(build_atlas(self.days, "dark"))
+        css = root.find("svg:style", self.ns).text
+        self.assertNotIn("@keyframes", css)
+        self.assertNotRegex(css, r"animation(?:-[\w-]+)?\s*:")
+        effects = root.findall('.//svg:animate', self.ns) + root.findall('.//svg:animateTransform', self.ns)
+        self.assertGreater(len(effects), 100)
+        for effect in effects:
+            times = [float(t) for t in effect.get('keyTimes').split(';')]
+            self.assertEqual(times, sorted(set(times)))
+            self.assertEqual((times[0], times[-1]), (0, 1))
+            self.assertEqual(len(times), len(effect.get('values').split(';')))
+            if effect.get('calcMode') == 'spline':
+                self.assertEqual(len(times)-1, len(effect.get('keySplines').split(';')))
+        static = [g for g in root if 'motion-static' in g.get('class', '').split()]
+        self.assertEqual(len(static), 7)
+        for group in static:
+            self.assertFalse(group.findall('.//svg:animate', self.ns))
+            self.assertFalse(group.findall('.//svg:animateTransform', self.ns))
+        for element in root.iter():
+            if element.get('data-animation') in ('art-enter', 'bar-up'):
+                for effect in element:
+                    if effect.tag in ('{http://www.w3.org/2000/svg}animate', '{http://www.w3.org/2000/svg}animateTransform'):
+                        self.assertEqual(effect.get('begin'), '0.45s')
+                        self.assertEqual(effect.get('dur'), '2.2s')
 
 
 if __name__ == "__main__":

@@ -68,7 +68,7 @@ def plate(p):
 
 def styles():
     return '''
-    .sheen { animation:sheen 8s ease-in-out infinite; animation-delay:1.8s; }
+    .sheen { animation:sheen var(--cycle) ease-in-out infinite; animation-delay:var(--phase); }
     .shard { opacity:0; animation:shard 1.15s cubic-bezier(.12,.66,.28,1) both; animation-delay:1.9s; }
     @keyframes sheen { 0% { transform:translateX(0); } 22%,100% { transform:translateX(700px); } }
     @keyframes shard {

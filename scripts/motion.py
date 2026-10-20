@@ -1,7 +1,8 @@
 """Clipped backdrops, one-shot object entrances and one atlas-wide travelling shard."""
 
 FLIGHT_SECONDS = 6.3
-RELAY_CYCLE = 16
+CYCLE_SECONDS = 16
+LOOP_PHASE_SECONDS = -10
 
 
 def stage(p, theme="dark", name="hero"):
@@ -64,21 +65,21 @@ def grain(p):
 
 
 def styles(height):
-    flight_end = FLIGHT_SECONDS / RELAY_CYCLE * 100
+    flight_end = FLIGHT_SECONDS / CYCLE_SECONDS * 100
     return f'''
     .stage {{ animation:fade-in 1.2s ease-out both; }}
-    .aura {{ animation:aura-breathe 12s ease-in-out infinite; }}
+    .aura {{ animation:aura-breathe var(--cycle) ease-in-out infinite; animation-delay:var(--phase); }}
     .grain {{ mix-blend-mode:normal; }}
-    .rise {{ animation:rise 1s cubic-bezier(.22,.7,.25,1) both; animation-delay:calc(.25s + var(--scene,0)*.15s + var(--idx,0)*.12s); }}
-    .wipe {{ animation:wipe 1.4s ease-out both; animation-delay:calc(.4s + var(--scene,0)*.15s); }}
+    .rise {{ animation:rise 1s cubic-bezier(.22,.7,.25,1) both; animation-delay:calc(.25s + var(--idx,0)*.12s); }}
+    .wipe {{ animation:wipe 1.4s ease-out both; animation-delay:.4s; }}
     /* Layout transforms belong to the parent; this group owns only motion. */
     .art-anchor {{ --enter-x:280px; --enter-turn:16deg; }}
     .art-anchor.from-left {{ --enter-x:-280px; --enter-turn:-16deg; }}
-    .art-enter {{ animation:art-enter 2.2s cubic-bezier(.16,.7,.2,1) both; animation-delay:calc(.45s + var(--scene,0)*.18s); transform-box:view-box; transform-origin:0 0; }}
-    .draw {{ animation:draw 1.4s ease-out both; animation-delay:calc(.5s + var(--scene,0)*.15s); }}
-    .sweep {{ opacity:0; animation:sweep 1.8s ease-in-out both; animation-delay:calc(1.4s + var(--scene,0)*.18s); }}
-    .bar {{ animation:bar-up 1s ease-out both; animation-delay:calc(.7s + var(--n)*.009s); transform-box:fill-box; transform-origin:50% 100%; }}
-    .beat {{ animation:beat 4s ease-in-out infinite; }}
+    .art-enter {{ animation:art-enter 2.2s cubic-bezier(.16,.7,.2,1) both; animation-delay:.45s; transform-box:view-box; transform-origin:0 0; }}
+    .draw {{ animation:draw 1.4s ease-out both; animation-delay:.5s; }}
+    .sweep {{ opacity:0; animation:sweep 1.8s ease-in-out both; animation-delay:1.4s; }}
+    .bar {{ animation:bar-up 2.2s cubic-bezier(.16,.7,.2,1) both; animation-delay:.45s; transform-box:fill-box; transform-origin:50% 100%; }}
+    .beat {{ animation:beat calc(var(--cycle) / 4) ease-in-out infinite; animation-delay:var(--phase); }}
     @keyframes fade-in {{ from {{ opacity:0; }} to {{ opacity:1; }} }}
     @keyframes rise {{ from {{ opacity:0; transform:translateY(28px); }} to {{ opacity:1; transform:translateY(0); }} }}
     @keyframes art-enter {{
@@ -93,7 +94,7 @@ def styles(height):
     @keyframes bar-up {{ from {{ opacity:0; transform:scaleY(.05); }} to {{ opacity:1; transform:scaleY(1); }} }}
     @keyframes beat {{ 0%,100% {{ opacity:.35; }} 50% {{ opacity:.85; }} }}
     @keyframes aura-breathe {{ 0%,100% {{ opacity:.65; }} 50% {{ opacity:1; }} }}
-    .relay {{ opacity:0; animation:relay {RELAY_CYCLE}s linear infinite; animation-delay:1s; }}
+    .relay {{ opacity:0; animation:relay var(--cycle) linear infinite; animation-delay:var(--phase); }}
     @keyframes relay {{
       0% {{ opacity:0; transform:translateY(-54px); }}
       1% {{ opacity:1; }}

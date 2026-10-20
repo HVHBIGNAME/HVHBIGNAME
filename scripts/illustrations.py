@@ -11,21 +11,21 @@ WORLD_BLOCKS = tuple(
 )
 
 
-def scene_styles(duration):
+def scene_styles():
     """Shared scene clock, with individual landing/reveal windows within a loop."""
     rules = [f'''
     .world-voxel, .server-card, .server-core, .boot-progress, .server-ready,
     .server-chart, .server-live, .package-arrival, .package-installed,
     .package-check, .install-progress, .install-done, .paired-mark,
     .handoff, .chat-line, .typing-dots, .qr-scan {{
-      animation-duration:{duration}s; animation-iteration-count:infinite;
-      animation-timing-function:linear; animation-delay:var(--phase, 0s);
+      animation-duration:var(--cycle); animation-iteration-count:infinite;
+      animation-timing-function:linear; animation-delay:var(--phase);
       animation-fill-mode:both;
     }}
     .server-core {{ animation-name:server-core; transform-box:fill-box; transform-origin:center; }}
     .server-card {{ animation-name:server-card; }}
     .server-card.second, .server-card.second .boot-progress,
-    .server-card.second .server-ready {{ animation-delay:calc(var(--phase, 0s) + var(--cycle) * .1); }}
+    .server-card.second .server-ready {{ animation-delay:calc(var(--phase) + var(--cycle) * .1); }}
     .boot-progress {{ stroke-dasharray:100; animation-name:boot-progress; }}
     .server-ready {{ animation-name:server-ready; }}
     .server-chart {{ stroke-dasharray:100; animation-name:server-chart; }}
@@ -38,10 +38,10 @@ def scene_styles(duration):
     .paired-mark {{ animation-name:paired; transform-box:fill-box; transform-origin:center; }}
     .handoff {{ animation-name:handoff; }}
     .typing-dots {{ animation-name:typing; }}
-    .debris {{ opacity:0; animation:debris {duration}s linear infinite both; animation-delay:calc(var(--phase, 0s) + var(--event, 0s)); }}
-    .sapling {{ animation:sapling {duration}s ease-out infinite both; animation-delay:var(--phase, 0s); }}
-    .fan {{ animation:fan 4s linear infinite; }}
-    .ember {{ opacity:0; animation:ember {duration}s linear infinite both; animation-delay:calc(var(--phase, 0s) + var(--event, 0s)); }}
+    .debris {{ opacity:0; animation:debris var(--cycle) linear infinite both; animation-delay:calc(var(--phase) + var(--event, 0s)); }}
+    .sapling {{ animation:sapling var(--cycle) ease-out infinite both; animation-delay:var(--phase); }}
+    .fan {{ animation:fan calc(var(--cycle) / 4) linear infinite; animation-delay:var(--phase); }}
+    .ember {{ opacity:0; animation:ember var(--cycle) linear infinite both; animation-delay:calc(var(--phase) + var(--event, 0s)); }}
     @keyframes debris {{
       0% {{ opacity:0; transform:translate(0,0) scale(.5); }}
       .8% {{ opacity:.85; }}

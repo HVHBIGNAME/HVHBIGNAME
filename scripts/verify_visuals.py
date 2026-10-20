@@ -15,12 +15,13 @@ from PIL import Image, ImageChops, ImageDraw
 from playwright.sync_api import sync_playwright
 
 from design import ROOT, VIEWS, VIEW_HEIGHT
+from motion import CYCLE_SECONDS, LOOP_PHASE_SECONDS
 
 NS = "{http://www.w3.org/2000/svg}"
 ET.register_namespace("", NS[1:-1])
 
 
-def inline(atlas, view, width, isolated=False):
+def inline(atlas, view, width, isolated=False, scenes_only=False):
     root = copy.deepcopy(atlas)
     index = VIEWS.index(view)
     root.set("width", str(width))
@@ -29,14 +30,19 @@ def inline(atlas, view, width, isolated=False):
     for child in list(root):
         if child.tag == NS + "view":
             root.remove(child)
+        elif scenes_only and child.tag == NS + "g" and not child.get("id", "").startswith("scene-"):
+            root.remove(child)
         elif isolated and child.get("id", "").startswith("scene-") and child.get("id") != "scene-" + view:
             root.remove(child)
-    # Pause before the first style calculation, then seek every effect explicitly.
-    return '<style>body{margin:0;background:#0d1117}svg{display:block}svg *{animation-play-state:paused!important}</style>' + ET.tostring(root, encoding="unicode")
+    return '<style>body{margin:0;background:#0d1117}svg{display:block}</style>' + ET.tostring(root, encoding="unicode")
 
 
 def freeze(page, milliseconds):
     page.evaluate("""async time => {
+      await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+      for (const svg of document.querySelectorAll('svg')) {
+        svg.pauseAnimations(); svg.setCurrentTime(1); svg.setCurrentTime(Math.max(time, .1) / 1000);
+      }
       const animations = document.getAnimations();
       for (const a of animations) { a.pause(); a.currentTime = time; }
       await Promise.all(animations.map(a => a.ready));
@@ -74,7 +80,7 @@ def geometry(page):
         anchors: [...scene.querySelectorAll('.art-anchor')].filter(visible).map(e => ({
           base: [e.transform.baseVal.consolidate().matrix.e,e.transform.baseVal.consolidate().matrix.f],
           motion: getComputedStyle(e.firstElementChild).transform,
-          name: getComputedStyle(e.firstElementChild).animationName,
+          name: e.firstElementChild.getAttribute('data-animation'),
           box: box(e)
         })),
         texts: [...scene.querySelectorAll('text')].filter(visible).map(e => ({text:e.textContent, box:box(e)}))
@@ -107,16 +113,16 @@ def browser_checks(browser, output):
                 stills.append((view, pixels(page)))
                 # Full atlas must render exactly like this scene with all neighbours removed.
                 for time in (0, 900, 3500, 10000):
-                    page.set_content(inline(atlas, view, width))
+                    page.set_content(inline(atlas, view, width, scenes_only=True))
                     freeze(page, time)
                     all_scenes = pixels(page)
-                    page.set_content(inline(atlas, view, width, isolated=True))
+                    page.set_content(inline(atlas, view, width, isolated=True, scenes_only=True))
                     freeze(page, time)
                     alone = pixels(page)
                     difference = ImageChops.difference(all_scenes, alone)
-                    # Chromium can round antialiasing by one channel value when
-                    # offscreen layers are removed; larger differences are leaks.
-                    if max(channel[1] for channel in difference.getextrema()) > 1:
+                    # Layer removal changes grayscale antialiasing by up to 3/255
+                    # in Chromium. Larger differences are visible scene leaks.
+                    if max(channel[1] for channel in difference.getextrema()) > 3:
                         all_scenes.save(output / "failed-full.png")
                         alone.save(output / "failed-isolated.png")
                         difference.save(output / "failed-diff.png")
@@ -142,9 +148,9 @@ def browser_checks(browser, output):
             report["entrances"].append({"theme": theme, "view": view, "start": start, "end": end})
         contact_sheet(frames, output / f"entrance-{theme}.png", columns=4)
         # An ignored CSS rule (e.g. literal {{...}}) must not silently pass.
-        assert page.locator('.sheen').first.evaluate('e=>getComputedStyle(e).animationName') == "sheen"
+        assert page.locator('.motion-active .sheen').first.get_attribute('data-animation') == "sheen"
         for index in range(len(VIEWS)):
-            time = 1250 + index * 1000
+            time = 6250 + index * 1000
             freeze(page, time)
             position = page.locator('.relay').evaluate('''e => {
               const svg = e.ownerSVGElement;
@@ -164,7 +170,8 @@ def browser_checks(browser, output):
             before = pixels(page)
             page.wait_for_timeout(150)
             assert ImageChops.difference(before, pixels(page)).getbbox() is None
-            for node in page.locator(f'#scene-{view} .art-enter').all():
+            assert page.locator('.motion-active').first.evaluate('e=>getComputedStyle(e).display') == "none"
+            for node in page.locator('.motion-static .art-enter').all():
                 assert node.evaluate('e=>getComputedStyle(e).opacity') == "1"
             report["reduced_motion"].append([theme, view])
         page.close()
@@ -212,18 +219,124 @@ def image_checks(browser, output):
     return layouts
 
 
+def synchronization_checks(browser, output):
+    report = {"timing": [], "raster": []}
+    for theme in ("dark", "light"):
+        atlas = ET.parse(ROOT / f"assets/profile-{theme}.svg").getroot()
+        page = browser.new_page(viewport={"width": 1200, "height": 600}, reduced_motion="no-preference")
+        page.set_content(inline(atlas, "hero", 1200))
+        timings = page.evaluate('''() => {
+          const timing = e => ({delay:Number(e.dataset.delay)*1000,duration:Number(e.dataset.duration)*1000});
+          const primary = new Set(['aura-breathe','relay','sheen','place-0','server-chart','install-progress','message-0']);
+          return {entrances:[...document.querySelectorAll('.motion-active .desktop .art-enter,.motion-active .bar')].map(timing),
+            loops:[...document.querySelectorAll('[repeatCount="indefinite"]')].map(e=>({duration:parseFloat(e.getAttribute('dur'))*1000})),
+            primary:[...document.querySelectorAll('[data-animation]')].filter(e=>primary.has(e.dataset.animation)).map(timing)};
+        }''')
+        assert len(timings["entrances"]) == 95
+        assert {(t["delay"], t["duration"]) for t in timings["entrances"]} == {(450, 2200)}, timings["entrances"]
+        assert all(abs(CYCLE_SECONDS * 1000 % t["duration"]) < .01 for t in timings["loops"]), timings["loops"]
+        assert all(t["delay"] == LOOP_PHASE_SECONDS * 1000 for t in timings["primary"]), timings["primary"]
+
+        def state(time):
+            freeze(page, time)
+            return page.evaluate('''() => [...document.querySelectorAll('[data-animation]')].map(e => {
+              const s = getComputedStyle(e);
+              return [s.opacity,s.transform,s.strokeDashoffset,s.clipPath];
+            })''')
+
+        baseline = state(8500)
+        for cycles in (1, 5):
+            assert state(8500 + cycles * CYCLE_SECONDS * 1000) == baseline, "loop phase drift"
+        report["timing"].append({"theme": theme, "entrances": len(timings["entrances"]), "loops": len(timings["loops"]), "phaseDrift": False})
+        page.close()
+
+        # Copy actual native effects into diagnostic marks in each scene. Capture
+        # all IMG instances in ONE frame; never seek the resource's timeline.
+        rise = next(e for e in atlas.iter() if e.get('data-animation') == 'rise' and e.get('data-delay') == '0.37')
+        beat = next(e for e in atlas.iter() if e.get('data-animation') == 'beat')
+        for scene in atlas.findall(NS + "g"):
+            if not scene.get("id", "").startswith("scene-"):
+                continue
+            probes = ET.fromstring(f'''<g xmlns="{NS[1:-1]}">
+              <rect x="1020" y="80" width="150" height="150" fill="#000"/>
+              <rect x="1040" y="92" width="60" height="70" fill="#fff"/>
+              <rect x="1120" y="92" width="30" height="70" fill="#fff"/>
+              <rect x="100" y="190" width="8" height="12" fill="#ff00ff"><animate attributeName="x" values="100;1000" dur="16s" repeatCount="indefinite"/></rect>
+            </g>''')
+            for target, template in ((probes[1], rise), (probes[2], beat)):
+                target.extend(copy.deepcopy(child) for child in template if child.tag in (NS+'animate', NS+'animateTransform', NS+'set'))
+            scene[0].append(probes)
+        source = ET.tostring(atlas, encoding="unicode")
+        for width in (1200, 360):
+            for delayed in (False, True):
+                height = width * VIEW_HEIGHT // 1200
+                images = [f'<img src="/atlas.svg#{v}" width="{width}" height="{height}">' for v in VIEWS]
+                html = '<style>body{margin:0}img{display:block}</style>' + ''.join(images[:3] if delayed else images)
+                requests = []
+
+                def serve(route):
+                    if '.svg' in route.request.url:
+                        requests.append(route.request.url)
+                        route.fulfill(body=source, content_type="image/svg+xml")
+                    else:
+                        route.fulfill(body=html, content_type="text/html")
+
+                page = browser.new_page(viewport={"width": width + 20, "height": height * 2}, reduced_motion="no-preference")
+                page.route("http://sync.test/**", serve)
+                page.goto("http://sync.test/", wait_until="load")
+                if delayed:
+                    page.wait_for_timeout(1500)
+                    page.evaluate("html=>document.body.insertAdjacentHTML('beforeend',html)", ''.join(images[3:]))
+                page.wait_for_function('Array.from(document.images).every(i=>i.complete&&i.naturalWidth)')
+                page.wait_for_timeout(650)
+                for scrolled in (False, True):
+                    if scrolled:
+                        page.set_viewport_size({"width": width + 20, "height": height * 2})
+                        page.evaluate('scrollTo(0,document.body.scrollHeight)')
+                        page.wait_for_timeout(400)
+                    # Full-page capture alone reuses stale offscreen rasters.
+                    # Expose every IMG and let it paint before comparing clocks.
+                    page.set_viewport_size({"width": width + 20, "height": height * 6})
+                    page.wait_for_timeout(150)
+                    frame = Image.open(io.BytesIO(page.screenshot())).convert("RGB")
+                    crops = [frame.crop((int(1020*width/1200), i*height+int(80*width/1200), int(1170*width/1200), i*height+int(230*width/1200))) for i in range(6)]
+                    assert max(crops[0].getextrema()[0]) > 20, "invisible sync probes"
+                    intensities = [[frame.getpixel((int(x*width/1200), i*height+int(130*width/1200)))[0] for i in range(6)] for x in (1070, 1135)]
+                    difference = max(max(values) - min(values) for values in intensities)
+                    clocks = []
+                    for i in range(6):
+                        y = i*height + int(195*width/1200)
+                        xs = [x for x in range(width) if (lambda p: p[0]>240 and p[1]<15 and p[2]>240)(frame.getpixel((x,y)))]
+                        if not xs:
+                            frame.save(output / "sync-failed-frame.png")
+                        assert xs, ("native clock probe missing", theme, width, delayed, scrolled, i, y)
+                        clocks.append(sum(xs)/len(xs))
+                    spread = max(clocks) - min(clocks)
+                    if difference > 20 or spread > 3:
+                        frame.save(output / "sync-failed-frame.png")
+                        contact_sheet(list(zip(VIEWS, crops)), output / "sync-failed-probes.png")
+                    # Separate image rasters may be painted one frame apart.
+                    assert difference <= 20 and spread <= 3, (theme, width, delayed, scrolled, "IMG phase mismatch", difference, spread)
+                    report["raster"].append({"theme": theme, "width": width, "delayed": delayed, "scrolled": scrolled, "maxChannelDelta": difference, "clockSpreadPx": spread})
+                assert len(requests) == 1, requests
+                contact_sheet(list(zip(VIEWS, crops)), output / f"sync-{theme}-{width}-{'late' if delayed else 'initial'}.png")
+                page.close()
+    return report
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     args.output.mkdir(parents=True, exist_ok=True)
     with sync_playwright() as pw:
-        browser = pw.chromium.launch()
+        browser = pw.chromium.launch(args=['--disable-lcd-text'])
         report = browser_checks(browser, args.output)
         report["images"] = image_checks(browser, args.output)
+        report["synchronization"] = synchronization_checks(browser, args.output)
         browser.close()
     (args.output / "report.json").write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
-    print("PASS: geometry, neighbour isolation, visible entrances, brand CSS, reduced motion and README images")
+    print("PASS: geometry, isolation, entrances, reduced motion, README images and synchronized clocks")
     print(args.output)
 
 
