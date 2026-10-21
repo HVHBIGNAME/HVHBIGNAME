@@ -44,7 +44,7 @@
 <!-- PROJECTS:START -->
 | Репозиторий | Язык | Последний push |
 | :-- | :-- | :-- |
-| [ios-build-ci](https://github.com/HVHBIGNAME/ios-build-ci) | Python | 2026-10-21 |
+| [iostg](https://github.com/HVHBIGNAME/iostg) | Swift | 2026-10-21 |
 | [OpenCodePocket](https://github.com/HVHBIGNAME/OpenCodePocket) | TypeScript | 2026-10-18 |
 | [SoftDownloader](https://github.com/HVHBIGNAME/SoftDownloader) | Rust | 2026-10-16 |
 | [tmcp](https://github.com/HVHBIGNAME/tmcp) | TypeScript | 2026-10-15 |
