@@ -44,7 +44,7 @@
 <!-- PROJECTS:START -->
 | Репозиторий | Язык | Последний push |
 | :-- | :-- | :-- |
-| [BCore](https://github.com/HVHBIGNAME/BCore) | Rust | 2026-10-24 |
+| [BCore](https://github.com/HVHBIGNAME/BCore) | Rust | 2026-10-25 |
 | [iostg](https://github.com/HVHBIGNAME/iostg) | Swift | 2026-10-22 |
 | [OpenCodePocket](https://github.com/HVHBIGNAME/OpenCodePocket) | TypeScript | 2026-10-18 |
 | [SoftDownloader](https://github.com/HVHBIGNAME/SoftDownloader) | Rust | 2026-10-16 |
