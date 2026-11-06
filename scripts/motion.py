@@ -1,120 +1,102 @@
-"""Clipped backdrops, one-shot object entrances and one atlas-wide travelling shard."""
+"""Native SVG choreography. Layout and animated transforms live on separate groups."""
 
-FLIGHT_SECONDS = 6.3
-CYCLE_SECONDS = 16
-LOOP_PHASE_SECONDS = -10
+from html import escape
+
+CYCLE_SECONDS = 12
+INTRO_END = 2.6
+EASE_OUT = '.16 1 .3 1'
+EASE_IN_OUT = '.45 0 .25 1'
 
 
-def stage(p, theme="dark", name="hero"):
-    x = 238 if name in ("minecraft-panel", "opencode-pocket") else 925
+def animate(attribute, values, duration, begin=0, *, times=None, easing=EASE_OUT, repeat=False, kind=None):
+    values = [str(value) for value in values]
+    if len(values) < 2:
+        raise ValueError('An animation needs at least two values')
+    times = [i / (len(values) - 1) for i in range(len(values))] if times is None else times
+    if len(times) != len(values) or times[0] != 0 or times[-1] != 1:
+        raise ValueError('An animation needs matching values and normalized endpoints')
+    if any(a >= b for a, b in zip(times, times[1:])):
+        raise ValueError('Animation key times must be strictly increasing')
+    attrs = {
+        'attributeName': attribute, 'values': ';'.join(values),
+        'keyTimes': ';'.join(f'{t:g}' for t in times), 'begin': f'{begin:g}s',
+        'dur': f'{duration:g}s', 'fill': 'freeze', 'calcMode': 'spline' if easing else 'linear',
+    }
+    if easing:
+        attrs['keySplines'] = ';'.join([easing] * (len(values) - 1))
+    if repeat:
+        attrs['repeatCount'] = 'indefinite'
+    if kind:
+        attrs['type'] = kind
+    tag = 'animateTransform' if kind else 'animate'
+    return f'<{tag} ' + ' '.join(f'{key}="{escape(value, quote=True)}"' for key, value in attrs.items()) + '/>'
+
+
+def enter(body, *, offset='0 36', begin=.45, duration=1.4, turn=0, name='entrance'):
+    """Every motion group declares its rest state for reduced-motion rendering."""
+    if turn:
+        body = (f'<g transform="rotate({turn})" data-rest-transform="rotate(0)">'
+                + animate('transform', [turn, 0], duration, begin, kind='rotate') + body + '</g>')
+    return (f'<g class="{name}" opacity="0" transform="translate({offset})" '
+            'data-rest-opacity="1" data-rest-transform="translate(0 0)">'
+            + animate('opacity', [0, 1], .5, begin)
+            + animate('transform', [offset, '0 0'], duration, begin, kind='translate') + body + '</g>')
+
+
+def drift(body, amplitude=6):
+    return ('<g class="drift">' + animate('transform', ['0 0', f'0 {-amplitude}', '0 0'],
+            CYCLE_SECONDS, INTRO_END, kind='translate', easing=EASE_IN_OUT, repeat=True) + body + '</g>')
+
+
+def draw_line(path, color, *, width=1, begin=.2, duration=1.5):
+    return (f'<path d="{path}" fill="none" stroke="{color}" stroke-width="{width}" '
+            'pathLength="100" stroke-dasharray="100" stroke-dashoffset="100" data-rest-stroke-dashoffset="0">'
+            + animate('stroke-dashoffset', [100, 0], duration, begin) + '</path>')
+
+
+def materials(p):
+    return f'''
+    <linearGradient id="surface" x2=".8" y2="1">
+      <stop stop-color="{p['panel']}"/><stop offset="1" stop-color="{p['bg']}"/>
+    </linearGradient>
+    <linearGradient id="glass" x2=".6" y2="1">
+      <stop stop-color="#303937"/><stop offset=".48" stop-color="#111816"/><stop offset="1" stop-color="#070c0b"/>
+    </linearGradient>
+    <linearGradient id="titanium" x1="0" y1="0" x2=".8" y2="1">
+      <stop stop-color="#e8ede8"/><stop offset=".23" stop-color="#7c8984"/>
+      <stop offset=".45" stop-color="#222d2a"/><stop offset=".49" stop-color="#e6f0e8"/>
+      <stop offset=".65" stop-color="#85928a"/><stop offset="1" stop-color="#24302b"/>
+    </linearGradient>
+    <filter id="shadow" x="-40%" y="-50%" width="180%" height="220%">
+      <feGaussianBlur stdDeviation="14"/>
+    </filter>
+    <pattern id="texture" width="7" height="7" patternUnits="userSpaceOnUse">
+      <circle cx="1" cy="1" r=".5" fill="{p['fg']}" opacity=".035"/>
+    </pattern>'''
+
+
+def scene_defs(p, name, height):
+    return f'''
+    <radialGradient id="light-{name}">
+      <stop stop-color="{p['accent']}" stop-opacity="{p['aura']}"/>
+      <stop offset="1" stop-color="{p['accent']}" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="scene-frame-{name}" clipPathUnits="userSpaceOnUse">
+      <rect x="1" y="1" width="1198" height="{height-2}" rx="22"/>
+    </clipPath>
+    <clipPath id="reveal-{name}" clipPathUnits="userSpaceOnUse">
+      <path d="M-180 0H1400L1580 {height}H0Z" transform="translate(-1600 0)">
+        {animate('transform', ['-1600 0', '0 0'], 1.65, .2, kind='translate', easing=EASE_IN_OUT)}
+      </path>
+    </clipPath>'''
+
+
+def stage(p, name, height):
     return f'''
     <g class="stage">
-      <rect x="1" y="1" width="1198" height="418" rx="10" fill="{p['bg']}"/>
-      <ellipse class="aura" cx="{x}" cy="202" rx="330" ry="215" fill="url(#aura-{name})"/>
-      <rect x="1" y="1" width="1198" height="418" fill="url(#stars)" opacity=".16"/>
-      <rect x="1" y="1" width="1198" height="418" fill="url(#vignette)"/>
-      {grain_rect(theme)}
-      <rect x="1" y="1" width="1198" height="418" rx="10" fill="none" stroke="{p['line']}"/>
+      <rect x="1" y="1" width="1198" height="{height-2}" rx="22" fill="url(#surface)"/>
+      <ellipse cx="950" cy="225" rx="435" ry="350" fill="url(#light-{name})"/>
+      <rect width="1200" height="{height}" fill="url(#texture)"/>
+      <path d="M650 1H1100L1199 100" fill="none" stroke="{p['fg']}" opacity=".055"/>
+      <rect x="1" y="1" width="1198" height="{height-2}" rx="22" fill="none" stroke="{p['line']}"/>
     </g>'''
-
-
-def backdrop_defs(p, name):
-    return f'''<radialGradient id="aura-{name}">
-      <stop offset="0" stop-color="{p['accent']}" stop-opacity=".14"/>
-      <stop offset="1" stop-color="{p['accent']}" stop-opacity="0"/>
-    </radialGradient>'''
-
-
-def grain_clip():
-    return '<clipPath id="grain-clip"><rect x="1" y="1" width="1198" height="418" rx="10"/></clipPath>'
-
-
-def grain_rect(theme="dark"):
-    opacity = ".035" if theme == "dark" else ".025"
-    return (
-        '<g clip-path="url(#grain-clip)"><rect class="grain" x="-4" y="-4" width="1208" height="428" '
-        f'filter="url(#grain-filter)" opacity="{opacity}"/></g>'
-    )
-
-
-def sweep_defs(p):
-    return (
-        '<linearGradient id="sweep-fade" x1="0" y1="0" x2="1" y2="0">'
-        '<stop offset="0" stop-color="#fff" stop-opacity="0"/>'
-        f'<stop offset=".5" stop-color="{p["fg"]}" stop-opacity=".06"/>'
-        '<stop offset="1" stop-color="#fff" stop-opacity="0"/>'
-        '</linearGradient>'
-    )
-
-
-def grain(p):
-    return f'''
-      <filter id="grain-filter" x="0" y="0" width="100%" height="100%">
-        <feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="3" seed="17" stitchTiles="stitch"/>
-        <feColorMatrix type="saturate" values="0"/>
-      </filter>
-      <pattern id="stars" width="240" height="180" patternUnits="userSpaceOnUse">
-        <circle cx="18" cy="26" r=".7" fill="{p['fg']}" opacity=".5"/>
-        <circle cx="112" cy="58" r=".8" fill="{p['fg']}" opacity=".4"/>
-        <circle cx="196" cy="138" r=".6" fill="{p['fg']}" opacity=".4"/>
-      </pattern>
-      <radialGradient id="vignette" cx=".5" cy=".46" r=".78">
-        <stop offset=".45" stop-color="{p['shadow']}" stop-opacity="0"/>
-        <stop offset="1" stop-color="{p['shadow']}" stop-opacity=".22"/>
-      </radialGradient>'''
-
-
-def styles(height):
-    flight_end = FLIGHT_SECONDS / CYCLE_SECONDS * 100
-    return f'''
-    .stage {{ animation:fade-in 1.2s ease-out both; }}
-    .aura {{ animation:aura-breathe var(--cycle) ease-in-out infinite; animation-delay:var(--phase); }}
-    .grain {{ mix-blend-mode:normal; }}
-    .rise {{ animation:rise 1s cubic-bezier(.22,.7,.25,1) both; animation-delay:calc(.25s + var(--idx,0)*.12s); }}
-    .wipe {{ animation:wipe 1.4s ease-out both; animation-delay:.4s; }}
-    /* Layout transforms belong to the parent; this group owns only motion. */
-    .art-anchor {{ --enter-x:280px; --enter-turn:16deg; }}
-    .art-anchor.from-left {{ --enter-x:-280px; --enter-turn:-16deg; }}
-    .art-enter {{ animation:art-enter 2.2s cubic-bezier(.16,.7,.2,1) both; animation-delay:.45s; transform-box:view-box; transform-origin:0 0; }}
-    .draw {{ animation:draw 1.4s ease-out both; animation-delay:.5s; }}
-    .sweep {{ opacity:0; animation:sweep 1.8s ease-in-out both; animation-delay:1.4s; }}
-    .bar {{ animation:bar-up 2.2s cubic-bezier(.16,.7,.2,1) both; animation-delay:.45s; transform-box:fill-box; transform-origin:50% 100%; }}
-    .beat {{ animation:beat calc(var(--cycle) / 4) ease-in-out infinite; animation-delay:var(--phase); }}
-    @keyframes fade-in {{ from {{ opacity:0; }} to {{ opacity:1; }} }}
-    @keyframes rise {{ from {{ opacity:0; transform:translateY(28px); }} to {{ opacity:1; transform:translateY(0); }} }}
-    @keyframes art-enter {{
-      0% {{ opacity:0; transform:translate(var(--enter-x),100px) rotate(var(--enter-turn)) scale(.72); }}
-      28% {{ opacity:1; }}
-      76% {{ opacity:1; transform:translate(-6px,-4px) rotate(-1deg) scale(1.015); }}
-      100% {{ opacity:1; transform:translate(0,0) rotate(0) scale(1); }}
-    }}
-    @keyframes wipe {{ from {{ opacity:0; clip-path:inset(0 100% 0 0); }} to {{ opacity:1; clip-path:inset(0); }} }}
-    @keyframes draw {{ from {{ stroke-dashoffset:100; }} to {{ stroke-dashoffset:0; }} }}
-    @keyframes sweep {{ 0% {{ transform:translateX(-40px); opacity:0; }} 30% {{ opacity:.5; }} 100% {{ transform:translateX(1460px); opacity:0; }} }}
-    @keyframes bar-up {{ from {{ opacity:0; transform:scaleY(.05); }} to {{ opacity:1; transform:scaleY(1); }} }}
-    @keyframes beat {{ 0%,100% {{ opacity:.35; }} 50% {{ opacity:.85; }} }}
-    @keyframes aura-breathe {{ 0%,100% {{ opacity:.65; }} 50% {{ opacity:1; }} }}
-    .relay {{ opacity:0; animation:relay var(--cycle) linear infinite; animation-delay:var(--phase); }}
-    @keyframes relay {{
-      0% {{ opacity:0; transform:translateY(-54px); }}
-      1% {{ opacity:1; }}
-      {flight_end - 1:.3f}% {{ opacity:1; }}
-      {flight_end:.3f}%,100% {{ opacity:0; transform:translateY({height + 54}px); }}
-    }}
-    @media (prefers-reduced-motion: reduce) {{
-      .relay, .grain, .sweep {{ display:none; }}
-      *, *::before, *::after {{ animation:none !important; transition:none !important; }}
-    }}
-    '''
-
-
-def packet(p):
-    """One moving object in atlas coordinates, seen through all six view windows."""
-    return f'''
-    <g clip-path="url(#atlas-clips)"><g transform="translate(26 0)">
-      <g class="relay">
-        <path d="M0-42V-14" stroke="{p['accent']}" stroke-width="2" opacity=".45"/>
-        <path d="M0-13 6-5 0 3-6-5Z" fill="{p['accent']}"/>
-        <circle cy="-5" r="10" fill="{p['accent']}" opacity=".14"/>
-      </g>
-    </g></g>'''

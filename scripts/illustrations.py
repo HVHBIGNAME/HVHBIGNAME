@@ -1,359 +1,134 @@
-"""Original SVG illustrations; motion is driven by the shared atlas stylesheet."""
+"""Original product sculptures, drawn as self-contained SVG rather than screenshots."""
 
-import math
-
-WORLD_BLOCKS = tuple(
-    sorted(
-        ((a, b, z) for a in range(5) for b in range(5)
-         for z in range(max(1, 4 - abs(a-2) - abs(b-2)))),
-        key=lambda block: (block[2], block[0]+block[1], block[0]),
-    )
-)
+from motion import CYCLE_SECONDS, INTRO_END, animate, drift, enter
 
 
-def scene_styles():
-    """Shared scene clock, with individual landing/reveal windows within a loop."""
-    rules = [f'''
-    .world-voxel, .server-card, .server-core, .boot-progress, .server-ready,
-    .server-chart, .server-live, .package-arrival, .package-installed,
-    .package-check, .install-progress, .install-done, .paired-mark,
-    .handoff, .chat-line, .typing-dots, .qr-scan {{
-      animation-duration:var(--cycle); animation-iteration-count:infinite;
-      animation-timing-function:linear; animation-delay:var(--phase);
-      animation-fill-mode:both;
-    }}
-    .server-core {{ animation-name:server-core; transform-box:fill-box; transform-origin:center; }}
-    .server-card {{ animation-name:server-card; }}
-    .server-card.second, .server-card.second .boot-progress,
-    .server-card.second .server-ready {{ animation-delay:calc(var(--phase) + var(--cycle) * .1); }}
-    .boot-progress {{ stroke-dasharray:100; animation-name:boot-progress; }}
-    .server-ready {{ animation-name:server-ready; }}
-    .server-chart {{ stroke-dasharray:100; animation-name:server-chart; }}
-    .server-live {{ animation-name:server-live; }}
-    .package-arrival, .handoff, .typing-dots {{ opacity:0; }}
-    .package-check {{ stroke-dasharray:100; }}
-    .install-progress {{ stroke-dasharray:100; animation-name:install-progress; }}
-    .install-done {{ stroke-dasharray:100; animation-name:install-done; }}
-    .qr-scan {{ opacity:0; animation-name:qr-pair; }}
-    .paired-mark {{ animation-name:paired; transform-box:fill-box; transform-origin:center; }}
-    .handoff {{ animation-name:handoff; }}
-    .typing-dots {{ animation-name:typing; }}
-    .debris {{ opacity:0; animation:debris var(--cycle) linear infinite both; animation-delay:calc(var(--phase) + var(--event, 0s)); }}
-    .sapling {{ animation:sapling var(--cycle) ease-out infinite both; animation-delay:var(--phase); }}
-    .fan {{ animation:fan calc(var(--cycle) / 4) linear infinite; animation-delay:var(--phase); }}
-    .ember {{ opacity:0; animation:ember var(--cycle) linear infinite both; animation-delay:calc(var(--phase) + var(--event, 0s)); }}
-    @keyframes debris {{
-      0% {{ opacity:0; transform:translate(0,0) scale(.5); }}
-      .8% {{ opacity:.85; }}
-      4% {{ opacity:.5; transform:translate(calc(var(--dx) * .6),var(--dy)) rotate(45deg); }}
-      8%,100% {{ opacity:0; transform:translate(var(--dx),6px) rotate(95deg) scale(.2); }}
-    }}
-    @keyframes sapling {{
-      0%,55% {{ opacity:0; transform:scaleY(.05); }}
-      61% {{ opacity:1; transform:scaleY(1.08); }}
-      64%,86% {{ opacity:1; transform:scaleY(1); }}
-      96%,100% {{ opacity:0; transform:translateY(18px) scaleY(.2); }}
-    }}
-    @keyframes fan {{ to {{ transform:rotate(360deg); }} }}
-    @keyframes ember {{
-      0%,39% {{ opacity:0; transform:translate(0,0); }}
-      43% {{ opacity:.7; }}
-      55% {{ opacity:.35; transform:translate(var(--dx),-27px); }}
-      64%,100% {{ opacity:0; transform:translate(0,-48px); }}
-    }}
-    @keyframes server-core {{
-      0%,3% {{ opacity:0; transform:scale(.2); }}
-      12% {{ opacity:1; transform:scale(1.12); }}
-      16%,87% {{ opacity:1; transform:scale(1); }}
-      96%,100% {{ opacity:0; transform:scale(.7); }}
-    }}
-    @keyframes server-card {{
-      0%,12% {{ opacity:0; transform:translateY(19px); }}
-      22%,80% {{ opacity:1; transform:translateY(0); }}
-      90%,100% {{ opacity:0; transform:translateY(-9px); }}
-    }}
-    @keyframes boot-progress {{
-      0%,22% {{ stroke-dashoffset:100; }} 40%,100% {{ stroke-dashoffset:0; }}
-    }}
-    @keyframes server-ready {{
-      0%,39% {{ opacity:0; }} 42%,84% {{ opacity:1; }} 93%,100% {{ opacity:0; }}
-    }}
-    @keyframes server-chart {{
-      0%,42% {{ opacity:.15; stroke-dashoffset:100; }}
-      67%,86% {{ opacity:1; stroke-dashoffset:0; }}
-      96%,100% {{ opacity:0; stroke-dashoffset:0; }}
-    }}
-    @keyframes server-live {{ 0%,67%,96%,100% {{ opacity:0; }} 70%,88% {{ opacity:1; }} }}
-    @keyframes install-progress {{
-      0%,7% {{ stroke-dashoffset:100; }} 70%,90% {{ stroke-dashoffset:0; }} 98%,100% {{ stroke-dashoffset:100; }}
-    }}
-    @keyframes install-done {{ 0%,70% {{ opacity:0; stroke-dashoffset:100; }} 77%,90% {{ opacity:1; stroke-dashoffset:0; }} 98%,100% {{ opacity:0; stroke-dashoffset:0; }} }}
-    @keyframes qr-pair {{
-      0% {{ opacity:0; transform:translateY(0); }}
-      3% {{ opacity:1; transform:translateY(0); }}
-      12% {{ opacity:1; transform:translateY(65px); }}
-      21% {{ opacity:1; transform:translateY(0); }}
-      24%,100% {{ opacity:0; transform:translateY(0); }}
-    }}
-    @keyframes paired {{
-      0%,21% {{ opacity:0; transform:scale(.2); }}
-      25% {{ opacity:1; transform:scale(1.2); }}
-      29%,89% {{ opacity:1; transform:scale(1); }}
-      98%,100% {{ opacity:0; transform:scale(.8); }}
-    }}
-    @keyframes handoff {{
-      0%,25% {{ opacity:0; transform:translate(0,0); }}
-      27% {{ opacity:1; transform:translate(0,0); }}
-      32% {{ opacity:1; transform:translate(55px,-28px); }}
-      37% {{ opacity:1; transform:translate(121px,-14px); }}
-      39%,100% {{ opacity:0; transform:translate(125px,-14px); }}
-    }}
-    @keyframes typing {{
-      0%,36%,44%,53%,65%,100% {{ opacity:0; }}
-      38%,42%,47%,51%,57%,62% {{ opacity:1; }}
-    }}
-    ''']
-    for index, _ in enumerate(WORLD_BLOCKS):
-        start = 4 + index*.85
-        rules.append(f'''
-        .voxel-{index} {{ animation-name:place-{index}; }}
-        @keyframes place-{index} {{
-          0%,{start:.2f}% {{ opacity:0; transform:translateY(-48px); }}
-          {start+1:.2f}% {{ opacity:1; transform:translateY(-43px); }}
-          {start+4:.2f}% {{ opacity:1; transform:translateY(3px); }}
-          {start+5.5:.2f}%,86% {{ opacity:1; transform:translateY(0); }}
-          96%,100% {{ opacity:0; transform:translateY(18px); }}
-        }}''')
-    for index in range(6):
-        start = 6 + index*10
-        dx = 126 - (-134 + index % 3 * 55 + 21)
-        dy = 88 - (-36 + index // 3 * 54 + 20)
-        rules.append(f'''
-        .parcel-{index} {{ animation-name:parcel-{index}; }}
-        .installed-{index} {{ animation-name:installed-{index}; }}
-        .check-{index} {{ animation-name:check-{index}; }}
-        @keyframes parcel-{index} {{
-          0%,{start}% {{ opacity:0; transform:translate({dx}px,{dy}px) scale(.5); }}
-          {start+1}% {{ opacity:1; transform:translate({dx}px,{dy}px) scale(1); }}
-          {start+4}% {{ opacity:1; transform:translate({dx/2:.1f}px,-28px) scale(1); }}
-          {start+7}% {{ opacity:1; transform:translate(0,0) scale(.7); }}
-          {start+8}%,100% {{ opacity:0; transform:translate(0,0) scale(.15); }}
-        }}
-        @keyframes installed-{index} {{
-          0%,{start+6}% {{ opacity:0; }} {start+8}%,88% {{ opacity:1; }} 98%,100% {{ opacity:0; }}
-        }}
-        @keyframes check-{index} {{
-          0%,{start+7}% {{ opacity:0; stroke-dashoffset:100; }}
-          {start+10}%,88% {{ opacity:1; stroke-dashoffset:0; }}
-          98%,100% {{ opacity:0; stroke-dashoffset:0; }}
-        }}''')
-    for index, start in enumerate((41, 52, 64)):
-        rules.append(f'''
-        .message-{index} {{ animation-name:message-{index}; }}
-        @keyframes message-{index} {{
-          0%,{start}% {{ opacity:0; transform:translateY(18px); }}
-          {start+4}% {{ opacity:1; transform:translateY(-2px); }}
-          {start+6}%,89% {{ opacity:1; transform:translateY(0); }}
-          98%,100% {{ opacity:0; transform:translateY(-8px); }}
-        }}''')
-    rules.append('''
-    @media (prefers-reduced-motion: reduce) {
-      .package-arrival, .handoff, .typing-dots, .qr-scan, .debris, .ember { display:none; }
-    }''')
-    return "\n".join(rules)
+def label(x, y, value, size=12, color='#9daaa4', **attrs):
+    extra = ' '.join(f'{key.rstrip("_").replace("_", "-")}="{value}"' for key, value in attrs.items())
+    return f'<text x="{x}" y="{y}" font-size="{size}" fill="{color}" {extra}>{value}</text>'
 
 
-def cube(x, y, size, p, solid=False):
-    half = size * math.sqrt(3) / 2
-    faces = (
-        ([(x-half, y-size/2), (x, y), (x, y+size), (x-half, y+size/2)], p["soft"] if solid else p["bg"]),
-        ([(x, y), (x+half, y-size/2), (x+half, y+size/2), (x, y+size)], p["accent"] if solid else p["soft"]),
-        ([(x, y-size), (x+half, y-size/2), (x, y), (x-half, y-size/2)], p["accent"] if solid else p["panel"]),
-    )
-    return "".join(
-        f'<polygon points="{" ".join(f"{a:.2f},{b:.2f}" for a, b in points)}" '
-        f'fill="{fill}" stroke="{p["line"]}" stroke-width="1.2"/>'
-        for points, fill in faces
-    )
+def shadow(width=190):
+    return f'<ellipse cy="178" rx="{width}" ry="18" fill="#000" opacity=".25" filter="url(#shadow)"/>'
 
 
-def debris(x, y, p, event, count=5):
-    """Short event-timed ballistic particles; coordinates stay local to the impact."""
-    particles = []
-    for index in range(count):
-        dx = (index - (count-1)/2) * 11
-        dy = -10 - (index % 3)*7
-        particles.append(f'<path class="debris" d="M-1-2h3v3h-3Z" fill="{p["accent"]}" style="--dx:{dx}px;--dy:{dy}px;--event:calc(var(--cycle) * {event:.4f})"/>')
-    return f'<g transform="translate({x} {y})">{"".join(particles)}</g>'
-
-
-def terrain_cube(x, y, size, surface, variation):
-    half = size * math.sqrt(3) / 2
-    top = ("#91a66c", "#829963", "#9bab77")[variation % 3] if surface else "#87877b"
+def voxel(x, y, elevation, top, left, right, size=48):
+    half = size / 2
     return f'''
-    <g transform="translate({x:.2f} {y:.2f})" stroke="#353e36" stroke-width=".8" stroke-linejoin="round">
-      <path d="M{-half:.2f} {-size/2:.2f} 0 0v{size}l{-half:.2f} {-size/2:.2f}Z" fill="#53574c"/>
-      <path d="M0 0 {half:.2f} {-size/2:.2f}v{size}L0 {size}Z" fill="#777762"/>
-      <path d="M0 {-size} {half:.2f} {-size/2:.2f} 0 0 {-half:.2f} {-size/2:.2f}Z" fill="{top}"/>
-      <path d="M-20 2l7 4m-4 7 7 4M6 12l5-3m6 5 4-2" stroke="#b1ad8d" opacity=".35"/>
-      <path d="M-12-13l7 4m8-7 6 3" stroke="#c4d3a3" opacity=".45"/>
-      {'<path d="M-25-14.43 0 0 25-14.43v4L0 4-25-10.43Z" fill="#708456" stroke="none"/>' if surface else ''}
-    </g>
-    '''
+    <g transform="translate({x} {y})" stroke-linejoin="round">
+      <path d="M{-size} 0 0 {half}V{half+elevation}L{-size} {elevation}Z" fill="{left}" stroke="{left}"/>
+      <path d="M0 {half} {size} 0V{elevation}L0 {half+elevation}Z" fill="{right}" stroke="{right}"/>
+      <path d="M0 {-half} {size} 0 0 {half} {-size} 0Z" fill="{top}" stroke="#e5f2ba" stroke-opacity=".16"/>
+      <path d="M{-size+2} 1 0 {half} {size-2} 1" stroke="#dffaaa" stroke-opacity=".22" fill="none"/>
+    </g>'''
 
 
-def sapling(x, y, p):
-    leaves = {**p, "accent": "#839f66", "soft": "#4e6648", "line": "#3d5040"}
-    return f'''<g transform="translate({x} {y})"><g class="sapling">
-      <path d="M0 0V-31m0 16-9-8m9 2 10-8" fill="none" stroke="#8a7358" stroke-width="4"/>
-      {cube(-10, -29, 12, leaves, solid=True)}
-      {cube(10, -32, 13, leaves, solid=True)}
-      {cube(0, -46, 15, leaves, solid=True)}
-    </g></g>'''
+def bcore(p):
+    blocks = []
+    colors = ('#7c9c55', '#8eac64', '#687f47', '#9ab571')
+    for row in range(4):
+        for col in range(4):
+            x, y = (col-row)*48, (col+row)*24-75
+            elevation = 50 + ((row*3+col*5) % 4)*9
+            tile = voxel(x, y-elevation, elevation, colors[(row+col)%4], '#34472d', '#202e23')
+            tile += f'<path d="M{x-37} {y-elevation+22}l23 11v14l-23-11Z" fill="#111e17" opacity=".32"/>'
+            blocks.append(enter(tile, offset=f'{(col-row)*23} {130+(row+col)*9}',
+                                begin=.35, duration=1.85, name='voxel-build'))
+    core = voxel(0, -133, 60, '#dffcb0', '#89bb51', '#4e7c36', size=46)
+    core += '<path d="M0-151v36m-16-27 16-9 16 9M0-115l-16-9m16 9 16-9" fill="none" stroke="#f4ffe4" stroke-width="3"/>'
+    crystal = enter(core, offset='0 -105', begin=.35, duration=1.85, name='core-build')
+    return shadow(150) + drift(''.join(blocks) + crystal, 7)
 
 
-def world(p):
-    pieces = []
-    dust = []
-    order = {block: index for index, block in enumerate(WORLD_BLOCKS)}
-    for depth in range(9):
-        for a in range(5):
-            b = depth - a
-            if not 0 <= b < 5:
-                continue
-            height = max(1, 4 - abs(a-2) - abs(b-2))
-            for z in range(height):
-                pieces.append(f'<g class="world-voxel voxel-{order[a, b, z]}" data-layer="{z}">')
-                x, y = (a-b)*25, (a+b)*14.43-z*28.86
-                pieces.append(terrain_cube(x, y, 28.86, z == height-1, a*3+b*5))
-                pieces.append('</g>')
-                if z == height-1 and (a+b >= 6 or height == 4):
-                    dust.append(debris(x, y, p, (8 + order[a, b, z]*.85)/100))
-    return f'''
-    <path d="M-151 12 0-75 151 12 0 99Z" fill="{p['panel']}" stroke="{p['line']}"/>
-    <ellipse cx="0" cy="26" rx="126" ry="57" fill="#101912" opacity=".18"/>
-    <g transform="translate(0 -72)">
-      {''.join(pieces)}
-      {sapling(-75, 58, p)}{sapling(25, 87, p)}
-      {''.join(dust)}
-      <g class="world-beam" opacity=".12">
-        <path d="M-107 58 0-4 107 58 0 120Z" fill="none" stroke="{p['accent']}"/>
-      </g>
-    </g>
-    '''
+def panel_shell(x, y, width, height, radius=14):
+    return (f'<rect x="{x+5}" y="{y+7}" width="{width}" height="{height}" rx="{radius}" fill="#050a08"/>'
+            f'<rect x="{x}" y="{y}" width="{width}" height="{height}" rx="{radius}" fill="url(#glass)" stroke="#627066" stroke-width="1.3"/>'
+            f'<path d="M{x+radius} {y+1}H{x+width-radius}" stroke="#dce4dd" stroke-opacity=".5"/>')
 
 
-def panel(p):
-    bolts = ''.join(f'<circle cx="{x}" cy="{y}" r="2.5" fill="none" stroke="{p["muted"]}"/><path d="M{x-1.5} {y}h3" stroke="{p["muted"]}"/>' for x, y in ((-157, -97), (157, -97), (-157, 102), (157, 102)))
-    vents = ''.join(f'<path d="M-131 {y}h38" stroke="{p["line"]}" stroke-width="2"/>' for y in range(30, 78, 6))
-    embers = ''.join(f'<g transform="translate({-120+i*5} -29)"><path class="ember" d="M0 0h2v3H0Z" fill="{p["accent"]}" style="--dx:{(i%3-1)*10}px;--event:calc(var(--cycle) * {i*.015:.3f})"/></g>' for i in range(5))
-    return f'''
-    <g>
-      <rect x="-166" y="-106" width="332" height="217" rx="4" fill="{p['panel']}" stroke="{p['muted']}" stroke-width="1.4"/>
-      {bolts}
-      <path d="M-166-73H166" stroke="{p['line']}"/>
-      <circle cx="-145" cy="-90" r="4" fill="{p['accent']}" class="heartbeat"/>
-      <text x="-132" y="-87" fill="{p['fg']}" font-size="10" class="mono">emberdeck / node</text>
-      <path d="M122-94h22m-22 4h22m-22 4h22" stroke="{p['line']}"/>
-      <rect x="-145" y="-53" width="67" height="142" rx="7" fill="{p['bg']}" stroke="{p['line']}"/>
-      <g class="server-core">
-        <circle cx="-112" cy="-12" r="23" fill="{p['panel']}" stroke="{p['muted']}"/>
-        <g transform="translate(-112 -12)"><g class="fan" fill="{p['soft']}" stroke="{p['accent']}" stroke-width=".7">
-          <path d="M-4-4Q-22-19-7-19L2-5ZM4-4Q19-22 19-7L5 2ZM4 4Q22 19 7 19L-2 5ZM-4 4Q-19 22-19 7L-5-2Z"/>
-        </g><circle r="4" fill="{p['accent']}"/></g>
-      </g>
-      {vents}{embers}
-      <g class="server-card">
-        <rect x="-57" y="-53" width="89" height="49" rx="7" fill="{p['bg']}" stroke="{p['line']}"/>
-        <text x="-43" y="-33" font-size="8" fill="{p['muted']}" class="mono">SURVIVAL</text>
-        <path class="boot-progress" pathLength="100" d="M-43-20h59" stroke="{p['accent']}" stroke-width="3"/>
-        <circle class="server-ready" cx="17" cy="-37" r="4" fill="{p['accent']}"/>
-      </g>
-      <g class="server-card second">
-        <rect x="46" y="-53" width="98" height="49" rx="7" fill="{p['bg']}" stroke="{p['line']}"/>
-        <text x="60" y="-33" font-size="8" fill="{p['muted']}" class="mono">CREATIVE</text>
-        <path class="boot-progress" pathLength="100" d="M60-20h68" stroke="{p['accent']}" stroke-width="3"/>
-        <circle class="server-ready" cx="129" cy="-37" r="4" fill="{p['accent']}"/>
-      </g>
-      <rect x="-57" y="12" width="201" height="77" rx="7" fill="{p['bg']}" stroke="{p['line']}"/>
-      <path d="M-43 69H130M-43 38H130" stroke="{p['line']}" stroke-dasharray="2 5"/>
-      <path class="server-chart" pathLength="100" d="M-43 65-25 65-8 34 15 56 36 45 57 64 79 27 100 42 130 42" fill="none" stroke="{p['accent']}" stroke-width="2.5"/>
-      <g class="server-live"><circle cx="130" cy="42" r="4" fill="{p['accent']}"/><circle class="heartbeat" cx="130" cy="42" r="9" fill="none" stroke="{p['accent']}"/></g>
-    </g>
-    <path d="M-141 112v9h25v-9m224 0v9h25v-9" fill="{p['panel']}" stroke="{p['line']}"/>
-    {debris(17, -37, p, .42, 4)}{debris(129, -37, p, .52, 4)}
-    '''
+def emberdeck(p):
+    back = []
+    for index in (2, 1):
+        plate = panel_shell(-183, -100+index*27, 370, 226)
+        back.append(enter(plate, offset=f'{index*18} {index*42}', begin=.35, duration=1.85, name='panel-build'))
+    content = panel_shell(-202, -152, 404, 256)
+    content += '<path d="M-200-111H200M-102-111V102" stroke="#33433a"/>'
+    content += label(-180, -128, 'emberdeck', 17, '#edf3ea', font_weight='650')
+    content += ''.join(f'<circle cx="{154+i*13}" cy="-133" r="3" fill="#718077"/>' for i in range(3))
+    for i, title in enumerate(('Overview', 'Console', 'Backups', 'Files')):
+        y = -73+i*35
+        if i == 1:
+            content += f'<rect x="-191" y="{y-18}" width="78" height="28" rx="5" fill="#e6a671" fill-opacity=".1"/>'
+        content += label(-180, y, title, 11, '#efb886' if i == 1 else '#81958a')
+    content += label(-78, -79, 'SERVER CONSOLE', 11, '#d0dcd1', letter_spacing='1.8')
+    for i, (line, color) in enumerate((('> starting world...', '#8faaa0'), ('> loading plugins', '#8faaa0'), ('> server ready_', '#eabe90'))):
+        content += enter(label(-77, -41+i*27, line, 13, color, class_='mono'), begin=.9+i*.18, offset='0 10', duration=.7)
+    content += '<rect x="-77" y="53" width="248" height="27" rx="5" fill="#080f0b" stroke="#314137"/>'
+    content += label(-66, 71, '> _', 12, '#efb886')
+    front = enter(content, offset='-42 -72', turn=-8, begin=.35, duration=1.85, name='panel-build')
+    floating = panel_shell(25, 78, 186, 68, 12)
+    floating += '<circle cx="48" cy="112" r="6" fill="#bcdb95"/>'
+    floating += label(65, 108, 'WORLD ONLINE', 11, '#eff1e7', letter_spacing='1.3')
+    floating += label(65, 128, 'ready to connect', 10, '#81958a')
+    floating = enter(floating, offset='85 55', begin=.35, duration=1.85, name='panel-build')
+    return shadow() + drift('<g transform="rotate(-9)">' + ''.join(back) + front + floating + '</g>', 6)
 
 
-def software(p):
-    tiles = []
-    parcels = []
-    for index in range(6):
-        x = -134 + index % 3 * 55
-        y = -36 + index // 3 * 54
-        tiles.append(f'''
-        <g>
-          <rect x="{x}" y="{y}" width="43" height="42" rx="3" fill="{p['bg']}" stroke="{p['line']}"/>
-          <rect class="package-installed installed-{index}" x="{x}" y="{y}" width="43" height="42" rx="3" fill="{p['soft']}" stroke="{p['accent']}"/>
-          <path d="M{x+9} {y+10}h22v16h-22Zm0 5h22m-18 4 4 3-4 3m7 0h7" fill="none" stroke="{p['muted']}" stroke-width="1"/>
-          <path class="package-check check-{index}" pathLength="100" d="M{x+27} {y+33} {x+31} {y+37} {x+38} {y+28}" fill="none" stroke="{p['accent']}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </g>''')
-        parcels.append(f'<g transform="translate({x+21} {y+20})"><g class="package-arrival parcel-{index}"><path d="M9 15l8 12m-11-8 3 5m5-13 7 11" stroke="{p["accent"]}" opacity=".45"/>{cube(0,0,14,p,solid=True)}</g></g>')
-        parcels.append(debris(x+21, y+20, p, (14+index*10)/100, 3))
-    return f'''
-    <rect x="-156" y="-95" width="316" height="202" rx="4" fill="{p['panel']}" stroke="{p['muted']}" stroke-width="1.3"/>
-    <path d="M-156-63H160" stroke="{p['line']}"/>
-    <text x="-135" y="-74" font-size="10" fill="{p['fg']}" class="mono">SoftDownloader / queue</text>
-    <path d="M111-79h13m-6.5-6.5v13M138-82h9v8h-9Z" fill="none" stroke="{p['muted']}"/>
-    {''.join(tiles)}
-    <path d="M49-36v109" stroke="{p['line']}"/>
-    <text x="70" y="-25" font-size="8" fill="{p['muted']}" class="mono">packages.list</text>
-    <path d="M70-6h49M70 4h56M70 14h37" stroke="{p['muted']}" stroke-width="1.5"/>
-    <path d="M70 40h66" stroke="{p['line']}" stroke-width="4"/>
-    <path class="install-progress" pathLength="100" d="M70 40h66" stroke="{p['accent']}" stroke-width="4"/>
-    <path class="install-done" pathLength="100" d="M77 64 88 76 104 55" fill="none" stroke="{p['accent']}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-    <g transform="translate(126 88)">{cube(0, 0, 37, p, solid=True)}<path d="M-16-27 16-9v30M-10-6v13l-13-7V-13Z" fill="none" stroke="{p['bg']}" stroke-width="2"/><path d="M7 17v9m4-12v9m4-11v9m4-12v9" stroke="{p['bg']}"/></g>
-    {''.join(parcels)}
-    <path d="M-137 113h189m5 0h11" stroke="{p['line']}"/>
-    '''
+def app_tile(x, y, color, glyph, index):
+    tile = (f'<rect x="{x+3}" y="{y+6}" width="72" height="72" rx="17" fill="#030907"/>'
+            f'<rect x="{x}" y="{y}" width="72" height="72" rx="17" fill="{color}" stroke="#f4fffc" stroke-opacity=".25"/>'
+            f'<g transform="translate({x+36} {y+36})" fill="none" stroke="#1b302c" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">{glyph}</g>')
+    return enter(tile, offset=f'{(-1 if index%2 else 1)*(70+index*18)} {-100+index*20}',
+                 turn=(index-1)*18, begin=.35, duration=1.85, name='app-build')
+
+
+def softdownloader(p):
+    tray = panel_shell(-193, -80, 386, 224, 24)
+    tray += label(-164, -45, 'SOFTWARE LIBRARY', 11, '#a7b4ab', letter_spacing='2')
+    tray += '<path d="M-163-28H163" stroke="#34443a"/>'
+    tray += '<rect x="-162" y="-8" width="98" height="106" rx="16" fill="#d9e9dc"/>'
+    tray += '<path d="M-113 15v48m-17-17 17 17 17-17m-39 34h44" fill="none" stroke="#20382f" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>'
+    tray += label(-36, 21, 'One executable.', 18, '#eff6ed', font_weight='600')
+    tray += label(-36, 48, 'Your everyday toolkit.', 12, '#839d8e')
+    tray += '<rect x="-36" y="70" width="198" height="6" rx="3" fill="#33423a"/>'
+    tray += '<rect x="-36" y="70" width="0" data-rest-width="198" height="6" rx="3" fill="#a7d9d0">' + animate('width', [0, 198], 1.2, .85) + '</rect>'
+    tray = enter(tray, offset='0 90', begin=.35, duration=1.85, name='dock-build')
+    tiles = ''.join(app_tile(x, y, color, glyph, i) for i, (x, y, color, glyph) in enumerate((
+        (-164, -162, '#d8e5dd', '<path d="m-15-12-12 12 12 12m30-24 12 12-12 12m-10-31-10 38"/>'),
+        (-39, -199, '#a1cec2', '<path d="M-20-18h40v36h-40Z M-20-6h40M-8-18v12"/>'),
+        (87, -149, '#cad3bc', '<path d="m-8-19 24 19-24 19Z"/>'),
+    )))
+    return shadow() + drift('<g transform="rotate(-8)">' + tray + tiles + '</g>', 7)
 
 
 def pocket(p):
-    finders = "".join(
-        f'<rect x="{x}" y="{y}" width="24" height="24" rx="2" fill="none" stroke="{p["accent"]}" stroke-width="3"/>'
-        f'<rect x="{x+7}" y="{y+7}" width="10" height="10" fill="{p["accent"]}"/>'
-        for x, y in ((-136, -5), (-104, -5), (-136, 27))
-    )
-    return f'''
-    <g transform="translate(-27 -19) rotate(-5)">
-      <rect x="-160" y="-70" width="234" height="158" rx="11" fill="{p['panel']}" stroke="{p['line']}" stroke-width="1.5"/>
-      <path d="M-160-42H74" stroke="{p['line']}"/>
-      <circle cx="-143" cy="-56" r="3" fill="{p['accent']}"/>
-      <path d="M-131-56h41M-65-14h112M-65 5h93M-65 24h106M-65 44h59" stroke="{p['muted']}" stroke-width="2"/>
-      {finders}
-      <path class="qr-scan" d="M-143-10h70" stroke="{p['accent']}" stroke-width="2"/>
-      <g class="paired-mark"><circle cx="-83" cy="44" r="12" fill="{p['accent']}"/><path d="M-89 44-84 49-77 39" fill="none" stroke="{p['bg']}" stroke-width="2.5"/></g>
-    </g>
-    <path class="orbit" d="M-13 85C13 145 96 159 138 104" fill="none" stroke="{p['accent']}" stroke-width="2"/>
-    <g transform="translate(-62 -39)"><g class="handoff"><path d="M-13 0h-15m2-4h-10m3 8h-12" stroke="{p['accent']}" opacity=".5"/>{cube(0,0,9,p,solid=True)}</g></g>
-    <g transform="translate(87 -3) rotate(7)"><g class="levitate">
-      <rect x="-64" y="-131" width="132" height="262" rx="24" fill="{p['bg']}" stroke="{p['muted']}" stroke-width="2"/>
-      <path d="M-67-78v25m0 9v17M71-55v32" stroke="{p['muted']}" stroke-width="2"/>
-      <rect x="-53" y="-116" width="110" height="230" rx="15" fill="{p['panel']}"/>
-      <rect x="-19" y="-121" width="43" height="7" rx="3.5" fill="{p['accent']}" opacity=".55"/>
-      <circle cx="-31" cy="-85" r="9" fill="{p['soft']}" stroke="{p['accent']}"/>
-      <path d="M-35-88-31-84-35-80m6 0h4" fill="none" stroke="{p['fg']}"/>
-      <path d="M-12-89h48M-12-79h31" stroke="{p['muted']}" stroke-width="2"/>
-      <g class="chat-line message-0"><rect x="-39" y="-53" width="83" height="31" rx="9" fill="{p['soft']}"/><path d="M-28-40h51M-28-31h34" stroke="{p['accent']}" stroke-width="2"/></g>
-      <g class="chat-line message-1"><rect x="-27" y="-9" width="73" height="43" rx="9" fill="{p['bg']}"/><path d="M-16 4h51M-16 14h37M-16 24h44" stroke="{p['muted']}" stroke-width="2"/></g>
-      <g class="chat-line message-2"><rect x="-39" y="47" width="82" height="27" rx="9" fill="{p['soft']}"/><path d="M-27 60h52" stroke="{p['accent']}" stroke-width="2"/></g>
-      <rect x="-39" y="89" width="83" height="15" rx="7" fill="{p['bg']}"/>
-      <circle class="heartbeat" cx="35" cy="96.5" r="4" fill="{p['accent']}"/>
-      <g class="typing-dots" fill="{p['accent']}"><circle cx="-27" cy="96.5" r="2.5"/><circle cx="-17" cy="96.5" r="2.5"/><circle cx="-7" cy="96.5" r="2.5"/></g>
-      <path d="M-19 120h42" stroke="{p['muted']}" stroke-width="3" stroke-linecap="round"/>
-    </g></g>
-    {debris(64, -50, p, .39, 4)}
-    '''
+    desktop = panel_shell(-217, -112, 208, 139, 14)
+    desktop += '<path d="M-215-78H-11" stroke="#435248"/>'
+    desktop += label(-198, -90, 'opencode / desktop', 11, '#c9d7cb')
+    desktop += label(-196, -48, '> continue session', 12, '#abc89e')
+    desktop += '<path d="M-195-23h83m-83 17h112" stroke="#4f6659" stroke-width="4" stroke-linecap="round"/>'
+    desktop = enter(desktop, offset='-100 -35', turn=-10, begin=.35, duration=1.85, name='device-build')
+    phone = '<rect x="-48" y="-181" width="184" height="349" rx="35" fill="url(#titanium)" stroke="#dfe8da" stroke-width=".9"/>'
+    phone += '<rect x="-43" y="-176" width="174" height="339" rx="30" fill="#070f0b"/>'
+    phone += '<rect x="-38" y="-169" width="164" height="324" rx="27" fill="url(#glass)"/>'
+    phone += '<rect x="13" y="-160" width="65" height="15" rx="8" fill="#040906"/>'
+    phone += label(-20, -109, 'opencode', 21, '#eaf4e8', font_weight='650')
+    phone += label(-19, -86, 'YOUR SESSIONS', 9, '#8da193', letter_spacing='1.6')
+    for i, line in enumerate(('Build the next thing', 'Review changes', 'Ship it.')):
+        y = -65+i*55
+        phone += f'<rect x="-23" y="{y}" width="133" height="44" rx="8" fill="#1b2d22" stroke="#354b3b"/>'
+        phone += label(-12, y+20, line, 10, '#dee9d9')
+        phone += f'<path d="M-12 {y+31}h{50-i*12}" stroke="#668170" stroke-width="2"/>'
+    phone += '<rect x="-23" y="112" width="133" height="26" rx="13" fill="#354937"/>'
+    phone += label(-10, 129, 'Ask anything...', 10, '#b5c5b2')
+    phone += '<rect x="18" y="145" width="58" height="3" rx="2" fill="#bacbbd"/>'
+    phone = enter(phone, offset='80 115', turn=20, begin=.35, duration=1.85, name='device-build')
+    bridge = '<path d="M-155 44v26q0 21 21 21h54" fill="none" stroke="#b7c7aa" stroke-opacity=".65" stroke-dasharray="4 8">'
+    bridge += animate('stroke-dashoffset', [0, -120], CYCLE_SECONDS, INTRO_END, easing=None, repeat=True) + '</path>'
+    badge = '<circle cx="-142" cy="111" r="25" fill="#cbd9bb" stroke="#eaf4df"/>'
+    badge += '<path d="m-153 112 7 7 14-16" fill="none" stroke="#263e2c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>'
+    return shadow(148) + drift('<g transform="rotate(-10)">' + desktop + bridge + phone
+                              + enter(badge, begin=1.35, duration=.7, offset='0 15') + '</g>', 6)
 
 
-ART = {"bcore": world, "minecraft-panel": panel, "softdownloader": software, "opencode-pocket": pocket}
+ART = {'bcore': bcore, 'minecraft-panel': emberdeck, 'softdownloader': softdownloader, 'opencode-pocket': pocket}

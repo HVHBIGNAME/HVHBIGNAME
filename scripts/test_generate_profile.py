@@ -12,6 +12,7 @@ from unittest.mock import patch
 import generate_profile as profile
 from brand import logo
 from design import PALETTES, PROJECTS, VIEWS, VIEW_HEIGHT, activity_json, build_atlas, hero, load_activity, project
+from motion import CYCLE_SECONDS, INTRO_END, animate
 
 
 def calendar_fixture():
@@ -156,7 +157,8 @@ class ProfileTests(unittest.TestCase):
             atlas = ET.fromstring(build_atlas(days, theme))
             mark = ET.fromstring(logo(palette))
             exported = [node.attrib for node in mark.iter() if 'data-letter' in node.attrib]
-            embedded = [node.attrib for node in atlas.iter() if 'data-letter' in node.attrib]
+            scene = atlas.find('{http://www.w3.org/2000/svg}g[@id="scene-hero"]')
+            embedded = [node.attrib for node in scene.iter() if 'data-letter' in node.attrib]
             self.assertEqual([node['data-letter'] for node in exported], ['H', 'V', 'H'])
             self.assertEqual(exported, embedded)
             for root in (atlas, mark):
@@ -206,38 +208,28 @@ class MotionLayerTests(unittest.TestCase):
         self.days = profile.contribution_window(calendar_fixture())
         self.ns = {"svg": "http://www.w3.org/2000/svg"}
 
-    def test_each_scene_is_clipped_locally_and_relay_is_shared(self):
+    def test_each_scene_is_clipped_locally(self):
         for theme in ("dark", "light"):
             atlas = ET.fromstring(build_atlas(self.days, theme))
-            frame = atlas.find('.//svg:clipPath[@id="scene-frame"]/svg:rect', self.ns)
-            self.assertEqual(frame.get("height"), str(VIEW_HEIGHT - 2))
             for index, name in enumerate(VIEWS):
+                frame = atlas.find(f'.//svg:clipPath[@id="scene-frame-{name}"]/svg:rect', self.ns)
+                self.assertEqual(frame.get('height'), str(VIEW_HEIGHT - 2))
                 scene = atlas.find(f'svg:g[@id="scene-{name}"]', self.ns)
                 self.assertEqual(scene.get("transform"), f"translate(0 {index * VIEW_HEIGHT})")
                 self.assertEqual(len(scene), 1)
                 clipped = scene[0]
                 self.assertEqual(clipped.get("clip-path"), f"url(#scene-frame-{name})")
                 self.assertEqual(clipped[0].get("class"), "stage")
-                self.assertEqual(len(clipped.findall('.//svg:g[@class="relay"]', self.ns)), 0)
-            relays = atlas.findall('.//svg:g[@class="relay"]', self.ns)
-            self.assertEqual(len(relays), 1)
-            self.assertEqual(atlas[-1].get("clip-path"), "url(#atlas-clips)")
-            self.assertIsNotNone(atlas[-1].find('.//svg:g[@class="relay"]', self.ns))
 
     def test_motion_does_not_replace_layout_transforms(self):
-        animated = {"rise", "art-enter", "relay", "sheen", "shard", "world-voxel",
-                    "server-card", "server-core", "handoff", "sapling", "debris", "fan"}
         for theme in PALETTES:
             root = ET.fromstring(build_atlas(self.days, theme))
-            for element in root.iter():
-                if animated.intersection(element.get("class", "").split()):
-                    self.assertNotIn("transform", element.attrib, element.attrib)
             anchors = [e for scene in root if "motion-active" in scene.get("class", "").split()
                        for e in scene.iter() if "art-anchor" in e.get("class", "").split()]
-            self.assertEqual(len(anchors), 10)
+            self.assertEqual(len(anchors), 5)
             for anchor in anchors:
-                self.assertIn("transform", anchor.attrib)
-                self.assertEqual(anchor[0].get("class"), "art-enter")
+                self.assertFalse(anchor.findall('svg:animateTransform', self.ns))
+                self.assertTrue(anchor.findall('.//svg:animateTransform', self.ns))
 
     def test_styles_have_no_unexpanded_template_braces(self):
         for theme in PALETTES:
@@ -259,18 +251,19 @@ class MotionLayerTests(unittest.TestCase):
                 scene = root.find(f'svg:g[@id="scene-{name}"]', self.ns)
                 self.assertNotIn("style", scene.attrib)
 
-    def test_standalone_cards_have_the_same_frame_clipping(self):
+    def test_standalone_cards_have_local_frame_clipping(self):
         for theme in PALETTES:
             cards = (hero(theme), *(project(theme, name) for name in PROJECTS),
                      profile.build_svg(calendar_fixture(), theme))
             for card in cards:
                 root = ET.fromstring(card)
-                self.assertEqual(root[-1].get("clip-path"), "url(#scene-frame)")
+                scene = root[-1]
+                self.assertEqual(scene[0].get('clip-path'), f'url(#scene-frame-{scene.get("id").removeprefix("scene-")})')
 
     def test_logo_exports_are_static(self):
         for theme in ("dark", "light"):
             markup = logo(PALETTES[theme])
-            self.assertNotIn("animation:", markup)
+            self.assertNotIn('<animate', markup)
             self.assertIn("<svg", markup)
             ET.fromstring(markup)
 
@@ -280,7 +273,7 @@ class MotionLayerTests(unittest.TestCase):
         self.assertNotIn("@keyframes", css)
         self.assertNotRegex(css, r"animation(?:-[\w-]+)?\s*:")
         effects = root.findall('.//svg:animate', self.ns) + root.findall('.//svg:animateTransform', self.ns)
-        self.assertGreater(len(effects), 100)
+        self.assertGreater(len(effects), 20)
         for effect in effects:
             times = [float(t) for t in effect.get('keyTimes').split(';')]
             self.assertEqual(times, sorted(set(times)))
@@ -288,17 +281,35 @@ class MotionLayerTests(unittest.TestCase):
             self.assertEqual(len(times), len(effect.get('values').split(';')))
             if effect.get('calcMode') == 'spline':
                 self.assertEqual(len(times)-1, len(effect.get('keySplines').split(';')))
+            if effect.get('repeatCount') == 'indefinite':
+                self.assertEqual(effect.get('dur'), f'{CYCLE_SECONDS}s')
+                self.assertEqual(effect.get('begin'), f'{INTRO_END:g}s')
         static = [g for g in root if 'motion-static' in g.get('class', '').split()]
-        self.assertEqual(len(static), 7)
+        self.assertEqual(len(static), 6)
         for group in static:
             self.assertFalse(group.findall('.//svg:animate', self.ns))
             self.assertFalse(group.findall('.//svg:animateTransform', self.ns))
-        for element in root.iter():
-            if element.get('data-animation') in ('art-enter', 'bar-up'):
-                for effect in element:
-                    if effect.tag in ('{http://www.w3.org/2000/svg}animate', '{http://www.w3.org/2000/svg}animateTransform'):
-                        self.assertEqual(effect.get('begin'), '0.45s')
-                        self.assertEqual(effect.get('dur'), '2.2s')
+            for node in group.iter():
+                self.assertNotIn('transient', node.get('class', '').split())
+                if node.get('data-reveal'):
+                    self.assertNotIn('clip-path', node.attrib)
+                self.assertNotEqual(node.get('opacity'), '0')
+
+    def test_choreography_is_independent_of_project_order(self):
+        root = ET.fromstring(build_atlas(self.days, 'dark'))
+        for name in ('hero', *PROJECTS):
+            scene = root.find(f'svg:g[@id="scene-{name}"]', self.ns)
+            pieces = [e for e in scene.iter() if e.get('class', '').endswith('-build')]
+            self.assertTrue(pieces)
+            for piece in pieces:
+                effects = piece.findall('svg:animateTransform', self.ns)
+                self.assertEqual(effects[0].get('begin'), '0.35s')
+                self.assertLessEqual(float(effects[0].get('dur')[:-1])+.35, INTRO_END)
+
+    def test_invalid_keyframes_fail_at_authoring_time(self):
+        for values, times in (([0], None), ([], None), ([0, 1], []), ([0], [0]), ([0, 1], [0, .5]), ([0, 1, 2], [0, 1, .5]), ([0, 1], [0, .5, 1])):
+            with self.assertRaises(ValueError):
+                animate('opacity', values, 1, times=times)
 
 
 if __name__ == "__main__":
