@@ -44,10 +44,10 @@
 <!-- PROJECTS:START -->
 | Репозиторий | Язык | Последний push |
 | :-- | :-- | :-- |
+| [iostg](https://github.com/HVHBIGNAME/iostg) | Swift | 2026-11-09 |
 | [BCore](https://github.com/HVHBIGNAME/BCore) | Rust | 2026-10-31 |
 | [server-cleaner](https://github.com/HVHBIGNAME/server-cleaner) | Python | 2026-10-31 |
 | [anti-monitoring](https://github.com/HVHBIGNAME/anti-monitoring) | Python | 2026-10-31 |
-| [iostg](https://github.com/HVHBIGNAME/iostg) | Swift | 2026-10-27 |
 | [OpenCodePocket](https://github.com/HVHBIGNAME/OpenCodePocket) | TypeScript | 2026-10-18 |
 <!-- PROJECTS:END -->
 
